@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option csharp_namespace = "NTDataHiveGrpcService";
+
+import "google/protobuf/timestamp.proto";
+import "Protos/status.proto";
+
+package Employee;
+
+
+service EmployeeBackend {
+	rpc SaveEmployee (EmployeeRecordRequest) returns (google.rpc.Status);
+
+	rpc GetAll (EmployeeEmpty) returns (EmployeeArray);
+}
+
+message EmployeeEmpty {
+
+}
+
+message EmployeeRecordRequest {
+	int32 id = 1;
+	string webId = 2;
+	string firstName = 3;
+	string lastName = 4;
+	string publisherIdentity = 5;	
+	int32 scoreCard = 6;
+	google.protobuf.Timestamp createdAt = 7;
+
+	google.rpc.Status status = 99;
+}
+
+message EmployeeRecordFilter {
+	string webId = 1;
+}
+
+message EmployeeArray {
+	repeated EmployeeRecordRequest items = 1;
+
+	google.rpc.Status status = 99;
+}
+
+

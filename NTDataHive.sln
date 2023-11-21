@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTDataHiveGrpcService", "NTDataHiveGrpcService\NTDataHiveGrpcService.csproj", "{5C0DDC0B-8D2E-4568-AB0B-A00E8EAD9EEC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTDataHiveFrontend", "NTDataHiveFrontend\NTDataHiveFrontend.csproj", "{183961C7-385E-4921-A664-6EA8A495CF6B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C0DDC0B-8D2E-4568-AB0B-A00E8EAD9EEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C0DDC0B-8D2E-4568-AB0B-A00E8EAD9EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C0DDC0B-8D2E-4568-AB0B-A00E8EAD9EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C0DDC0B-8D2E-4568-AB0B-A00E8EAD9EEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{183961C7-385E-4921-A664-6EA8A495CF6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{183961C7-385E-4921-A664-6EA8A495CF6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{183961C7-385E-4921-A664-6EA8A495CF6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{183961C7-385E-4921-A664-6EA8A495CF6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3253DA5D-EDF2-465F-9AA6-C07D9BB5318E}
+	EndGlobalSection
+EndGlobal
