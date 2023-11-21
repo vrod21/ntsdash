@@ -1,5 +1,6 @@
 ﻿@page "/Account/Manage/ResetAuthenticator"
 
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
 @using NTDataHiveFrontend.Data
 
@@ -8,6 +9,7 @@
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
 @inject ILogger<ResetAuthenticator> Logger
+@attribute [Authorize]
 
 <PageTitle>Reset authenticator key</PageTitle>
 

@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Identity
+@using NTDataHiveFrontend.Data
+
+@* <h3>RegisterClarification</h3> *@
+
+<div>
+    <AntiforgeryToken />
+    <input type="hidden" name="ReturnUrl" value="@ReturnUrl" />
+    <p>
+        Hello, after making a registration for a member, please let them know that they can add their information to their own respective <b>Account</b> page.
+        Thanks from the management!
+    </p>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+}

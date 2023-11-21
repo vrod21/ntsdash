@@ -1,5 +1,6 @@
 ﻿@page "/Account/Manage/GenerateRecoveryCodes"
 
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
 @using NTDataHiveFrontend.Data
 
@@ -7,6 +8,7 @@
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
 @inject ILogger<GenerateRecoveryCodes> Logger
+@attribute [Authorize]
 
 <PageTitle>Generate two-factor authentication (2FA) recovery codes</PageTitle>
 

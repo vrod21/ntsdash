@@ -1,5 +1,6 @@
 ﻿@page "/Account/Manage/Disable2fa"
 
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
 @using NTDataHiveFrontend.Data
 
@@ -7,6 +8,7 @@
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
 @inject ILogger<Disable2fa> Logger
+@attribute [Authorize]
 
 <PageTitle>Disable two-factor authentication (2FA)</PageTitle>
 
