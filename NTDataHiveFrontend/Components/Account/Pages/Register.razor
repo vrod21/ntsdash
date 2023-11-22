@@ -19,16 +19,17 @@
 
 <PageTitle>Register</PageTitle>
 
-<h1 style="text-align: center;">Registration Form</h1>
+<h1 style="text-align: center; margin-top: 30px; font-weight: bold;">Registration Form</h1>
 
 <div class="row">
     <div class="col-md-4">
-        <StatusMessage Message="@Message" />
         <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />
-            <h2 style="margin-top: 50px; text-align: center;">Create a new account!.</h2>
-            <hr />
-            <ValidationSummary class="text-danger" role="alert" />
+            <h2 class="reg-account-form">Create a New Account</h2>
+            @* <ValidationSummary class="text-danger" role="alert" /> *@
+            @* <hr /> *@
+            <StatusMessage Message="@Message" />
+
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label for="email">Email</label>
@@ -49,7 +50,7 @@
     </div>
     <div class="col-md-6 col-md-offset-2">
         <section>
-            <h3 style="text-align: center; margin-top: 50px;">Clarification after registring a member!.</h3>
+            <h3 class="reg-clarification-page">ANOUNCEMENT</h3>
             <hr />
             @* <ExternalLoginPicker /> *@
             <RegisterClarification />

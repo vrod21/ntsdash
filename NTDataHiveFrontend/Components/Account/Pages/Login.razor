@@ -26,9 +26,9 @@
             <h2 style="text-align:center">Nova Techset Ltd.</h2>            
             <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator />               
-                <hr />
+                @* <hr /> *@
                 <StatusMessage Message="@errorMessage" />
-                <ValidationSummary class="text-danger" role="alert" />
+                @* <ValidationSummary class="text-danger" role="alert" /> *@
                 <div class="form-floating mb-3">
                     <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                     <label for="email" class="form-label">Email</label>

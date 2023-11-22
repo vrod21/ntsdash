@@ -3,17 +3,23 @@ html, body {
 }
 
 a, .btn-link {
-    color: #006bb7;
+    color: #e1e1e1;
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: #e81f4b;
+    border-color: #e81f4b;
+    margin-top: 20px;
+}
+
+.btn-primary:hover {
+    background-color: #e81f4b;
+    border-color: #e81f4b;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #e81f4b;
 }
 
 .content {
@@ -64,12 +70,34 @@ h1:focus {
     margin-right: auto;
 }
 
-@media (min-width: 577px){
+@media (min-width: 360px){
     .sidebar[b-kbixe2sefv] {
         background-image: linear-gradient(180deg, rgb(73, 52,52) 0%, #e81f4b 70%) !important;
         width: 400px !important;
         background-color: #e81f4b !important;
     }
+}
+
+@media (min-width: 360px) {
+    .top-row[b-kbixe2sefv] {
+        background-color: #e81f4b !important;
+    }
+}
+
+.top-row[b-kbixe2sefv] a:hover {
+    text-decoration: none !important;
+    color: #d7c1c1;
+    font-size: 0.8rem;
+}
+
+.top-row[b-kbixe2sefv] {
+    font-size: 0.9rem;
+    height: 5.5rem;
+}
+
+.nav-link {
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .container {
@@ -81,7 +109,7 @@ h1:focus {
 }
 
 .row {
-    margin-bottom: 15px;
+    margin-bottom: 15px !important;
 }
 
 .rz-paginator-page.rz-state-active {
@@ -109,4 +137,27 @@ h1:focus {
 
 .create-employee-button {
     float: right;
+}
+
+.reg-clarification-page {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.reg-clarification-parag {
+    font-size: 25px;
+}
+
+.reg-account-form {
+    margin-top: 50px;
+    text-align: center;
+    margin-bottom: 60px;
+    color: #5a5a5a;
+    font-weight: bold;
+}
+
+w-100 {
+    margin-top: 30px;
 }
