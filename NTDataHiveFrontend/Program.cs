@@ -38,6 +38,8 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 
 builder.Services.AddScoped<EmployeeBackendService>();
 
+builder.Services.AddScoped<Radzen.DialogService>();
+
 builder.Services.AddSingleton<HttpClient>();
 
 var app = builder.Build();
@@ -61,6 +63,7 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+    
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
