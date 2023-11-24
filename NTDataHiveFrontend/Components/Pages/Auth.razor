@@ -15,12 +15,14 @@
 
 @* <h1>You are authenticated</h1> *@
 
+List Of Person
+
 <div class="container">
     <RadzenFieldset class="row" Style="border:none; float:none;">
         <RadzenDataGrid Style="border:none;" Data="@empList" TItem="NTDataHiveFrontend.Model.Employee" AllowFiltering="true" AllowColumnResize="true"
                         AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true"
                         PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                        ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+                        ColumnWidth="500px" LogicalFilterOperator="LogicalFilterOperator.Or">
             <Columns>
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="FirstName" Title="First Name" Width="150px"
                                       TextAlign="TextAlign.Center" Frozen="true" />
