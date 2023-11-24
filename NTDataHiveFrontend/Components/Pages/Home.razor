@@ -9,52 +9,121 @@
 @inject NavigationManager MyNavigation
 @inject DialogService DialogService
 
+<PageTitle>Home</PageTitle>
 <RadzenDialog />
 
-
-<PageTitle>Home</PageTitle>
-
-<h1>Welcome to your new app. Home Page</h1>
-
-<div class="container">
-    <RadzenFieldset class="row" Style="border:none; float:none;">
-        <RadzenDataGrid Style="border:none;" Data="@empList" TItem="NTDataHiveFrontend.Model.Employee" AllowFiltering="true" AllowColumnResize="true"
-                        AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="7" AllowPaging="true"
-                        PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                        ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
-            <Columns>
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="FirstName" Title="First Name" Width="150px"
-                                      TextAlign="TextAlign.Center" Frozen="true" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="WebId" Title="Process Identification" Width="250px" Filterable="false" Frozen="true" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="LastName" Title="Last Name" Width="150px" Filterable="true" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="PublisherIdentity" Title="Publisher Identity" Width="300px" />
-                <RadzenDataGridColumn Width="160px" TItem="NTDataHiveFrontend.Model.Employee" Property="WebId" Title="Clickable Details">
-                    <Template Context="data">
-                        <RadzenButton ButtonStyle="ButtonStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter" Icon="info" Text="Details" />
-                    </Template>
-
-                </RadzenDataGridColumn>
-            </Columns>
-        </RadzenDataGrid>
-    </RadzenFieldset>
-</div>
-
-@code {
-    private List<NTDataHiveFrontend.Model.Employee> empList = new List<Model.Employee>();
-
-    protected override async Task OnInitializedAsync()
-    {
-        empList = await MyBackendService.GetAllEmployee();
-
-        StateHasChanged();
-
-        base.OnInitializedAsync();
+<style>
+    .shadows div {
+        padding: 3rem;
+        width: 10rem;
+        text-align: center;
     }
+</style>
 
-    private async Task OpenDetails(string Webid)
-    {
-        // await DialogService.OpenAsync<DialogCardPage>($"WeId {WebId}",
-        //         new Dictionary<string, object>() { { "WebId", Webid } },
-        //         new DialogOptions() { Width = "700px", Height = "520px" });
-    }
-}
+<RadzenRow class="rz-text-align-center" Gap="10px">
+    <RadzenColumn>
+        
+        <div class="shadows rz-p-12 rz-shadow-5">
+            Example Score Card
+            <h1>NTDataHive!</h1>
+            <h4>Quality Performance Score Cards</h4>
+        </div>
+        
+    </RadzenColumn>
+    <RadzenColumn>
+        <div class="shadows rz-p-12 rz-shadow-5">
+            Example Score Card
+            <h1>NTDataHive!</h1>
+            <h4>Quality Performance Score Cards</h4>
+        </div>
+    </RadzenColumn>
+    <RadzenColumn>
+        <div class="shadows rz-p-12 rz-shadow-5">
+            Example Score Card
+            <h1>NTDataHive!</h1>
+            <h4>Quality Performance Score Cards</h4>
+        </div>
+    </RadzenColumn>
+    <RadzenColumn>
+
+        <div class="shadows rz-p-12 rz-shadow-5">
+            Example Score Card
+            <h1>NTDataHive!</h1>
+            <h4>Quality Performance Score Cards</h4>
+        </div>
+
+    </RadzenColumn>
+    <RadzenColumn>
+        <div class="shadows rz-p-12 rz-shadow-5">
+            Example Score Card
+            <h1>NTDataHive!</h1>
+            <h4>Quality Performance Score Cards</h4>
+        </div>
+    </RadzenColumn>
+    <RadzenColumn>
+        <div class="shadows rz-p-12 rz-shadow-5">
+            Example Score Card
+            <h1>NTDataHive!</h1>
+            <h4>Quality Performance Score Cards</h4>
+        </div>
+    </RadzenColumn>
+    <RadzenColumn>
+
+        <div class="shadows rz-p-12 rz-shadow-5">
+            Example Score Card
+            <h1>NTDataHive!</h1>
+            <h4>Quality Performance Score Cards</h4>
+        </div>
+
+    </RadzenColumn>
+    <RadzenColumn>
+        <div class="shadows rz-p-12 rz-shadow-5">
+            Example Score Card
+            <h1>NTDataHive!</h1>
+            <h4>Quality Performance Score Cards</h4>
+        </div>
+    </RadzenColumn>
+    <RadzenColumn>
+        <div class="rz-p-12 rz-shadow-5">
+            <Auth />
+        </div>
+    </RadzenColumn>
+</RadzenRow>
+
+<br />
+
+<RadzenRow class="rz-text-align-center" Gap="1rem">
+    <RadzenColumn Size="6" Offset="3">    
+        <div class="rz-shadow-5">Example Score Card
+        <h1>NTDataHive!</h1>
+        <h4>Quality Performance Score Cards</h4>    
+        </div>
+@*         <RadzenRow class="rz-text-align-center rz-border-info-light" Gap="0.5rem" RowGap="0.5rem">
+            <RadzenColumn Size="6" class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">                
+                Wow
+            </RadzenColumn>
+            <RadzenColumn Size="6" class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
+                Wow
+            </RadzenColumn>
+        </RadzenRow> *@
+    </RadzenColumn>
+</RadzenRow>
+
+<br />
+
+<RadzenRow class="rz-text-align-center" Gap="0.5rem" RowGap="0.5rem">
+    <RadzenColumn Size="6">
+        <div class="rz-shadow-5">
+            <img src="/images/nt-logo.png" class="home-image" />
+            <br />
+            <img src="/images/greatplacetowork.png" class="home-image-work-place" />
+        </div>
+    </RadzenColumn>
+    <RadzenColumn Size="6">
+        <div class="rz-shadow-5">
+            <Auth />
+        </div>
+    </RadzenColumn>
+</RadzenRow>
+
+
