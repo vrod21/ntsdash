@@ -1,7 +1,122 @@
 ﻿
 
-<h3>QualityEvaluationAcknowledgementForm</h3>
+<style>
+    form .row {
+        margin-bottom: 16px;
+    }
+</style>
+<div class="create-rule-button">
+    <RadzenButton Style="background-color: blue;" BusyText="Wird geladen..."
+                  Click=@SaveRule Text="Create Rule" />
+</div>
 
-@code {
+<h3>Peldi - Rule Builder</h3>
 
+@if (addRecord == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <EditForm Model="addRecord">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <RadzenFieldset Text="Rule Details">
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Rule Name" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox style="width: 100%;" @bind-Value="addRecord.RuleName" Placeholder="Type Rule Name" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Description" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextArea @bind-Value="addRecord.Description" style="width: 100%;" Placeholder="Enter description here..." />
+                            </div>
+                        </div>
+                    </RadzenFieldset>
+
+                    <RadzenFieldset Text="Conditions">
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Condition Name" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenDropDown @bind-Value="addRecord.Conditions" AllowClear="true" TValue="string" Placeholder="Select Conditions"
+                                                Data="@addRule" style="width: 100%;"
+                                                TextProperty="Conditions" ValueProperty="Conditions" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                                FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Operator" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenDropDown @bind-Value="addRecord.Operators" AllowClear="true" TValue="string" Placeholder="Select operator"
+                                                Data="@addRule" style="width: 100%;"
+                                                TextProperty="Operators" ValueProperty="Operators" />
+                            </div>
+                        </div>
+
+                    </RadzenFieldset>
+                </div>
+                <div class="col-md-6">
+                    <RadzenFieldset Text="Event Types">
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Start State" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenDropDown @bind-Value="addRecord.StartState" AllowClear="true" TValue="string" Placeholder="Select StartState Akten"
+                                                Data="@addRule" style="width: 100%;"
+                                                TextProperty="StartState" ValueProperty="StartState" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                                FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="End State" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenDropDown @bind-Value="addRecord.EndState" AllowClear="true" TValue="string" Placeholder="Select EndState Akten"
+                                                Data="@addRule" style="width: 100%;"
+                                                TextProperty="EndState" ValueProperty="EndState" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                                FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
+
+                            </div>
+                        </div>
+                    </RadzenFieldset>
+
+                    <RadzenFieldset Text="Action">
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Value" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox @bind-Value="addRecord.Value" style="width: 100%;" Placeholder="Type Value" />
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="align-items-center d-flex col-md-3">
+                                <RadzenLabel Text="Action" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenDropDown @bind-Value="addRecord.Action" AllowClear="true" TValue="string"
+                                                Placeholder="Select Action" Data="@addRule" style="width: 100%;"
+                                                TextProperty="Action" ValueProperty="Action" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                                FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
+                            </div>
+                        </div>
+                    </RadzenFieldset>
+                </div>
+            </div>
+        </div>
+    </EditForm>
 }
