@@ -43,4 +43,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\QualityEvaluationAcknowledgement\Pages\Manage\" />
+    <Folder Include="Components\QualityEvaluationAcknowledgement\Shared\" />
+  </ItemGroup>
+
 </Project>

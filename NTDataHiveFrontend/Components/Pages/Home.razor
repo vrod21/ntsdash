@@ -1,120 +1,12 @@
 ﻿@page "/"
 
-@rendermode InteractiveServer
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
-
-@inject NTDataHiveFrontend.ServiceAccess.EmployeeBackendService MyBackendService
-@inject IConfiguration Configuration
-@inject NavigationManager MyNavigation
+@rendermode InteractiveServer
 @inject DialogService DialogService
-
-<PageTitle>Home</PageTitle>
+<PageTitle>Dashboard</PageTitle>
 <RadzenDialog />
 
-<style>
-    .shadows div {
-        padding: 1rem;
-        width: 5rem;
-        text-align: center;
-    }
-</style>
+<h1>Welcome to NTDataHive</h1>
 
-<RadzenRow class="rz-text-align-center" Gap="10px">
-    <RadzenColumn>
-        
-        <div class="shadows rz-p-12 rz-shadow-5 rz-border-radius-3">
-            Example Score Card
-            <h1>NTDataHive!</h1>
-            <h4>Quality Performance Score Cards</h4>
-        </div>
-        
-    </RadzenColumn>
-    <RadzenColumn>
-        <div class="shadows rz-p-12 rz-shadow-5 rz-border-radius-3">
-            Example Score Card
-            <h1>NTDataHive!</h1>
-            <h4>Quality Performance Score Cards</h4>
-        </div>
-    </RadzenColumn>
-    <RadzenColumn>
-        <div class="shadows rz-p-12 rz-shadow-5 rz-border-radius-3">
-            Example Score Card
-            <h1>NTDataHive!</h1>
-            <h4>Quality Performance Score Cards</h4>
-        </div>
-    </RadzenColumn>
-    <RadzenColumn>
-
-        <div class="shadows rz-p-12 rz-shadow-5 rz-border-radius-3">
-            Example Score Card
-            <h1>NTDataHive!</h1>
-            <h4>Quality Performance Score Cards</h4>
-        </div>
-
-    </RadzenColumn>
-    <RadzenColumn>
-        <div class="shadows rz-p-12 rz-shadow-5 rz-border-radius-3">
-            Example Score Card
-            <h1>NTDataHive!</h1>
-            <h4>Quality Performance Score Cards</h4>
-        </div>
-    </RadzenColumn>
-    <RadzenColumn>
-        <div class="shadows rz-p-12 rz-shadow-5 rz-border-radius-3">
-            Example Score Card
-            <h1>NTDataHive!</h1>
-            <h4>Quality Performance Score Cards</h4>
-        </div>
-    </RadzenColumn>
-    <RadzenColumn>
-
-        <div class="shadows rz-p-12 rz-shadow-5 rz-border-radius-3">
-            Example Score Card
-            <h1>NTDataHive!</h1>
-            <h4>Quality Performance Score Cards</h4>
-        </div>
-
-    </RadzenColumn>
-    <RadzenColumn>
-        <div class="rz-mx-0 rz-shadow-5 rz-border-radius-3">
-            <Auth />
-        </div>
-    </RadzenColumn>
-</RadzenRow>
-
-@* <br />
-
-<RadzenRow class="rz-text-align-center" Gap="1rem">
-    <RadzenColumn Size="6" Offset="3">    
-        <div class="rz-shadow-5">Example Score Card
-        <h1>NTDataHive!</h1>
-        <h4>Quality Performance Score Cards</h4>    
-        </div>
-        <RadzenRow class="rz-text-align-center rz-border-info-light" Gap="0.5rem" RowGap="0.5rem">
-            <RadzenColumn Size="6" class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">                
-                Wow
-            </RadzenColumn>
-            <RadzenColumn Size="6" class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
-                Wow
-            </RadzenColumn>
-        </RadzenRow>
-    </RadzenColumn>
-</RadzenRow>
-
-<br />
-
-<RadzenRow class="rz-text-align-center" Gap="0.5rem" RowGap="0.5rem">
-    <RadzenColumn Size="6">
-        <div class="rz-shadow-5">
-            <img src="/images/greatplacetowork.png" class="home-image-work-place" />
-        </div>
-    </RadzenColumn>
-    <RadzenColumn Size="6">
-        <div class="rz-shadow-5">
-            <Auth />
-        </div>
-    </RadzenColumn>
-</RadzenRow>
-
- *@
+<NTDataHiveFrontend.Components.QualityEvaluationAcknowledgement.Pages.HomeLinks />
