@@ -22,6 +22,6 @@
         public string Department { get; set; }
         public string EmployeeName { get; set; }
         public string CopyEditingLevel { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now.ToLocalTime();
     }
 }
