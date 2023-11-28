@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+option csharp_namespace = "NTDataHiveGrpcService";
+
+import "google/protobuf/timestamp.proto";
+import "Protos/status.proto";
+
+package PreEditingErrorFeedback;
+
+service PreEditingFeedbackBackend {
+	rpc SavePreEditFeedback (PreEditingFeedbackRecordRequest) returns (google.rpc.Status);
+
+	rpc GetAll (PreEditingFeedbackEmpty) returns (PreEditingFeedbackRecordArray);
+}
+
+message PreEditingFeedbackEmpty {
+
+}
+
+message PreEditingFeedbackRecordRequest {
+	string webId = 1;
+	string supplierName = 2;
+	string qualityAssurance = 3;
+	string publisherName = 4;	
+	string journalId = 5;
+    string articleId = 6;
+    int32 pageCount = 7;
+    int32 errorCount = 8;
+    string descriptionOfError = 9;
+    string matter = 10;
+    string errorLocation = 11;
+    string errorCode = 12;
+    string errorType = 13;
+    string errorSubtype = 14;
+    string errorCategory = 15;
+    string introducedOrMissed = 16;
+    string department = 17;
+    string employeeName = 18;
+    string copyEditingLevel = 19;
+
+	google.protobuf.Timestamp createdAt = 20;
+
+	google.rpc.Status status = 99;
+}
+
+message PreEditingRecordFilter {
+	string webId = 1;
+}
+
+message PreEditingFeedbackRecordArray {
+	repeated PreEditingFeedbackRecordRequest items = 1;
+
+	google.rpc.Status status = 99;
+}

@@ -1,15 +1,16 @@
 ﻿using NLog;
+using NTDataHiveGrpcService;
 
 namespace NTDataHiveGrpcService.BLL.RecordContents
 {
-    public class EmployeeFilter
+    public class PreEditingFeedbackFilter
     {
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         public string Webid { get; set; }
 
-        private EmployeeRecordRequest _request;
+        private PreEditingFeedbackRecordRequest _request;
 
-        public EmployeeRecordRequest employeeRecordRequest
+        public PreEditingFeedbackRecordRequest feedbackRecordRequest
         {
             get { return _request; }
             set
@@ -19,17 +20,17 @@ namespace NTDataHiveGrpcService.BLL.RecordContents
             }
         }
 
-        public EmployeeFilter(string webid)
+        public PreEditingFeedbackFilter(string webid)
         {
             if (string.IsNullOrEmpty(webid))
                 _nlog.Error("Employee record created with an empty webId");
 
             Webid = webid;
-            _request = new EmployeeRecordRequest();
+            _request = new PreEditingFeedbackRecordRequest();
             _request.WebId = webid;
         }
 
-        public EmployeeFilter(EmployeeRecordRequest request)
+        public PreEditingFeedbackFilter(PreEditingFeedbackRecordRequest request)
         {
             _request = request;
             Webid = request.WebId;

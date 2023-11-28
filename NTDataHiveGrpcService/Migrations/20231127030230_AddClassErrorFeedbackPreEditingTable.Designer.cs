@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NTDataHiveGrpcService.DAL.Data;
 
@@ -11,9 +12,11 @@ using NTDataHiveGrpcService.DAL.Data;
 namespace NTDataHiveGrpcService.Migrations
 {
     [DbContext(typeof(NTDataHiveContext))]
-    partial class PersonContextModelSnapshot : ModelSnapshot
+    [Migration("20231127030230_AddClassErrorFeedbackPreEditingTable")]
+    partial class AddClassErrorFeedbackPreEditingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,16 +152,13 @@ namespace NTDataHiveGrpcService.Migrations
                     b.Property<string>("CopyEditingLevel")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DescriptionOfError")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmployeeName")
+                    b.Property<string>("Employee")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ErrorCategory")
@@ -194,7 +194,7 @@ namespace NTDataHiveGrpcService.Migrations
                     b.Property<string>("PublisherName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("QualityAssurance")
+                    b.Property<string>("QA")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SupplierName")

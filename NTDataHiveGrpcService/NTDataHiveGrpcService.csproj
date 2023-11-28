@@ -10,12 +10,14 @@
 
   <ItemGroup>
     <None Remove="Protos\Employee.proto" />
+    <None Remove="Protos\PreEditingErrorFeedback.proto" />
     <None Remove="Protos\status.proto" />
   </ItemGroup>
 
   <ItemGroup>
     <Protobuf Include="Protos\Employee.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\PreEditingErrorFeedback.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\status.proto" GrpcServices="Server" />
   </ItemGroup>
 

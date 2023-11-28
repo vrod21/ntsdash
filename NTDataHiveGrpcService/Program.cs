@@ -14,8 +14,10 @@ builder.Services.AddGrpc();
 
 builder.Services.AddScoped<IEmployeeRecordPersistence, EmployeeRecordPersistence>();
 builder.Services.AddScoped<IEmployeeRecordRepository, EmployeeRecordRepository>();
+builder.Services.AddScoped<IPreEditingFeedbackRecordPersistence, PreEditingFeedbackRecordPersistence>();
+builder.Services.AddScoped<IPreEditingFeedbackRecordRepository, PreEditingFeedbackRecordRepository>();
 
-builder.Services.AddDbContext<PersonContext>(options =>
+builder.Services.AddDbContext<NTDataHiveContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString"));
 });
@@ -35,6 +37,8 @@ app.UseCors();
 // Configure the HTTP request pipeline.
 app.MapGrpcService<GreeterService>();
 app.MapGrpcService<EmployeeService>();
+app.MapGrpcService<PreEditingFeedbackService>();
+
 
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 

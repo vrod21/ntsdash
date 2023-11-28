@@ -1,12 +1,11 @@
 ﻿@page "/create-employee"
 
-@rendermode InteractiveServer
 
 @using Microsoft.AspNetCore.Authorization
-
+@rendermode InteractiveServer
 @attribute [Authorize]
 @inject NTDataHiveFrontend.ServiceAccess.EmployeeBackendService MyBackendService
-@inject IConfiguration Congiguration
+@inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
 @inject DialogService DialogService
 
@@ -19,8 +18,8 @@
         margin-bottom: 16px;
     }
 </style>
-<div class="create-employee-button">
-    <RadzenButton Style="background-color: blue;" BusyText="Processing..."
+<div class="create-feedback-button">
+    <RadzenButton Style="background-color: #e81f4b;" BusyText="Processing..."
                   Click="@Save" Text="Create Employee" />
 
 </div>

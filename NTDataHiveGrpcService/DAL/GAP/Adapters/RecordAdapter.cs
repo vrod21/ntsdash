@@ -11,12 +11,12 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
     {
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         private readonly IConfiguration _config;
-        private DbContextOptions<PersonContext> _contextOptions;
+        private DbContextOptions<NTDataHiveContext> _contextOptions;
 
         public RecordAdapter(IConfiguration config)
         {
             _config = config;
-            var optionsBuilder = new DbContextOptionsBuilder<PersonContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<NTDataHiveContext>();
             optionsBuilder.UseSqlServer(config.GetConnectionString("connectionString"));
             _contextOptions = optionsBuilder.Options;
         }
@@ -27,7 +27,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             List<EmployeeRecordComparable> employeeRecord = new List<EmployeeRecordComparable>();
             try
             {
-                using var dbContext = new PersonContext(_contextOptions);
+                using var dbContext = new NTDataHiveContext(_contextOptions);
                 var emp = from employee in dbContext.Employees
                           orderby employee.FirstName
                           select CreateBNewBllEmployee(employee);
@@ -52,7 +52,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         {
             try
             {
-                using var dbContext = new PersonContext(_contextOptions);
+                using var dbContext = new NTDataHiveContext(_contextOptions);
                 if (recordRequest != null)
                 {
                     var emp = new Model.Employee()
@@ -80,7 +80,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         {
             try
             {
-                using var dbContext = new PersonContext(_contextOptions);
+                using var dbContext = new NTDataHiveContext(_contextOptions);
                 var getEmployeeById = from employee in dbContext.Employees
                                       where employee.WebId == webid
                                       select employee;

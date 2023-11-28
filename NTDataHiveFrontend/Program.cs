@@ -37,6 +37,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
 builder.Services.AddScoped<EmployeeBackendService>();
+builder.Services.AddScoped<PreEditingFeedbackBackendService>();
 
 builder.Services.AddScoped<Radzen.DialogService>();
 

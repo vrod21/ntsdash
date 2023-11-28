@@ -3,10 +3,13 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 @rendermode InteractiveServer
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigation
 @inject DialogService DialogService
 <PageTitle>Dashboard</PageTitle>
 <RadzenDialog />
 
 <h1>Welcome to NTDataHive</h1>
 
-<NTDataHiveFrontend.Components.QualityEvaluationAcknowledgement.Pages.HomeLinks />
+<NTDataHiveFrontend.Components.QualityPerformance.Pages.HomeLinks />
+

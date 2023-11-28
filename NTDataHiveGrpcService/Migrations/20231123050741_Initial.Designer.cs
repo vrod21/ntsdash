@@ -11,7 +11,7 @@ using NTDataHiveGrpcService.DAL.Data;
 
 namespace NTDataHiveGrpcService.Migrations
 {
-    [DbContext(typeof(PersonContext))]
+    [DbContext(typeof(NTDataHiveContext))]
     [Migration("20231123050741_Initial")]
     partial class Initial
     {
