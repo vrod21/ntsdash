@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NTDataHiveGrpcService.DAL.Data;
 
@@ -12,11 +11,9 @@ using NTDataHiveGrpcService.DAL.Data;
 namespace NTDataHiveGrpcService.Migrations
 {
     [DbContext(typeof(NTDataHiveContext))]
-    [Migration("20231123050741_Initial")]
-    partial class Initial
+    partial class NTDataHiveContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,6 +133,112 @@ namespace NTDataHiveGrpcService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Positions");
+                });
+
+            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.PreEditingErrorFeedback", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ArticleId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CopyEditedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CopyEditingLevel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CorrectiveAction")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Department")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescriptionOfError")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmployeeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ErrorCategory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ErrorCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ErrorCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ErrorLocation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ErrorSubtype")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ErrorType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IntroducedOrMissed")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JournalId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Matter")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NatureOfCA")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NatureOfPM")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerOfCA")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PageCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PreventiveMeasure")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublisherName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QualityAssurance")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RootCause")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StatusOfCA")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StatusOfPM")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SupplierName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TargetDateOfCompletionCA")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("TargetDateOfCompletionPM")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("WebId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PreEditingErrorFeedbacks");
                 });
 #pragma warning restore 612, 618
         }

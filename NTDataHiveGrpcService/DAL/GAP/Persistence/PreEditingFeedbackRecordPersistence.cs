@@ -33,5 +33,21 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
             return true;
         }
         #endregion
+
+        #region GetAll
+        public List<BLL.RecordContents.PreEditingFeedbackRecordComparable> GetAllPreEdited()
+        {
+            var selectPreEdited = new PreEditingFeedbackRecordAdapter(_config).GetAllPreEditingFeedbackRecord();
+
+            if (selectPreEdited.Count > 0)
+            {
+                return selectPreEdited;
+            }
+
+            _nlog.Error($"The Selected Pre-Editing value {selectPreEdited} is null");
+
+            return selectPreEdited;
+        }
+        #endregion
     }
 }

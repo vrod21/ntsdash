@@ -43,10 +43,10 @@ else
                         </div>
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Quality Assurance" />
+                                <RadzenLabel Text="QA Name" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-value="addPreEditFeedback.QualityAssurance" Placeholder="QA Name" />
+                                <RadzenTextBox Style="width: 100%;" @bind-value="addPreEditFeedback.QualityAssurance" Placeholder="Quality Assurance Name" />
                             </div>
                         </div>
                         <div class="row">
@@ -75,6 +75,14 @@ else
                         </div>
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Copy Edited By" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox Style="width: 100%;" @bind-value="addPreEditFeedback.CopyEditedBy" Placeholder="Copy Edited" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
                                 <RadzenLabel Text="Page Count" />
                             </div>
                             <div class="col-md-8">
@@ -97,10 +105,6 @@ else
                                 <RadzenTextArea Style="width: 100%;" @bind-value="addPreEditFeedback.DescriptionOfError" Placeholder="Description of Error" />
                             </div>
                         </div>
-                    </RadzenFieldset>
-                </div>
-                <div class="col-md-6">
-                    <RadzenFieldset Text="Drop Down">
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
                                 <RadzenLabel Text="Matter" />
@@ -157,6 +161,10 @@ else
                                 <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.IntroducedOrMissed" Placeholder="Introduced/Missed" />
                             </div>
                         </div>
+                    </RadzenFieldset>
+                </div>
+                <div class="col-md-6">
+                    <RadzenFieldset Text="Drop Down">
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
                                 <RadzenLabel Text="Department" />
@@ -175,10 +183,92 @@ else
                         </div>
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Copy Editing Level" />
+                                <RadzenLabel Text="Root Cause" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.EmployeeName" Placeholder="CE Level" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.RootCause" Placeholder="Root Cause" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Corrective Action" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.CorrectiveAction" Placeholder="Corrective Action" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Nature of CA" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.NatureOfCA" Placeholder="Nature Of Corrective Action" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Owner of CA" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.OwnerOfCA" Placeholder="Owner Of Corrective Action" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Target Completion CA" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="addPreEditFeedback.TargetDateOfCompletionCA" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
+                                                  DateFormat="MM/dd/yyyy" Placeholder="@($"{@DateTime.Now.Date}")" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Preventive Measure" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.PreventiveMeasure" Placeholder="Preventive Measure" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Nature of PM" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.NatureOfPM" Placeholder="Nature of Preventive Measure" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Target Completion PM" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="addPreEditFeedback.TargetDateOfCompletionPM" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
+                                                  DateFormat="MM/dd/yyyy" Placeholder="@($"{@DateTime.Now.Date}")" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Status of CA" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.StatusOfCA" Placeholder="Status of Corrective Action" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="Status of PM" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.StatusOfPM" Placeholder="Status of Preventive Measure" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 align-items-center d-flex">
+                                <RadzenLabel Text="CE Level" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.CopyEditingLevel" Placeholder="Copy Editing Level" />
                             </div>
                         </div>
                         <div class="row">
@@ -187,7 +277,7 @@ else
                             </div>
                             <div class="col-md-8">
                                 <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="addPreEditFeedback.CreatedAt" YearRange="@("2023:" + @DateTime.Now.Year.ToString())" 
-                                    DateFormat="MM/dd/yyyy h:mm tt" Placeholder="MM/DD/YYYY HH:MM tt" />
+                                    DateFormat="MM/dd/yyyy h:mm:ss tt" Placeholder="@($"{@DateTime.Now.ToLocalTime()}")" />
                             </div>
                         </div>
                     </RadzenFieldset>
@@ -211,26 +301,6 @@ else
     {
         await MyBackendService.SavePreEditFeedback(addPreEditFeedback);
 
-        MyNavigation.NavigateTo("/");
+        MyNavigation.NavigateTo("/pre-editing-performance-feedback");
     }
-    public string WebId { get; set; }
-    public string SupplierName { get; set; }
-    public string QualityAssurance { get; set; }
-    public string PublisherName { get; set; }
-    public string JournalId { get; set; }
-    public string ArticleId { get; set; }
-    public int PageCount { get; set; }
-    public int ErrorCount { get; set; }
-    public string DescriptionOfError { get; set; }
-    public string Matter { get; set; }
-    public string ErrorLocation { get; set; }
-    public string ErrorCode { get; set; }
-    public string ErrorType { get; set; }
-    public string ErrorSubtype { get; set; }
-    public string ErrorCategory { get; set; }
-    public string IntroducedOrMissed { get; set; }
-    public string Department { get; set; }
-    public string EmployeeName { get; set; }
-    public string CopyEditingLevel { get; set; }
-    public DateTime CreatedAt { get; set; }
 }

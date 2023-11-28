@@ -15,7 +15,7 @@ namespace NTDataHiveFrontend.ServiceAccess
 
         public PreEditingFeedbackBackendService(ILogger<PreEditingFeedbackBackendService> logger, IConfiguration config)
         {
-            _url = config.GetValue<string>("ServiceData: BackendService:URL");
+            _url = config.GetValue<string>("ServiceData:BackendService:URL");
         }
 
         private void Connect()
@@ -37,6 +37,26 @@ namespace NTDataHiveFrontend.ServiceAccess
                 throw;
             }
         }
+
+        #region GetAll
+        public async Task<List<NTDataHiveFrontend.Model.PreEditingErrorFeedback>> GetAllPreEditingRecord()
+        {
+            if (_client == null)
+                Connect();
+
+            var preEditingList = await _client.GetAllAsync(new NTDataHiveGrpcService.PreEditingFeedbackEmpty());
+
+            List<NTDataHiveFrontend.Model.PreEditingErrorFeedback> preEditing = new List<Model.PreEditingErrorFeedback>();
+
+            foreach (var preEditingRecord in preEditingList.Items)
+            {
+                preEditing.Add(ToFrontendFormat(preEditingRecord));
+            }
+            return preEditing;
+        }
+        #endregion
+
+
 
         #region SavePreEditingFeedback
         public async Task<Google.Rpc.Status> SavePreEditFeedback(NTDataHiveFrontend.Model.PreEditingErrorFeedback preEditRecord)
@@ -71,6 +91,7 @@ namespace NTDataHiveFrontend.ServiceAccess
                 PublisherName = preEditRecord.PublisherName,
                 JournalId = preEditRecord.JournalId,
                 ArticleId = preEditRecord.ArticleId,
+                CopyEditedBy = preEditRecord.CopyEditedBy,
                 PageCount = preEditRecord.PageCount,
                 ErrorCount = preEditRecord.ErrorCount,
                 DescriptionOfError = preEditRecord.DescriptionOfError,
@@ -83,17 +104,83 @@ namespace NTDataHiveFrontend.ServiceAccess
                 IntroducedOrMissed = preEditRecord.IntroducedOrMissed,
                 Department = preEditRecord.Department,
                 EmployeeName = preEditRecord.EmployeeName,
+                RootCause = preEditRecord.RootCause,
+                CorrectiveAction = preEditRecord.CorrectiveAction,
+                NatureOfCA = preEditRecord.NatureOfCA,
+                OwnerOfCA = preEditRecord.OwnerOfCA,
+                PreventiveMeasure = preEditRecord.PreventiveMeasure,
+                NatureOfPM = preEditRecord.NatureOfPM,
+                StatusOfCA = preEditRecord.StatusOfCA,
+                StatusOfPM = preEditRecord.StatusOfPM,
                 CopyEditingLevel = preEditRecord.CopyEditingLevel
             };
 
             if (preEditRecord?.CreatedAt != null)
-                grpcPreEditingRecord.CreatedAt = preEditRecord.CreatedAt.ToUniversalTime().ToTimestamp();
+                grpcPreEditingRecord.CreatedAt = preEditRecord.CreatedAt.Value.ToUniversalTime().ToTimestamp();
+
+            if (preEditRecord?.TargetDateOfCompletionCA != null)
+                grpcPreEditingRecord.TargetDateOfCompletionCA = preEditRecord.TargetDateOfCompletionCA.Value.ToUniversalTime().ToTimestamp();
+
+            if (preEditRecord?.TargetDateOfCompletionPM != null)
+                grpcPreEditingRecord.TargetDateOfCompletionPM = preEditRecord.TargetDateOfCompletionPM.Value.ToUniversalTime().ToTimestamp();
+
+            if (preEditRecord?.CreatedAt == null && preEditRecord?.TargetDateOfCompletionCA == null && preEditRecord?.TargetDateOfCompletionPM == null)
+                grpcPreEditingRecord = null;
 
             return grpcPreEditingRecord;
         }
         #endregion
 
+        #region ToFrontendFormat
+        public NTDataHiveFrontend.Model.PreEditingErrorFeedback ToFrontendFormat(NTDataHiveGrpcService.PreEditingFeedbackRecordRequest preEditingRequest)
+        {
+            NTDataHiveFrontend.Model.PreEditingErrorFeedback frontendPreEditingRecord = new NTDataHiveFrontend.Model.PreEditingErrorFeedback()
+            {
+                WebId = preEditingRequest.WebId,
+                SupplierName = preEditingRequest.SupplierName,
+                QualityAssurance = preEditingRequest.QualityAssurance,
+                PublisherName = preEditingRequest.PublisherName,
+                JournalId = preEditingRequest.JournalId,
+                ArticleId = preEditingRequest.ArticleId,
+                CopyEditedBy = preEditingRequest.CopyEditedBy,
+                PageCount = preEditingRequest.PageCount,
+                ErrorCount = preEditingRequest.ErrorCount,
+                DescriptionOfError = preEditingRequest.DescriptionOfError,
+                Matter = preEditingRequest.Matter,
+                ErrorLocation = preEditingRequest.ErrorLocation,
+                ErrorCode = preEditingRequest.ErrorCode,
+                ErrorType = preEditingRequest.ErrorType,
+                ErrorSubtype = preEditingRequest.ErrorType,
+                ErrorCategory = preEditingRequest.ErrorType,
+                IntroducedOrMissed = preEditingRequest.IntroducedOrMissed,
+                Department = preEditingRequest.Department,
+                EmployeeName = preEditingRequest.EmployeeName,
+                RootCause = preEditingRequest.RootCause,
+                CorrectiveAction = preEditingRequest.CorrectiveAction,
+                NatureOfCA = preEditingRequest.NatureOfCA,
+                OwnerOfCA = preEditingRequest.OwnerOfCA,
+                PreventiveMeasure = preEditingRequest.PreventiveMeasure,
+                NatureOfPM = preEditingRequest.NatureOfPM,
+                StatusOfCA = preEditingRequest.StatusOfCA,
+                StatusOfPM = preEditingRequest.StatusOfPM,
+                CopyEditingLevel = preEditingRequest.CopyEditingLevel,
+                TargetDateOfCompletionCA = preEditingRequest.TargetDateOfCompletionCA.ToDateTime(),
+                TargetDateOfCompletionPM = preEditingRequest.TargetDateOfCompletionPM.ToDateTime(),
+                CreatedAt = preEditingRequest.CreatedAt.ToDateTime()                
+            };
+            try
+            {
 
+            }
+            catch (Exception ex)
+            {
+                _nlog.Error(ex, "Received pre-editing record has an invalid ID");
+                throw;
+            }
+
+            return frontendPreEditingRecord;
+        }
+        #endregion
 
 
     }

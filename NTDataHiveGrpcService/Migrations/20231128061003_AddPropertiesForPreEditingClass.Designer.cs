@@ -12,7 +12,7 @@ using NTDataHiveGrpcService.DAL.Data;
 namespace NTDataHiveGrpcService.Migrations
 {
     [DbContext(typeof(NTDataHiveContext))]
-    [Migration("20231128055924_AddPropertiesForPreEditingClass")]
+    [Migration("20231128061003_AddPropertiesForPreEditingClass")]
     partial class AddPropertiesForPreEditingClass
     {
         /// <inheritdoc />

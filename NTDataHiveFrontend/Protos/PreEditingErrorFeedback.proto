@@ -18,27 +18,37 @@ message PreEditingFeedbackEmpty {
 }
 
 message PreEditingFeedbackRecordRequest {
-	string webId = 1;
-	string supplierName = 2;
-	string qualityAssurance = 3;
-	string publisherName = 4;	
-	string journalId = 5;
-    string articleId = 6;
-    int32 pageCount = 7;
-    int32 errorCount = 8;
-    string descriptionOfError = 9;
-    string matter = 10;
-    string errorLocation = 11;
-    string errorCode = 12;
-    string errorType = 13;
-    string errorSubtype = 14;
-    string errorCategory = 15;
-    string introducedOrMissed = 16;
-    string department = 17;
-    string employeeName = 18;
-    string copyEditingLevel = 19;
-
-	google.protobuf.Timestamp createdAt = 20;
+    string WebId = 1;
+    string SupplierName = 2; 
+    string QualityAssurance = 3;
+    string PublisherName = 4;
+    string JournalId = 5;
+    string ArticleId = 6;
+    string CopyEditedBy = 7;
+    int32 PageCount = 8;
+    int32 ErrorCount = 9;
+    string DescriptionOfError = 10;
+    string Matter = 11;
+    string ErrorLocation = 12; 
+    string ErrorCode = 13;
+    string ErrorType = 14;
+    string ErrorSubtype = 15;
+    string ErrorCategory = 16;
+    string IntroducedOrMissed = 17;
+    string Department = 18;
+    string EmployeeName = 19;
+    string RootCause = 20;
+    string CorrectiveAction = 21; 
+    string NatureOfCA = 22;
+    string OwnerOfCA = 23;
+    google.protobuf.Timestamp TargetDateOfCompletionCA = 24;
+    string PreventiveMeasure = 25;
+    string NatureOfPM = 26;
+    google.protobuf.Timestamp TargetDateOfCompletionPM = 27; 
+    string StatusOfCA = 28;
+    string StatusOfPM = 29;
+    string CopyEditingLevel = 30;
+	google.protobuf.Timestamp createdAt = 31;
 
 	google.rpc.Status status = 99;
 }

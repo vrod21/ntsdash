@@ -40,5 +40,16 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
             _nlog.Trace($"Webid {preEditRecord.Webid} saved in gap");
         }
         #endregion
+
+        #region GetAllRecord
+        public List<RecordContents.PreEditingFeedbackRecordComparable> GeAllRecord()
+        {
+            List<RecordContents.PreEditingFeedbackRecordComparable> preEditedList = _feedbackRecordPersistence.GetAllPreEdited();
+
+            _nlog.Trace("Pre-Edited is order by name");
+
+            return preEditedList;
+        }
+        #endregion
     }
 }

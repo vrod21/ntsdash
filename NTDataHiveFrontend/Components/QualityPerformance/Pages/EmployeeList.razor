@@ -25,6 +25,7 @@
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="WebId" Title="Process Identification" Width="250px" Filterable="false" Frozen="true" />
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="LastName" Title="Last Name" Width="150px" Filterable="true" />
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="PublisherIdentity" Title="Publisher Identity" Width="150px" />
+                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="Created_at" Title="Time Created" Width="150px" FormatString="{0:d}" />
                 <RadzenDataGridColumn Width="160px" TItem="NTDataHiveFrontend.Model.Employee" Property="WebId" Title="Clickable Details">
                     <Template Context="data">
                         <RadzenButton ButtonStyle="ButtonStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter" Icon="info" Text="Details" />
@@ -55,3 +56,5 @@
         //         new DialogOptions() { Width = "700px", Height = "520px" });
     }
 }
+
+

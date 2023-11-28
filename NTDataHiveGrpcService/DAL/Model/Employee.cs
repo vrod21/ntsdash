@@ -7,7 +7,7 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PublisherIdentity { get; set; }
-        public DateTime Create_at { get; set; }
+        public DateTime Create_at { get; set; } = DateTime.Now;
         public int ScoreCard { get; set; }
     }
 }

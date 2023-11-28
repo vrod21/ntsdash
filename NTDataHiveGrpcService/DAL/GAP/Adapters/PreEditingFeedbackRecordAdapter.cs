@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NLog;
+using NTDataHiveGrpcService.BLL.RecordContents;
 using NTDataHiveGrpcService.DAL.Data;
+using NTDataHiveGrpcService.DAL.Model;
 
 namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 {
@@ -18,6 +20,32 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             _contextOptions = optionsBuilder.Options;
         }
 
+        #region GetAllPreEditingErrorRecord
+        internal List<PreEditingFeedbackRecordComparable> GetAllPreEditingFeedbackRecord()
+        {
+            List<PreEditingFeedbackRecordComparable> preEditingRecord = new List<PreEditingFeedbackRecordComparable>();
+
+            try
+            {
+                using var dbContext = new NTDataHiveContext(_contextOptions);
+                var preEdited = from preEdit in dbContext.PreEditingErrorFeedbacks
+                                orderby preEdit.EmployeeName
+                                select CreateNewBLLPreEditing(preEdit);
+
+                if (preEdited != null)
+                {
+                    return preEditingRecord.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal($"{ex.Message}");
+            }
+
+            return preEditingRecord;
+        }
+        #endregion
+        
         #region InsertPreEditingErrorFeedback
         internal void Insert(PreEditingFeedbackRecordRequest recordRequest)
         {
@@ -26,7 +54,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 using var dbContext = new NTDataHiveContext(_contextOptions);
                 if (recordRequest != null)
                 {
-                    var emp = new Model.PreEditingErrorFeedback()
+                    var preEdit = new Model.PreEditingErrorFeedback()
                     {
                         WebId = recordRequest.WebId,
                         SupplierName = recordRequest.SupplierName,
@@ -61,7 +89,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         CreatedAt = recordRequest.CreatedAt.ToDateTime().ToLocalTime(),
                     };
 
-                    dbContext.PreEditingErrorFeedbacks.Add(emp);
+                    dbContext.PreEditingErrorFeedbacks.Add(preEdit);
                 }
                 _ = dbContext.SaveChanges();
             }
@@ -93,6 +121,45 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 _nlog.Fatal(ex);
                 return 0;
             }
+        }
+        #endregion
+
+        #region
+        private static NTDataHiveGrpcService.BLL.RecordContents.PreEditingFeedbackRecordComparable CreateNewBLLPreEditing(PreEditingErrorFeedback preEditing)
+        {
+            return new BLL.RecordContents.PreEditingFeedbackRecordComparable()
+            {
+                WebId = preEditing.WebId,
+                SupplierName = preEditing.SupplierName,
+                QualityAssurance = preEditing.QualityAssurance,
+                PublisherName = preEditing.PublisherName,
+                JournalId = preEditing.JournalId,
+                ArticleId = preEditing.ArticleId,
+                CopyEditedBy = preEditing.CopyEditedBy,
+                PageCount = preEditing.PageCount,
+                ErrorCount = preEditing.ErrorCount,
+                DescriptionOfError = preEditing.DescriptionOfError,
+                Matter = preEditing.Matter,
+                ErrorLocation = preEditing.ErrorLocation,
+                ErrorCode = preEditing.ErrorCode,
+                ErrorType = preEditing.ErrorType,
+                ErrorSubtype = preEditing.ErrorType,
+                ErrorCategory = preEditing.ErrorCategory,
+                IntroducedOrMissed = preEditing.IntroducedOrMissed,
+                Department = preEditing.Department,
+                EmployeeName = preEditing.EmployeeName,
+                RootCause = preEditing.RootCause,
+                CorrectiveAction = preEditing.CorrectiveAction,
+                NatureOfCA = preEditing.NatureOfCA,
+                OwnerOfCA = preEditing.OwnerOfCA,
+                TargetDateOfCompletionCA = preEditing.TargetDateOfCompletionCA,
+                PreventiveMeasure = preEditing.PreventiveMeasure,
+                NatureOfPM = preEditing.NatureOfPM,
+                TargetDateOfCompletionPM = preEditing.TargetDateOfCompletionPM,
+                StatusOfPM = preEditing.StatusOfPM,
+                CopyEditingLevel = preEditing.CopyEditingLevel,
+                CreatedAt = preEditing.CreatedAt,
+            };
         }
         #endregion
     }

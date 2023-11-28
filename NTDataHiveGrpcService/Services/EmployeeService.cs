@@ -1,6 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using NLog;
+using System;
 using System.Reflection;
 
 namespace NTDataHiveGrpcService.Services
@@ -38,7 +39,6 @@ namespace NTDataHiveGrpcService.Services
                         PublisherIdentity = item.PublisherIdentity,
                         CreatedAt = item.Created_at.ToUniversalTime().ToTimestamp(),
                         ScoreCard = item.ScoreCard,
-
                     });
                 }
                 return Task.FromResult(record);

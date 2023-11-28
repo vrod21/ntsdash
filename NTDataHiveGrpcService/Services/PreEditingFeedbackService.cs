@@ -1,6 +1,9 @@
-﻿using Grpc.Core;
+﻿using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using NLog;
 using NTDataHiveGrpcService.BLL.RecordInterfaces;
+using System;
+using System.Reflection;
 
 namespace NTDataHiveGrpcService.Services
 {
@@ -12,7 +15,66 @@ namespace NTDataHiveGrpcService.Services
         public PreEditingFeedbackService(BLL.RecordInterfaces.IPreEditingFeedbackRecordRepository feedbackRecordRepository)
         {
             _feedbackRecordRepository = feedbackRecordRepository;
+
+            _nlog.Info("{0} started", Assembly.GetExecutingAssembly().GetName().Version);
         }
+
+        #region GetAll
+        public override Task<PreEditingFeedbackRecordArray> GetAll(PreEditingFeedbackEmpty request, ServerCallContext context)
+        {
+            try
+            {
+                var record = new NTDataHiveGrpcService.PreEditingFeedbackRecordArray();
+                record.Status = new Google.Rpc.Status { Code = 0, Message = "Pre-Edited is queryable" };
+
+                var list = _feedbackRecordRepository.GeAllRecord();
+
+                foreach (var item in list)
+                {
+                    record.Items.Add(new NTDataHiveGrpcService.PreEditingFeedbackRecordRequest
+                    {
+                        WebId = item.WebId,
+                        SupplierName = item.SupplierName,
+                        QualityAssurance = item.QualityAssurance,
+                        PublisherName = item.PublisherName,
+                        JournalId = item.JournalId,
+                        ArticleId = item.ArticleId,
+                        CopyEditedBy = item.CopyEditedBy,
+                        PageCount = item.PageCount,
+                        ErrorCount = item.ErrorCount,
+                        DescriptionOfError = item.DescriptionOfError,
+                        Matter = item.Matter,
+                        ErrorLocation = item.ErrorLocation,
+                        ErrorCode = item.ErrorCode,
+                        ErrorType = item.ErrorType,
+                        ErrorSubtype = item.ErrorSubtype,
+                        ErrorCategory = item.ErrorCategory,
+                        IntroducedOrMissed = item.IntroducedOrMissed,
+                        Department = item.Department,
+                        EmployeeName = item.EmployeeName,
+                        RootCause = item.RootCause,
+                        CorrectiveAction = item.CorrectiveAction,
+                        NatureOfCA = item.NatureOfCA,
+                        OwnerOfCA = item.OwnerOfCA,
+                        TargetDateOfCompletionCA = item.TargetDateOfCompletionCA.ToUniversalTime().ToTimestamp(),
+                        PreventiveMeasure = item.PreventiveMeasure,
+                        NatureOfPM = item.NatureOfPM,
+                        TargetDateOfCompletionPM = item.TargetDateOfCompletionPM.ToUniversalTime().ToTimestamp(),
+                        StatusOfCA = item.StatusOfCA,
+                        StatusOfPM = item.StatusOfPM,
+                        CopyEditingLevel = item.CopyEditingLevel,
+                        CreatedAt = item.CreatedAt.ToUniversalTime().ToTimestamp(),
+                    });
+                }
+                return Task.FromResult(record);
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal(ex);
+                return Task.FromResult(new NTDataHiveGrpcService.PreEditingFeedbackRecordArray { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
+            }
+        }
+        #endregion
 
         public override Task<Google.Rpc.Status> SaveEmployee(PreEditingFeedbackRecordRequest request, ServerCallContext context)
         {

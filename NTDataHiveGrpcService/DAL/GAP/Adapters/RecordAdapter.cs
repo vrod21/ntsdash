@@ -60,7 +60,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         WebId = recordRequest.WebId,
                         FirstName = recordRequest.FirstName,
                         LastName = recordRequest.LastName,
-                        PublisherIdentity = recordRequest.PublisherIdentity,
+                        PublisherIdentity = recordRequest.PublisherIdentity,                        
                     };
 
                     dbContext.Employees.Add(emp);
