@@ -34,7 +34,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 
                 if (preEdited != null)
                 {
-                    return preEditingRecord.ToList();
+                    return preEdited.ToList();
                 }
             }
             catch (Exception ex)
@@ -156,6 +156,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 PreventiveMeasure = preEditing.PreventiveMeasure,
                 NatureOfPM = preEditing.NatureOfPM,
                 TargetDateOfCompletionPM = preEditing.TargetDateOfCompletionPM,
+                StatusOfCA = preEditing.StatusOfCA,
                 StatusOfPM = preEditing.StatusOfPM,
                 CopyEditingLevel = preEditing.CopyEditingLevel,
                 CreatedAt = preEditing.CreatedAt,

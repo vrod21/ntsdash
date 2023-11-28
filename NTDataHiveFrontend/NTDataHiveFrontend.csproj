@@ -33,7 +33,7 @@
     <Protobuf Include="Protos\Employee.proto">
       <GrpcServices>Client</GrpcServices>
     </Protobuf>
-    <Protobuf Include="Protos\PreEditingErrorFeedback.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\PreEditingErrorFeedback.proto" GrpcServices="Both" />
     <Protobuf Include="Protos\status.proto">
       <GrpcServices>Client</GrpcServices>
     </Protobuf>

@@ -1,5 +1,4 @@
 ﻿using Google.Protobuf.WellKnownTypes;
-using Google.Rpc;
 using Grpc.Net.Client;
 using NLog;
 
@@ -12,7 +11,7 @@ namespace NTDataHiveFrontend.ServiceAccess
         NTDataHiveGrpcService.PreEditingFeedbackBackend.PreEditingFeedbackBackendClient _client;
 
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
-        private readonly string _url;
+        private readonly string _url;        
 
         public PreEditingFeedbackBackendService(ILogger<PreEditingFeedbackBackendService> logger, IConfiguration config)
         {
@@ -31,6 +30,7 @@ namespace NTDataHiveFrontend.ServiceAccess
                 {
                     HttpClient = httpClient,
                 });
+                _client = new NTDataHiveGrpcService.PreEditingFeedbackBackend.PreEditingFeedbackBackendClient(_channel);
             }
             catch (Exception ex)
             {
@@ -40,14 +40,14 @@ namespace NTDataHiveFrontend.ServiceAccess
         }
 
         #region GetAll
-        public async Task<List<NTDataHiveFrontend.Model.PreEditingErrorFeedback>> GetAllPreEditingRecord()
+        public async Task<List<Model.PreEditingErrorFeedback>> GetAllPreEditingRecord()
         {
             if (_client == null)
                 Connect();
 
             var preEditingList = await _client.GetAllAsync(new NTDataHiveGrpcService.PreEditingFeedbackEmpty());
 
-            List<NTDataHiveFrontend.Model.PreEditingErrorFeedback> preEditing = new List<Model.PreEditingErrorFeedback>();
+            List<Model.PreEditingErrorFeedback> preEditing = new List<Model.PreEditingErrorFeedback>();
 
             foreach (var preEditingRecord in preEditingList.Items)
             {
@@ -60,14 +60,14 @@ namespace NTDataHiveFrontend.ServiceAccess
 
 
         #region SavePreEditingFeedback
-        public async Task<Google.Rpc.Status> SavePreEditFeedback(NTDataHiveFrontend.Model.PreEditingErrorFeedback preEditRecord)
+        public async Task<Google.Rpc.Status> SavePreEditFeedback(Model.PreEditingErrorFeedback preEditRecord)
         {
             if (_client == null)
                 Connect();
 
             NTDataHiveGrpcService.PreEditingFeedbackRecordRequest grpcPreEditingRecord = ToGrpcFormat(preEditRecord);
 
-            Google.Rpc.Status result = new Status();
+            Google.Rpc.Status result;
             try
             {
                 result = await _client.SavePreEditFeedbackAsync(grpcPreEditingRecord);
@@ -75,14 +75,14 @@ namespace NTDataHiveFrontend.ServiceAccess
             }
             catch (Exception ex)
             {
-                _nlog.Error($"StatusCode: {result.Code}, Message: {result.Message}", ex);
-                return result;
+                _nlog.Error($"Save pre-editing threw up: {ex.Message}, {ex}");
+                return new Google.Rpc.Status { Code = 2, Message = ex.Message };
             }
         }
         #endregion
 
         #region ToGrpcFormat
-        public NTDataHiveGrpcService.PreEditingFeedbackRecordRequest ToGrpcFormat(NTDataHiveFrontend.Model.PreEditingErrorFeedback preEditRecord)
+        public NTDataHiveGrpcService.PreEditingFeedbackRecordRequest ToGrpcFormat(Model.PreEditingErrorFeedback preEditRecord)
         {
             var grpcPreEditingRecord = new NTDataHiveGrpcService.PreEditingFeedbackRecordRequest()
             {
@@ -133,9 +133,9 @@ namespace NTDataHiveFrontend.ServiceAccess
         #endregion
 
         #region ToFrontendFormat
-        public NTDataHiveFrontend.Model.PreEditingErrorFeedback ToFrontendFormat(NTDataHiveGrpcService.PreEditingFeedbackRecordRequest preEditingRequest)
+        public Model.PreEditingErrorFeedback ToFrontendFormat(NTDataHiveGrpcService.PreEditingFeedbackRecordRequest preEditingRequest)
         {
-            NTDataHiveFrontend.Model.PreEditingErrorFeedback frontendPreEditingRecord = new NTDataHiveFrontend.Model.PreEditingErrorFeedback()
+            Model.PreEditingErrorFeedback frontendPreEditingRecord = new Model.PreEditingErrorFeedback()
             {
                 WebId = preEditingRequest.WebId,
                 SupplierName = preEditingRequest.SupplierName,
@@ -182,7 +182,5 @@ namespace NTDataHiveFrontend.ServiceAccess
             return frontendPreEditingRecord;
         }
         #endregion
-
-
     }
 }

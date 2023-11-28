@@ -76,13 +76,12 @@ namespace NTDataHiveGrpcService.Services
         }
         #endregion
 
-        public override Task<Google.Rpc.Status> SaveEmployee(PreEditingFeedbackRecordRequest request, ServerCallContext context)
+        public override Task<Google.Rpc.Status> SavePreEditFeedback(PreEditingFeedbackRecordRequest request, ServerCallContext context)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(request.WebId))
                     return Task.FromResult(new Google.Rpc.Status { Code = 3, Message = "WebId is missed" });
-
                 var feedbackRecord = new BLL.RecordContents.PreEditingFeedbackFilter(request);
 
                 _feedbackRecordRepository.SavePreEditingFeedbackRecord(feedbackRecord);
@@ -92,11 +91,8 @@ namespace NTDataHiveGrpcService.Services
             catch (Exception ex)
             {
                 _nlog.Fatal(ex);
-                return Task.FromResult(new Google.Rpc.Status { Code = 2, Message = ex.Message });
+                return Task.FromResult(new Google.Rpc.Status { Code= 2, Message = ex.Message });
             }
         }
-
-
-
     }
 }

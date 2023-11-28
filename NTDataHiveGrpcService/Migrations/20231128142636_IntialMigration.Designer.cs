@@ -12,8 +12,8 @@ using NTDataHiveGrpcService.DAL.Data;
 namespace NTDataHiveGrpcService.Migrations
 {
     [DbContext(typeof(NTDataHiveContext))]
-    [Migration("20231128061003_AddPropertiesForPreEditingClass")]
-    partial class AddPropertiesForPreEditingClass
+    [Migration("20231128142636_IntialMigration")]
+    partial class IntialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

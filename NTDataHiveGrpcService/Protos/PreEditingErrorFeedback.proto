@@ -8,7 +8,7 @@ import "Protos/status.proto";
 package PreEditingErrorFeedback;
 
 service PreEditingFeedbackBackend {
-	rpc SaveEmployee (PreEditingFeedbackRecordRequest) returns (google.rpc.Status);
+	rpc SavePreEditFeedback (PreEditingFeedbackRecordRequest) returns (google.rpc.Status);
 
 	rpc GetAll (PreEditingFeedbackEmpty) returns (PreEditingFeedbackRecordArray);
 }
