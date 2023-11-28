@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf.WellKnownTypes;
+using Google.Rpc;
 using Grpc.Net.Client;
 using NLog;
 
@@ -66,7 +67,7 @@ namespace NTDataHiveFrontend.ServiceAccess
 
             NTDataHiveGrpcService.PreEditingFeedbackRecordRequest grpcPreEditingRecord = ToGrpcFormat(preEditRecord);
 
-            Google.Rpc.Status result;
+            Google.Rpc.Status result = new Status();
             try
             {
                 result = await _client.SavePreEditFeedbackAsync(grpcPreEditingRecord);
@@ -74,8 +75,8 @@ namespace NTDataHiveFrontend.ServiceAccess
             }
             catch (Exception ex)
             {
-                _nlog.Error($"Save pre-editing feedback threw up: {ex.Message}, {ex}");
-                return new Google.Rpc.Status { Code = 2, Message = ex.Message };
+                _nlog.Error($"StatusCode: {result.Code}, Message: {result.Message}", ex);
+                return result;
             }
         }
         #endregion
