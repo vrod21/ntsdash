@@ -2,7 +2,7 @@
 
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
-@attribute [StreamRendering]
+@rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
@@ -16,6 +16,32 @@
 }
 else
 {
+
+
+
+
+    <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" Data="@preEditList"
+                    TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback">
+        <Template Context="data">
+            <RadzenCard class="rz-p-12" Style="margin-bottom:20px">
+                Description of Error :               
+
+                <div class="rz-text-align-center rz-p-12 rz-shadow-7 rz-border-radius-3">
+                    <p class="lead" style="text-align:center; white-space:pre-line;">
+                        @data.DescriptionOfError
+                    </p>                   
+                </div>
+            </RadzenCard>
+        </Template>
+        <Columns>
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="SupplierName" Title="Suppler Name"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="QualityAssurance" Title="Quality Assurance"
+                                  Width="140px" />
+        </Columns>
+    </RadzenDataGrid>
+
+
     <div class="container">
     <RadzenFieldset class="row" Style="border:none; float:none;">
         <RadzenDataGrid Style="border:none;" Data="@preEditList" TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" AllowFiltering="true" AllowColumnResize="true"
@@ -39,20 +65,16 @@ else
                                       TextAlign="TextAlign.Center" />
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorCount" Title="Error Count" Width="150px"
                                       TextAlign="TextAlign.Center" />
-
-
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="DescriptionOfError" Title="Description of Error" Width="750px"
                                       TextAlign="TextAlign.Center" >
+
                     <Template Context="data">
                         
                         <RadzenTextArea Placeholder="@($"{data.DescriptionOfError}")" class="w-100" />
                             
-                    </Template>
-                    
+                    </Template>                  
                                   
                 </RadzenDataGridColumn>
-
-
 
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="Matter" Title="FM/Non-FM" Width="150px"
                                       TextAlign="TextAlign.Center" />
