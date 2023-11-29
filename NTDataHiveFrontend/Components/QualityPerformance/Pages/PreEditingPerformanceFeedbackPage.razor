@@ -1,8 +1,8 @@
 ﻿@page "/pre-editing-performance"
 
 @using Microsoft.AspNetCore.Authorization
-@rendermode InteractiveServer
 @attribute [Authorize]
+@attribute [StreamRendering]
 @inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
@@ -10,14 +10,20 @@
 
 <PageTitle>Pre-Edtors Performance</PageTitle>
 
-<div class="container">
+@if (preEditList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="container">
     <RadzenFieldset class="row" Style="border:none; float:none;">
         <RadzenDataGrid Style="border:none;" Data="@preEditList" TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" AllowFiltering="true" AllowColumnResize="true"
-                        AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="3" AllowPaging="true"
+                        AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="7" AllowPaging="true"
                         PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
                         ColumnWidth="500px" LogicalFilterOperator="LogicalFilterOperator.Or">
             <Columns>
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="SupplierName" Title="Supplier Name" Width="150px"
+                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="SupplierName" Title="Supplier Name" Width="200px"
                                       TextAlign="TextAlign.Center" Frozen="true" />
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="QualityAssurance" Title="Quality Assurance" Width="250px" Filterable="false"
                                       TextAlign="TextAlign.Center" Frozen="true" />
@@ -33,8 +39,21 @@
                                       TextAlign="TextAlign.Center" />
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorCount" Title="Error Count" Width="150px"
                                       TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="DescriptionOfError" Title="Description of Error" Width="150px"
-                                      TextAlign="TextAlign.Center" />
+
+
+                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="DescriptionOfError" Title="Description of Error" Width="750px"
+                                      TextAlign="TextAlign.Center" >
+                    <Template Context="data">
+                        
+                        <RadzenTextArea Placeholder="@($"{data.DescriptionOfError}")" class="w-100" />
+                            
+                    </Template>
+                    
+                                  
+                </RadzenDataGridColumn>
+
+
+
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="Matter" Title="FM/Non-FM" Width="150px"
                                       TextAlign="TextAlign.Center" />
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorLocation" Title="Error Location" Width="150px"
@@ -81,12 +100,16 @@
         </RadzenDataGrid>
     </RadzenFieldset>
 </div>
+}
+
 
 @code {
-    private List<NTDataHiveFrontend.Model.PreEditingErrorFeedback> preEditList = new List<Model.PreEditingErrorFeedback>();
+    private List<NTDataHiveFrontend.Model.PreEditingErrorFeedback>? preEditList = new List<Model.PreEditingErrorFeedback>();
+
+    
 
     protected override async Task OnInitializedAsync()
-    {
+    {      
         preEditList = await MyBackendService.GetAllPreEditingRecord();
 
         StateHasChanged();

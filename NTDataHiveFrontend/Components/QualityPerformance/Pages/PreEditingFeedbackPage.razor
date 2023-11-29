@@ -52,6 +52,7 @@ else
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
                                 <RadzenLabel Text="Publisher Name" />
+                                
                             </div>
                             <div class="col-md-8">
                                 <RadzenTextBox Style="width: 100%;" @bind-value="addPreEditFeedback.PublisherName" Placeholder="Publisher Name" />
@@ -153,6 +154,10 @@ else
                                 <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.ErrorCategory" Placeholder="Error Category" />
                             </div>
                         </div>
+                    </RadzenFieldset>
+                </div>
+                <div class="col-md-6">
+                    <RadzenFieldset Text="Drop Down">
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
                                 <RadzenLabel Text="Introduced/Missed" />
@@ -161,10 +166,6 @@ else
                                 <RadzenTextBox Style="width: 100%;" @bind-Value="addPreEditFeedback.IntroducedOrMissed" Placeholder="Introduced/Missed" />
                             </div>
                         </div>
-                    </RadzenFieldset>
-                </div>
-                <div class="col-md-6">
-                    <RadzenFieldset Text="Drop Down">
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
                                 <RadzenLabel Text="Department" />
