@@ -15,7 +15,8 @@ namespace NTDataHiveGrpcService.DAL.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<PersonTypes> PersonTypes { get; set; }
         public DbSet<Position> Positions { get; set; }
-        public DbSet<PreEditingErrorFeedback> PreEditingErrorFeedbacks { get; set; }
+        public DbSet<PreEditing> PreEditing { get; set; }
+        public DbSet<Revision> Revisions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

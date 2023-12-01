@@ -6,13 +6,13 @@ using NTDataHiveGrpcService.DAL.Model;
 
 namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 {
-    public class PreEditingFeedbackRecordAdapter
+    public class RevisionFeedbackRecordAdapter
     {
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         private readonly IConfiguration _config;
         private DbContextOptions<NTDataHiveContext> _contextOptions;
 
-        public PreEditingFeedbackRecordAdapter(IConfiguration config)
+        public RevisionFeedbackRecordAdapter(IConfiguration config)
         {
             _config = config;
             var optionsBuilder = new DbContextOptionsBuilder<NTDataHiveContext>();
@@ -21,9 +21,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
 
         #region GetAllPreEditingErrorRecord
-        internal List<PreEditingFeedbackRecordComparable> GetAllPreEditingFeedbackRecord()
+        internal List<RevisionFeedbackRecordComparable> GetAllPreEditingFeedbackRecord()
         {
-            List<PreEditingFeedbackRecordComparable> preEditingRecord = new List<PreEditingFeedbackRecordComparable>();
+            List<RevisionFeedbackRecordComparable> preEditingRecord = new List<RevisionFeedbackRecordComparable>();
 
             try
             {
@@ -45,9 +45,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             return preEditingRecord;
         }
         #endregion
-        
+
         #region InsertPreEditingErrorFeedback
-        internal void Insert(PreEditingFeedbackRecordRequest recordRequest)
+        internal void Insert(RevisionFeedbackRecordRequest recordRequest)
         {
             try
             {
@@ -62,7 +62,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         PublisherName = recordRequest.PublisherName,
                         JournalId = recordRequest.JournalId,
                         ArticleId = recordRequest.ArticleId,
-                        CopyEditedBy = recordRequest.CopyEditedBy,
                         PageCount = recordRequest.PageCount,
                         ErrorCount = recordRequest.ErrorCount,
                         DescriptionOfError = recordRequest.DescriptionOfError,
@@ -75,16 +74,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         IntroducedOrMissed = recordRequest.IntroducedOrMissed,
                         Department = recordRequest.Department,
                         EmployeeName = recordRequest.EmployeeName,
-                        RootCause = recordRequest.RootCause,
-                        CorrectiveAction = recordRequest.CorrectiveAction,
-                        NatureOfCA = recordRequest.NatureOfCA,
-                        OwnerOfCA = recordRequest.OwnerOfCA,
-                        TargetDateOfCompletionCA = recordRequest.TargetDateOfCompletionCA.ToDateTime().ToLocalTime(),
-                        PreventiveMeasure = recordRequest.PreventiveMeasure,
-                        NatureOfPM = recordRequest.NatureOfPM,
-                        TargetDateOfCompletionPM = recordRequest.TargetDateOfCompletionPM.ToDateTime().ToLocalTime(),
-                        StatusOfCA = recordRequest.StatusOfCA,
-                        StatusOfPM = recordRequest.StatusOfPM,
                         CopyEditingLevel = recordRequest.CopyEditingLevel,
                         CreatedAt = recordRequest.CreatedAt.ToDateTime().ToLocalTime(),
                     };
@@ -125,9 +114,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region
-        private static NTDataHiveGrpcService.BLL.RecordContents.PreEditingFeedbackRecordComparable CreateNewBLLPreEditing(PreEditing preEditing)
+        private static NTDataHiveGrpcService.BLL.RecordContents.RevisionFeedbackRecordComparable CreateNewBLLPreEditing(PreEditing preEditing)
         {
-            return new BLL.RecordContents.PreEditingFeedbackRecordComparable()
+            return new BLL.RecordContents.RevisionFeedbackRecordComparable()
             {
                 WebId = preEditing.WebId,
                 SupplierName = preEditing.SupplierName,
@@ -135,7 +124,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 PublisherName = preEditing.PublisherName,
                 JournalId = preEditing.JournalId,
                 ArticleId = preEditing.ArticleId,
-                CopyEditedBy = preEditing.CopyEditedBy,
                 PageCount = preEditing.PageCount,
                 ErrorCount = preEditing.ErrorCount,
                 DescriptionOfError = preEditing.DescriptionOfError,
@@ -148,16 +136,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 IntroducedOrMissed = preEditing.IntroducedOrMissed,
                 Department = preEditing.Department,
                 EmployeeName = preEditing.EmployeeName,
-                RootCause = preEditing.RootCause,
-                CorrectiveAction = preEditing.CorrectiveAction,
-                NatureOfCA = preEditing.NatureOfCA,
-                OwnerOfCA = preEditing.OwnerOfCA,
-                TargetDateOfCompletionCA = preEditing.TargetDateOfCompletionCA,
-                PreventiveMeasure = preEditing.PreventiveMeasure,
-                NatureOfPM = preEditing.NatureOfPM,
-                TargetDateOfCompletionPM = preEditing.TargetDateOfCompletionPM,
-                StatusOfCA = preEditing.StatusOfCA,
-                StatusOfPM = preEditing.StatusOfPM,
                 CopyEditingLevel = preEditing.CopyEditingLevel,
                 CreatedAt = preEditing.CreatedAt,
             };
