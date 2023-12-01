@@ -8,7 +8,7 @@ import "Protos/status.proto";
 package RevisionErrorFeedback;
 
 service RevisionFeedbackBackend {
-	rpc SavePreEditFeedback (RevisionFeedbackRecordRequest) returns (google.rpc.Status);
+	rpc SaveRevisionFeedback (RevisionFeedbackRecordRequest) returns (google.rpc.Status);
 }
 
 message RevisionFeedbackEmpty {

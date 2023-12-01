@@ -1,7 +1,6 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using NLog;
-using NTDataHiveGrpcService.BLL.RecordInterfaces;
 using System;
 using System.Reflection;
 
@@ -10,7 +9,7 @@ namespace NTDataHiveGrpcService.Services
     public class PreEditingFeedbackService : PreEditingFeedbackBackend.PreEditingFeedbackBackendBase
     {
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
-        private readonly IPreEditingFeedbackRecordRepository _feedbackRecordRepository;
+        private readonly BLL.RecordInterfaces.IPreEditingFeedbackRecordRepository _feedbackRecordRepository;
 
         public PreEditingFeedbackService(BLL.RecordInterfaces.IPreEditingFeedbackRecordRepository feedbackRecordRepository)
         {
@@ -24,14 +23,14 @@ namespace NTDataHiveGrpcService.Services
         {
             try
             {
-                var record = new NTDataHiveGrpcService.PreEditingFeedbackRecordArray();
+                var record = new PreEditingFeedbackRecordArray();
                 record.Status = new Google.Rpc.Status { Code = 0, Message = "Pre-Edited is queryable" };
 
                 var list = _feedbackRecordRepository.GeAllRecord();
 
                 foreach (var item in list)
                 {
-                    record.Items.Add(new NTDataHiveGrpcService.PreEditingFeedbackRecordRequest
+                    record.Items.Add(new PreEditingFeedbackRecordRequest
                     {
                         WebId = item.WebId,
                         SupplierName = item.SupplierName,
@@ -71,7 +70,7 @@ namespace NTDataHiveGrpcService.Services
             catch (Exception ex)
             {
                 _nlog.Fatal(ex);
-                return Task.FromResult(new NTDataHiveGrpcService.PreEditingFeedbackRecordArray { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
+                return Task.FromResult(new PreEditingFeedbackRecordArray { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
             }
         }
         #endregion

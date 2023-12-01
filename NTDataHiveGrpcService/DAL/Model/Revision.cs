@@ -2,6 +2,7 @@
 {
     public class Revision
     {
+        public int Id { get; set; }
         public string WebId { get; set; }
         public string SupplierName { get; set; }
         public string QualityAssurance { get; set; }

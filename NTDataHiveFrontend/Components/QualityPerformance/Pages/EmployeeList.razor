@@ -1,9 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
 @inject NTDataHiveFrontend.ServiceAccess.EmployeeBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
 @inject DialogService DialogService
-@attribute [Authorize]
+
 
 <PageTitle>Auth</PageTitle>
 

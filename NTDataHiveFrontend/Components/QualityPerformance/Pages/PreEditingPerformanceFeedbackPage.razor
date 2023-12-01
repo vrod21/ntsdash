@@ -2,7 +2,7 @@
 
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
-@rendermode InteractiveServer
+
 @inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
@@ -10,13 +10,13 @@
 
 <PageTitle>Pre-Edtors Performance</PageTitle>
 
-@if (preEditList == null)
+@* @if (preEditList == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-
+ *@
 
 
 
@@ -130,20 +130,22 @@ else
         </RadzenDataGrid>
     </RadzenFieldset>
 </div>
-}
+@* } *@
 
 
 @code {
-    private List<NTDataHiveFrontend.Model.PreEditingErrorFeedback>? preEditList = new List<Model.PreEditingErrorFeedback>();
+    private List<NTDataHiveFrontend.Model.PreEditingErrorFeedback> preEditList = new List<Model.PreEditingErrorFeedback>();
 
     
 
     protected override async Task OnInitializedAsync()
     {      
+        await base.OnInitializedAsync();
+        StateHasChanged();
         preEditList = await MyBackendService.GetAllPreEditingRecord();
 
-        StateHasChanged();
+        
 
-        base.OnInitializedAsync();
+        
     }
 }

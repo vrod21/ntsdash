@@ -20,21 +20,21 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             _contextOptions = optionsBuilder.Options;
         }
 
-        #region GetAllPreEditingErrorRecord
-        internal List<RevisionFeedbackRecordComparable> GetAllPreEditingFeedbackRecord()
+        #region GetAllRevisionErrorRecord
+        internal List<RevisionFeedbackRecordComparable> GetAllRevisionFeedbackRecord()
         {
-            List<RevisionFeedbackRecordComparable> preEditingRecord = new List<RevisionFeedbackRecordComparable>();
+            List<RevisionFeedbackRecordComparable> revisionRecord = new List<RevisionFeedbackRecordComparable>();
 
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var preEdited = from preEdit in dbContext.PreEditingErrorFeedbacks
-                                orderby preEdit.EmployeeName
-                                select CreateNewBLLPreEditing(preEdit);
+                var revisions = from revision in dbContext.Revisions
+                                orderby revision.EmployeeName
+                                select CreateNewBLLRevision(revision);
 
-                if (preEdited != null)
+                if (revisions != null)
                 {
-                    return preEdited.ToList();
+                    return revisions.ToList();
                 }
             }
             catch (Exception ex)
@@ -42,11 +42,11 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 _nlog.Fatal($"{ex.Message}");
             }
 
-            return preEditingRecord;
+            return revisionRecord;
         }
         #endregion
 
-        #region InsertPreEditingErrorFeedback
+        #region InsertRevisionErrorFeedback
         internal void Insert(RevisionFeedbackRecordRequest recordRequest)
         {
             try
@@ -54,7 +54,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 using var dbContext = new NTDataHiveContext(_contextOptions);
                 if (recordRequest != null)
                 {
-                    var preEdit = new Model.PreEditing()
+                    var revision = new Model.Revision()
                     {
                         WebId = recordRequest.WebId,
                         SupplierName = recordRequest.SupplierName,
@@ -78,7 +78,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         CreatedAt = recordRequest.CreatedAt.ToDateTime().ToLocalTime(),
                     };
 
-                    dbContext.PreEditingErrorFeedbacks.Add(preEdit);
+                    dbContext.Revisions.Add(revision);
                 }
                 _ = dbContext.SaveChanges();
             }
@@ -90,15 +90,15 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
-        #region GetPreEditingFeedbackByWebId
+        #region GetRevisionFeedbackByWebId
         internal int GetFeedbackByWebId(string webid)
         {
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var getFeedbackById = from preEditingFeedback in dbContext.PreEditingErrorFeedbacks
-                                      where preEditingFeedback.WebId == webid
-                                      select preEditingFeedback;
+                var getFeedbackById = from revisionFeedback in dbContext.Revisions
+                                      where revisionFeedback.WebId == webid
+                                      select revisionFeedback;
 
                 if (getFeedbackById.Count() > 0)
                     return getFeedbackById.FirstOrDefault().Id;
@@ -113,31 +113,31 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
-        #region
-        private static NTDataHiveGrpcService.BLL.RecordContents.RevisionFeedbackRecordComparable CreateNewBLLPreEditing(PreEditing preEditing)
+        #region CreateNewBLLRevision
+        private static NTDataHiveGrpcService.BLL.RecordContents.RevisionFeedbackRecordComparable CreateNewBLLRevision(Revision revision)
         {
             return new BLL.RecordContents.RevisionFeedbackRecordComparable()
             {
-                WebId = preEditing.WebId,
-                SupplierName = preEditing.SupplierName,
-                QualityAssurance = preEditing.QualityAssurance,
-                PublisherName = preEditing.PublisherName,
-                JournalId = preEditing.JournalId,
-                ArticleId = preEditing.ArticleId,
-                PageCount = preEditing.PageCount,
-                ErrorCount = preEditing.ErrorCount,
-                DescriptionOfError = preEditing.DescriptionOfError,
-                Matter = preEditing.Matter,
-                ErrorLocation = preEditing.ErrorLocation,
-                ErrorCode = preEditing.ErrorCode,
-                ErrorType = preEditing.ErrorType,
-                ErrorSubtype = preEditing.ErrorType,
-                ErrorCategory = preEditing.ErrorCategory,
-                IntroducedOrMissed = preEditing.IntroducedOrMissed,
-                Department = preEditing.Department,
-                EmployeeName = preEditing.EmployeeName,
-                CopyEditingLevel = preEditing.CopyEditingLevel,
-                CreatedAt = preEditing.CreatedAt,
+                WebId = revision.WebId,
+                SupplierName = revision.SupplierName,
+                QualityAssurance = revision.QualityAssurance,
+                PublisherName = revision.PublisherName,
+                JournalId = revision.JournalId,
+                ArticleId = revision.ArticleId,
+                PageCount = revision.PageCount,
+                ErrorCount = revision.ErrorCount,
+                DescriptionOfError = revision.DescriptionOfError,
+                Matter = revision.Matter,
+                ErrorLocation = revision.ErrorLocation,
+                ErrorCode = revision.ErrorCode,
+                ErrorType = revision.ErrorType,
+                ErrorSubtype = revision.ErrorType,
+                ErrorCategory = revision.ErrorCategory,
+                IntroducedOrMissed = revision.IntroducedOrMissed,
+                Department = revision.Department,
+                EmployeeName = revision.EmployeeName,
+                CopyEditingLevel = revision.CopyEditingLevel,
+                CreatedAt = revision.CreatedAt,
             };
         }
         #endregion

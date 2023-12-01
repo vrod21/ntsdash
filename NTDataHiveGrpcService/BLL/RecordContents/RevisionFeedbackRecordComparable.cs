@@ -2,7 +2,7 @@
 
 namespace NTDataHiveGrpcService.BLL.RecordContents
 {
-    public class RevisionFeedbackRecordComparable : IComparable<PreEditingFeedbackRecordComparable>
+    public class RevisionFeedbackRecordComparable : IComparable<RevisionFeedbackRecordComparable>
     {
         public string WebId { get; set; }
         public string SupplierName { get; set; }
@@ -24,7 +24,7 @@ namespace NTDataHiveGrpcService.BLL.RecordContents
         public string EmployeeName { get; set; } 
         public string CopyEditingLevel { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int CompareTo([AllowNull]PreEditingFeedbackRecordComparable other)
+        public int CompareTo([AllowNull] RevisionFeedbackRecordComparable other)
         {
             if (other == null)
                 return 1;
@@ -34,7 +34,7 @@ namespace NTDataHiveGrpcService.BLL.RecordContents
 
         public override bool Equals(object obj)
         {
-            var other = obj as PreEditingFeedbackRecordComparable;
+            var other = obj as RevisionFeedbackRecordComparable;
 
             if (other == null) return false;
 

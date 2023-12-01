@@ -28,7 +28,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var preEdited = from preEdit in dbContext.PreEditingErrorFeedbacks
+                var preEdited = from preEdit in dbContext.PreEditing
                                 orderby preEdit.EmployeeName
                                 select CreateNewBLLPreEditing(preEdit);
 
@@ -89,7 +89,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         CreatedAt = recordRequest.CreatedAt.ToDateTime().ToLocalTime(),
                     };
 
-                    dbContext.PreEditingErrorFeedbacks.Add(preEdit);
+                    dbContext.PreEditing.Add(preEdit);
                 }
                 _ = dbContext.SaveChanges();
             }
@@ -107,7 +107,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var getFeedbackById = from preEditingFeedback in dbContext.PreEditingErrorFeedbacks
+                var getFeedbackById = from preEditingFeedback in dbContext.PreEditing
                                       where preEditingFeedback.WebId == webid
                                       select preEditingFeedback;
 
