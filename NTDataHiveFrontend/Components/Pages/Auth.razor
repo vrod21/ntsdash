@@ -3,5 +3,14 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 @rendermode InteractiveServer
+@inject NavigationManager MyNavigation
 
-<NTDataHiveFrontend.Components.QualityPerformance.Pages.PreEditingPerformanceFeedbackPage />
+<RadzenButton Click="@PreEditPerformance" Style="background-color: #e81f4b;" Text="Create Employee" />
+
+@code {
+
+    private void PreEditPerformance()
+    {
+        MyNavigation.NavigateTo("/pre-editing-performance");
+    }
+}

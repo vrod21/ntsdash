@@ -1,4 +1,7 @@
-﻿namespace NTDataHiveGrpcService.DAL.Model
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
+namespace NTDataHiveGrpcService.DAL.Model
 {
     public class Department
     {

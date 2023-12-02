@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option csharp_namespace = "NTDataHiveGrpcService";
+
+import "google/protobuf/timestamp.proto";
+import "Protos/status.proto";
+
+package RevisionErrorFeedback;
+
+service RevisionFeedbackBackend {
+	rpc SaveRevisionFeedback (RevisionFeedbackRecordRequest) returns (google.rpc.Status);
+}
+
+message RevisionFeedbackEmpty {
+
+}
+
+message RevisionFeedbackRecordRequest {
+    string WebId = 1;
+    string SupplierName = 2; 
+    string QualityAssurance = 3;
+    string PublisherName = 4;
+    string JournalId = 5;
+    string ArticleId = 6;
+    int32 PageCount = 8;
+    int32 ErrorCount = 9;
+    string DescriptionOfError = 10;
+    string Matter = 11;
+    string ErrorLocation = 12; 
+    string ErrorCode = 13;
+    string ErrorType = 14;
+    string ErrorSubtype = 15;
+    string ErrorCategory = 16;
+    string IntroducedOrMissed = 17;
+    string Department = 18;
+    string EmployeeName = 19;
+    string CopyEditingLevel = 30; 
+
+	google.protobuf.Timestamp createdAt = 31;
+
+	google.rpc.Status status = 99;
+}
+
+message RevisionRecordFilter {
+	string webId = 1;
+}
+
+message RevisionFeedbackRecordArray {
+	repeated RevisionFeedbackRecordRequest items = 1;
+
+	google.rpc.Status status = 99;
+}

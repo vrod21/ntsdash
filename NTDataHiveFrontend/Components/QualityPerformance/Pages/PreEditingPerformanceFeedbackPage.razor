@@ -2,7 +2,7 @@
 
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
-
+@rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
@@ -10,13 +10,13 @@
 
 <PageTitle>Pre-Edtors Performance</PageTitle>
 
-@* @if (preEditList == null)
+@if (preEditList == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
- *@
+
 
 
 
@@ -51,97 +51,118 @@ else
 
 
     <div class="container">
-    <RadzenFieldset class="row" Style="border:none; float:none;">
-        <RadzenDataGrid Style="border:none;" Data="@preEditList" TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" AllowFiltering="true" AllowColumnResize="true"
-                        AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="7" AllowPaging="true"
-                        PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                        ColumnWidth="500px" LogicalFilterOperator="LogicalFilterOperator.Or">
-            <Columns>
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="SupplierName" Title="Supplier Name" Width="200px"
-                                      TextAlign="TextAlign.Center" Frozen="true" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="QualityAssurance" Title="Quality Assurance" Width="250px" Filterable="false"
-                                      TextAlign="TextAlign.Center" Frozen="true" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="PublisherName" Title="Publisher Name" Width="150px" Filterable="true"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="JournalId" Title="Journal ID" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ArticleId" Title="Article ID" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="CopyEditedBy" Title="Copy Edited By" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="PageCount" Title="Page Count" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorCount" Title="Error Count" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="DescriptionOfError" Title="Description of Error" Width="750px"
-                                      TextAlign="TextAlign.Center" >
+        <RadzenFieldset class="row" Style="border:none; float:none;">
+            <RadzenDataGrid Style="border:none;" Data="@preEditList" TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" AllowFiltering="true" AllowColumnResize="true"
+                            AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="7" AllowPaging="true"
+                            PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                            ColumnWidth="500px" LogicalFilterOperator="LogicalFilterOperator.Or">
+                <Columns>
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="SupplierName" Title="Supplier Name" Width="200px"
+                                          TextAlign="TextAlign.Center" Frozen="true" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="QualityAssurance" Title="Quality Assurance" Width="250px" Filterable="false"
+                                          TextAlign="TextAlign.Center" Frozen="true" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="PublisherName" Title="Publisher Name" Width="150px" Filterable="true"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="JournalId" Title="Journal ID" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ArticleId" Title="Article ID" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="CopyEditedBy" Title="Copy Edited By" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="PageCount" Title="Page Count" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorCount" Title="Error Count" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="DescriptionOfError" Title="Description of Error" Width="750px"
+                                          TextAlign="TextAlign.Center" >
 
-                    <Template Context="data">
+                        <Template Context="data">
                         
-                        <RadzenTextArea Placeholder="@($"{data.DescriptionOfError}")" class="w-100" />
+                            <RadzenTextArea Placeholder="@($"{data.DescriptionOfError}")" class="w-100" />
                             
-                    </Template>                  
+                        </Template>                  
                                   
-                </RadzenDataGridColumn>
+                    </RadzenDataGridColumn>
 
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="Matter" Title="FM/Non-FM" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorLocation" Title="Error Location" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorCode" Title="Error Code" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorType" Title="Error Type" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorSubtype" Title="Error Subtype" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorCategory" Title="Error Category" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="IntroducedOrMissed" Title="Introduced/Missed" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="Department" Title="Department" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="EmployeeName" Title="Employee Name" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="RootCause" Title="Root Cause" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="CorrectiveAction" Title="Corrective Action" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="NatureOfCA" Title="Nature of CA" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="OwnerOfCA" Title="Owner of CA" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="PreventiveMeasure" Title="Preventive Measure" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="NatureOfPM" Title="Nature of PM" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="StatusOfCA" Title="Status of CA" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="StatusOfPM" Title="Status of PM" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="CopyEditingLevel" Title="Copy Editing Level" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="TargetDateOfCompletionCA" Title="Target Date of Completion CA"
-                                      Width="150px" TextAlign="TextAlign.Center" FormatString="{0:d}" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="TargetDateOfCompletionPM" Title="Target Date of Completion PM"
-                                      Width="150px" TextAlign="TextAlign.Center" FormatString="{0:d}" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="CreatedAt" Title="Time Created" Width="150px"
-                                      TextAlign="TextAlign.Center" />
-            </Columns>
-        </RadzenDataGrid>
-    </RadzenFieldset>
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="Matter" Title="FM/Non-FM" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorLocation" Title="Error Location" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorCode" Title="Error Code" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorType" Title="Error Type" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorSubtype" Title="Error Subtype" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorCategory" Title="Error Category" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="IntroducedOrMissed" Title="Introduced/Missed" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="Department" Title="Department" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="EmployeeName" Title="Employee Name" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="RootCause" Title="Root Cause" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="CorrectiveAction" Title="Corrective Action" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="NatureOfCA" Title="Nature of CA" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="OwnerOfCA" Title="Owner of CA" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="PreventiveMeasure" Title="Preventive Measure" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="NatureOfPM" Title="Nature of PM" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="StatusOfCA" Title="Status of CA" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="StatusOfPM" Title="Status of PM" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="CopyEditingLevel" Title="Copy Editing Level" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="TargetDateOfCompletionCA" Title="Target Date of Completion CA"
+                                          Width="150px" TextAlign="TextAlign.Center" FormatString="{0:d}" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="TargetDateOfCompletionPM" Title="Target Date of Completion PM"
+                                          Width="150px" TextAlign="TextAlign.Center" FormatString="{0:d}" />
+                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="CreatedAt" Title="Time Created" Width="150px"
+                                          TextAlign="TextAlign.Center" />
+                </Columns>
+            </RadzenDataGrid>
+        </RadzenFieldset>
+    </div>
+}
+
+<div Class="rz-p-0 rz-p-md-12">
+    <RadzenChart>
+        <RadzenColumnSeries Data="@revenue" CategoryProperty="Quarter" ValueProperty="Revenue" />
+    </RadzenChart>
 </div>
-@* } *@
 
 
 @code {
     private List<NTDataHiveFrontend.Model.PreEditingErrorFeedback> preEditList = new List<Model.PreEditingErrorFeedback>();
 
+    private NTDataHiveFrontend.Model.PreEditingErrorFeedback[] preEditArray;
+
+    class DataItem
+    {
+        public string Quarter { get; set; }
+        public double Revenue { get; set; }
+    }
+
+    List<DataItem> revenue = new List<DataItem>
+    {
+      new DataItem { Quarter = "Q1", Revenue = 234000 },
+      new DataItem { Quarter = "Q2", Revenue = 284000 },
+      new DataItem { Quarter = "Q3", Revenue = 274000 },
+      new DataItem { Quarter = "Q4", Revenue = 294000 }
+    };
     
 
     protected override async Task OnInitializedAsync()
     {      
         await base.OnInitializedAsync();
-        StateHasChanged();
+        // StateHasChanged();
         preEditList = await MyBackendService.GetAllPreEditingRecord();
 
         
