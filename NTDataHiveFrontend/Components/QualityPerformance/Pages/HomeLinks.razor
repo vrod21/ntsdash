@@ -3,49 +3,28 @@
 <RadzenRow class="rz-text-align-center" Gap="10px">
     <RadzenColumn>
         
-
+        <div class="shadows rz-background-color-success-darker rz-p-12 rz-shadow-5 rz-border-radius-3">
+            <h1>Clickable Data</h1>
+            
+        </div>
         
         
     </RadzenColumn>
     <RadzenColumn>
+        <div class="shadows rz-background-color-danger-darker rz-p-12 rz-shadow-5 rz-border-radius-3">
+           
+            <h1>Interactive Input Pages</h1>
 
+        </div>
     </RadzenColumn>
     <RadzenColumn>
-
+        <div class="shadows rz-background-color-primary-lighter rz-p-12 rz-shadow-5 rz-border-radius-3">
+            
+            <h1>Performance Dashboard</h1>
+            
+        </div>
     </RadzenColumn>
-
-    <RadzenRow class="rz-text-align-center" Gap="1rem">
-        <RadzenColumn class="rz-p-5">
-            <div class="rz-shadow-5 rz-p-3 rz-border-radius-3">
-                <div Class="rz-p-0 rz-p-md-5">
-                    <RadzenChart>
-                        <RadzenColumnSeries Data="@revenue" CategoryProperty="Quarter" ValueProperty="Revenue" />
-                    </RadzenChart>
-                </div>
-
-            </div>
-        </RadzenColumn>
-        <RadzenColumn class="rz-p-5">
-            <div class="rz-p-12 rz-shadow-5 rz-border-radius-3">
-
-                <h1>Interactive Input Pages</h1>
-
-            </div>
-            <div class="rz-p-12 rz-shadow-5 rz-border-radius-3 rz-mt-10">
-
-                <h1>Performance Dashboard</h1>
-
-            </div>
-        </RadzenColumn>
-        <RadzenColumn class="rz-p-5">
-            <div class="rz-p-12 rz-shadow-5 rz-border-radius-3">
-
-                <h1>Performance Dashboard</h1>
-
-            </div>
-        </RadzenColumn>
-    </RadzenRow>
-@*     <RadzenColumn>
+    <RadzenColumn>
 
         <div class="shadows rz-background-color-series-5 rz-p-12 rz-shadow-5 rz-border-radius-3">            
             <h1>Performance Checkbox</h1>            
@@ -72,7 +51,7 @@
             <h1>NTDataHive!</h1>
             <h4>Quality Performance Score Cards</h4>
         </div>
-    </RadzenColumn> *@
+    </RadzenColumn>
     <RadzenColumn>
         <div >
             <EmployeeList />
@@ -81,19 +60,3 @@
 
 </RadzenRow>
 
-@code {
-    class DataItem
-    {
-        public string Quarter { get; set; }
-        public double Revenue { get; set; }
-    }
-
-    List<DataItem> revenue = new List<DataItem>
-    {
-      new DataItem { Quarter = "Q1", Revenue = 234000 },
-      new DataItem { Quarter = "Q2", Revenue = 284000 },
-      new DataItem { Quarter = "Q3", Revenue = 274000 },
-      new DataItem { Quarter = "Q4", Revenue = 294000 }
-    };
-
-}

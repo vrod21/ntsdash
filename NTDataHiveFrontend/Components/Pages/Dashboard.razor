@@ -2,8 +2,12 @@
 
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
-@rendermode InteractiveServer
+@* @rendermode InteractiveServer *@
 
 <PageTitle>Home</PageTitle>
+
+<NTDataHiveFrontend.Components.QualityPerformance.Layout.LayoutJumbotron />
+
+<NTDataHiveFrontend.Components.QualityPerformance.Pages.DashboardLinks />
 
 <NTDataHiveFrontend.Components.QualityPerformance.Pages.HomeLinks />
