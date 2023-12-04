@@ -28,13 +28,13 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
         #endregion
 
         #region SaveRuleRecord
-        public void SaveRuleRecord(RecordContents.EmployeeFilter empRecord)
+        public void SaveEmployeeRecord(RecordContents.EmployeeFilter empRecord)
         {
             if (_employeeRecordCache.ContainsKey(empRecord.Webid))
             {
                 _employeeRecordCache.TryRemove(empRecord.Webid, out RecordContents.EmployeeFilter empFilter);
                 if (!_employeeRecordCache.TryAdd(empRecord.Webid, empFilter))
-                    throw new Exception($"Rule Record couldn't add to the rules: {empRecord.Webid}");
+                    throw new Exception($"Employee Record couldn't add to the employee: {empRecord.Webid}");
                 _nlog.Trace("Webid {0} Update is Cache", empRecord.Webid);
             }
             else

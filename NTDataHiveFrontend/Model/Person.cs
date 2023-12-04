@@ -1,10 +1,7 @@
-﻿using System.Text.Json;
-
-namespace NTDataHiveGrpcService.DAL.Model
+﻿namespace NTDataHiveFrontend.Model
 {
     public class Person
     {
-        public int Id { get; set; }
         public string WebId { get; set; }
         public string Username { get; set; }
         public string EmailAddress { get; set; }

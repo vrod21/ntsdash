@@ -1,13 +1,14 @@
 ﻿@page "/"
 
 @using Microsoft.AspNetCore.Authorization
+@using NTDataHiveFrontend.Components.Home
+@using NTDataHiveFrontend.Components.QualityPerformance.Pages
 @attribute [Authorize]
-@rendermode InteractiveServer
 
 <PageTitle>Home Page</PageTitle>
 
-<NTDataHiveFrontend.Components.QualityPerformance.Pages.HomeJumbotron />
+<HomeJumbotron @rendermode="InteractiveServer" />
 
-<NTDataHiveFrontend.Components.QualityPerformance.Pages.EmployeeList />
+<EmployeeList @rendermode="InteractiveServer" />
 
 

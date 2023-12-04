@@ -36,6 +36,14 @@
                     </div>
                     <label for="email" class="form-label">Email</label>
                 </div>
+
+                <div class="form-floating mb-3 input-group">
+                    <input type="text" value="@userId" class="form-control" placeholder="Please enter your UserId." disabled />
+                    <div class="input-group-append">
+                        <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+                    </div>
+                    <label for="userid" class="form-label">User Id</label>
+                </div>
             }
             else
             {
@@ -59,6 +67,7 @@
     private string? message;
     private ApplicationUser user = default!;
     private string? email;
+    private string? userId;
     private bool isEmailConfirmed;
 
     [CascadingParameter]
@@ -71,6 +80,7 @@
     {
         user = await UserAccessor.GetRequiredUserAsync(HttpContext);
         email = await UserManager.GetEmailAsync(user);
+        userId = await UserManager.GetUserIdAsync(user);
         isEmailConfirmed = await UserManager.IsEmailConfirmedAsync(user);
 
         Input.NewEmail ??= email;

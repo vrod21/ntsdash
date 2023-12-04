@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "NTDataHiveGrpcService";
+
+import "google/protobuf/timestamp.proto";
+import "Protos/status.proto";
+
+package Person;
+
+service PersonBackend {
+	rpc SavePersonNotExist (PersonNotExistRequest) returns (google.rpc.Status);
+}
+
+message PersonNotExistRequest {
+	string webId = 1;
+    string username = 2;
+    string emailAddress = 3;
+
+    google.rpc.Status status = 99;
+}
+
+

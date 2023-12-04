@@ -18,6 +18,8 @@ builder.Services.AddScoped<IPreEditingFeedbackRecordPersistence, PreEditingFeedb
 builder.Services.AddScoped<IPreEditingFeedbackRecordRepository, PreEditingFeedbackRecordRepository>();
 builder.Services.AddScoped<IRevisionFeedbackRecordPersistence, RevisionFeedbackRecordPersistence>();
 builder.Services.AddScoped<IRevisionFeedbackRecordRepository, RevisionFeedbackRecordRepository>();
+builder.Services.AddScoped<IPersonRecordPersistence, PersonRecordPersistence>();
+builder.Services.AddScoped<IPersonRecordRepository, PersonRecordRepository>();
 
 builder.Services.AddDbContext<NTDataHiveContext>(options =>
 {
@@ -41,6 +43,7 @@ app.MapGrpcService<GreeterService>();
 app.MapGrpcService<EmployeeService>();
 app.MapGrpcService<PreEditingFeedbackService>();
 app.MapGrpcService<RevisionFeedbackService>();
+app.MapGrpcService<PersonService>();
 
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 

@@ -8,6 +8,8 @@
 @using Microsoft.AspNetCore.WebUtilities
 @using NTDataHiveFrontend.Data
 
+@attribute [Authorize]
+@inject NTDataHiveFrontend.ServiceAccess.PersonNotExistBackendService MyBackendService
 @inject UserManager<ApplicationUser> UserManager
 @inject IUserStore<ApplicationUser> UserStore
 @inject SignInManager<ApplicationUser> SignInManager
@@ -15,7 +17,7 @@
 @inject ILogger<Register> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
-@attribute [Authorize]
+
 
 <PageTitle>Register</PageTitle>
 
@@ -65,13 +67,12 @@
 
 @code {
     private IEnumerable<IdentityError>? identityErrors;
-
+    private NTDataHiveFrontend.Model.Person addPerson = new Model.Person();
+    private ApplicationUser user = default;
     [SupplyParameterFromForm]
     private InputModel Input { get; set; } = new();
-
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
-
     private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
 
     public async Task RegisterUser(EditContext editContext)
@@ -79,6 +80,9 @@
         var user = CreateUser();
 
         user.User = Input.User;
+        addPerson.Username = Input.User;
+        addPerson.WebId = user.Id;
+        addPerson.EmailAddress = Input.Email;
 
         await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
         var emailStore = GetEmailStore();
@@ -93,6 +97,8 @@
 
         Logger.LogInformation("User created a new account with password.");
 
+        
+        await MyBackendService.SavePerson(addPerson);
         var userId = await UserManager.GetUserIdAsync(user);
         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -113,7 +119,7 @@
         RedirectManager.RedirectTo(ReturnUrl);
     }
 
-    private ApplicationUser CreateUser()
+    protected ApplicationUser CreateUser()
     {
         try
         {

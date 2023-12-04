@@ -17,15 +17,15 @@
 
 <div class="container">
     <RadzenFieldset class="row" Style="border:none; float:none;">
-        <RadzenDataGrid Style="border:none;" Data="@empList" TItem="NTDataHiveFrontend.Model.Employee" AllowFiltering="true" AllowColumnResize="true"
-                        AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="3" AllowPaging="true"
+        <RadzenDataGrid Style="border:none;" Data="@empList" TItem="NTDataHiveFrontend.Model.Employee" AllowFiltering="false" AllowColumnResize="false"
+                        AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="false" PageSize="3" AllowPaging="true"
                         PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
                         ColumnWidth="500px" LogicalFilterOperator="LogicalFilterOperator.Or">
             <Columns>
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="FirstName" Title="First Name" Width="150px"
-                                      TextAlign="TextAlign.Center" Frozen="true" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="WebId" Title="Process Identification" Width="250px" Filterable="false" Frozen="true" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="LastName" Title="Last Name" Width="150px" Filterable="true" />
+                                      TextAlign="TextAlign.Center" Frozen="false" />
+                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="WebId" Title="Process Identification" Width="250px" Filterable="false" Frozen="false" />
+                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="LastName" Title="Last Name" Width="150px" />
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="PublisherIdentity" Title="Publisher Identity" Width="150px" />
                 <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Employee" Property="Created_at" Title="Time Created" Width="150px" FormatString="{0:d}" />
                 <RadzenDataGridColumn Width="160px" TItem="NTDataHiveFrontend.Model.Employee" Property="WebId" Title="Clickable Details">

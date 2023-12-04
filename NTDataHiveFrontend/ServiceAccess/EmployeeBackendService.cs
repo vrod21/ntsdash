@@ -40,14 +40,14 @@ namespace NTDataHiveFrontend.ServiceAccess
         }
 
         #region GetAll
-        public async Task<List<NTDataHiveFrontend.Model.Employee>> GetAllEmployee()
+        public async Task<List<Model.Employee>> GetAllEmployee()
         {
             if (_client == null)
                 Connect();
 
             NTDataHiveGrpcService.EmployeeArray employeeList = await _client.GetAllAsync(new NTDataHiveGrpcService.EmployeeEmpty());
 
-            List<NTDataHiveFrontend.Model.Employee> employees = new List<Model.Employee>();
+            List<Model.Employee> employees = new List<Model.Employee>();
 
             foreach (var employeeRecord in employeeList.Items)
             {
@@ -58,7 +58,7 @@ namespace NTDataHiveFrontend.ServiceAccess
         #endregion
 
         #region SaveEmployee
-        public async Task<Google.Rpc.Status> SaveEmployee(NTDataHiveFrontend.Model.Employee empRecord)
+        public async Task<Google.Rpc.Status> SaveEmployee(Model.Employee empRecord)
         {
             if (_client == null)
                 Connect();
@@ -81,7 +81,7 @@ namespace NTDataHiveFrontend.ServiceAccess
 
 
         #region ToGrpcFormat
-        public NTDataHiveGrpcService.EmployeeRecordRequest ToGrpcFromat(NTDataHiveFrontend.Model.Employee empRecord)
+        public NTDataHiveGrpcService.EmployeeRecordRequest ToGrpcFromat(Model.Employee empRecord)
         {
             var GrpcStudentRecord = new NTDataHiveGrpcService.EmployeeRecordRequest()
             {
@@ -96,9 +96,9 @@ namespace NTDataHiveFrontend.ServiceAccess
         #endregion
 
         #region ToFrontendFormat
-        public NTDataHiveFrontend.Model.Employee ToFrontendFormat(NTDataHiveGrpcService.EmployeeRecordRequest employeeRequest)
+        public Model.Employee ToFrontendFormat(NTDataHiveGrpcService.EmployeeRecordRequest employeeRequest)
         {
-            NTDataHiveFrontend.Model.Employee frontendStudentRecord = new NTDataHiveFrontend.Model.Employee()
+            Model.Employee frontendStudentRecord = new Model.Employee()
             {
 
                 WebId = employeeRequest.WebId,

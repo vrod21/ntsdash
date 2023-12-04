@@ -1,6 +1,4 @@
-﻿
-
-@inject IConfiguration Configuration
+﻿@inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
 @inject DialogService DialogService
 
@@ -27,7 +25,7 @@
                     "This dashboard is updated in real-time, so you can be confident that you’re
                     always looking at the most up-to-date information. We hope you find this dashboard useful and informative!”
                 </p>
-                <RadzenButton Style="background-color: #e81f4b;" Click="@ToDashboard" Text="Dashboard" />
+                <RadzenButton Style="background-color: #e81f4b;" Click="@(()=>MyNavigation.NavigateTo("/dashboard"))" Text="Go To Dashboard" />
             </div>
         </RadzenColumn>
     </RadzenRow>
@@ -71,11 +69,3 @@
 
     </div> *@
 </div>
-
-@code {
-
-    private void ToDashboard()
-    {
-        MyNavigation.NavigateTo("/dashboard");
-    }
-}

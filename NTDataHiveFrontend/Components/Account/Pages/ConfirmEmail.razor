@@ -6,9 +6,9 @@
 @using Microsoft.AspNetCore.WebUtilities
 @using NTDataHiveFrontend.Data
 
+@attribute [Authorize]
 @inject UserManager<ApplicationUser> UserManager
 @inject IdentityRedirectManager RedirectManager
-@attribute [Authorize]
 
 <PageTitle>Confirm Account</PageTitle>
 

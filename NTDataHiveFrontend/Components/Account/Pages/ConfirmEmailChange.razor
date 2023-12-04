@@ -6,10 +6,11 @@
 @using Microsoft.AspNetCore.WebUtilities
 @using NTDataHiveFrontend.Data
 
+@attribute [Authorize]
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityRedirectManager RedirectManager
-@attribute [Authorize]
+
 
 <PageTitle>Confirm email change</PageTitle>
 

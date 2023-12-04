@@ -1,12 +1,11 @@
 ﻿@page "/pre-editing-feedback"
 
 @using Microsoft.AspNetCore.Authorization
-@rendermode InteractiveServer
 @attribute [Authorize]
+@rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
-
 
 <PageTitle>Pre-Editing Feedback</PageTitle>
 
@@ -277,8 +276,8 @@ else
                                 <RadzenLabel Text="Time Created" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="addPreEditFeedback.CreatedAt" YearRange="@("2023:" + @DateTime.Now.Year.ToString())" 
-                                    DateFormat="MM/dd/yyyy h:mm:ss tt" Placeholder="@($"{@DateTime.Now.ToLocalTime()}")" />
+                                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="addPreEditFeedback.CreatedAt" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
+                                                  DateFormat="MM/dd/yyyy h:mm:ss tt" Placeholder="@($"{@DateTime.Now.ToLocalTime()}")" Change="@(args => PickDateOfTime())" />
                             </div>
                         </div>
                     </RadzenFieldset>
@@ -288,14 +287,12 @@ else
     </EditForm>
 }
 
-
-
 @code {
     private NTDataHiveFrontend.Model.PreEditingErrorFeedback addPreEditFeedback = new Model.PreEditingErrorFeedback();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        await base.OnInitializedAsync();
     }
 
     private async Task Save()
@@ -303,5 +300,12 @@ else
         await MyBackendService.SavePreEditFeedback(addPreEditFeedback);
 
         MyNavigation.NavigateTo("/pre-editing-performance");
+    }
+
+    private void PickDateOfTime()
+    {
+        var value = DateTime.Now;
+        addPreEditFeedback.CreatedAt = value;
+        StateHasChanged();
     }
 }

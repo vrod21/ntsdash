@@ -1,12 +1,8 @@
-﻿@page "/pre-editing-performance"
-
-@using Microsoft.AspNetCore.Authorization
+﻿@using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
-@rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
-
 
 <PageTitle>Pre-Edtors Performance</PageTitle>
 
@@ -16,12 +12,8 @@
 }
 else
 {
-
-
-
-
     <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" Data="@preEditList"
-                    TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback">
+                    TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" >
         <Template Context="data">
             <RadzenCard class="rz-p-12" Style="margin-bottom:20px">
                 Description of Error :               

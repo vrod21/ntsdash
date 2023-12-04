@@ -26,13 +26,13 @@
         public string CorrectiveAction { get; set; }
         public string NatureOfCA { get; set; }
         public string OwnerOfCA { get; set; }
-        public DateTime? TargetDateOfCompletionCA { get; set; } = DateTime.Now;
+        public DateTime? TargetDateOfCompletionCA { get; set; }
         public string PreventiveMeasure { get; set; }
         public string NatureOfPM { get; set; }
-        public DateTime? TargetDateOfCompletionPM { get; set; } = DateTime.Now;
+        public DateTime? TargetDateOfCompletionPM { get; set; }
         public string StatusOfCA { get; set; }
         public string StatusOfPM { get; set; }
         public string CopyEditingLevel { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? CreatedAt { get; set; }
     }
 }

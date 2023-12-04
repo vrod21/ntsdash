@@ -9,9 +9,9 @@ namespace NTDataHiveGrpcService.Services
     public class EmployeeService : EmployeeBackend.EmployeeBackendBase
     {
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
-        private readonly NTDataHiveGrpcService.BLL.RecordInterfaces.IEmployeeRecordRepository _employeeRecordRepository;
+        private readonly BLL.RecordInterfaces.IEmployeeRecordRepository _employeeRecordRepository;
 
-        public EmployeeService(NTDataHiveGrpcService.BLL.RecordInterfaces.IEmployeeRecordRepository employeeRecordRepository)
+        public EmployeeService(BLL.RecordInterfaces.IEmployeeRecordRepository employeeRecordRepository)
         {
             _employeeRecordRepository = employeeRecordRepository;
 
@@ -23,14 +23,14 @@ namespace NTDataHiveGrpcService.Services
         {
             try
             {
-                var record = new NTDataHiveGrpcService.EmployeeArray();
+                var record = new EmployeeArray();
                 record.Status = new Google.Rpc.Status { Code = 0, Message = "Rule is queryable." };
 
                 var list = _employeeRecordRepository.GetAllRecord();
 
                 foreach (var item in list)
                 {
-                    record.Items.Add(new NTDataHiveGrpcService.EmployeeRecordRequest
+                    record.Items.Add(new EmployeeRecordRequest
                     {
                         Id = item.Id,
                         WebId = item.WebId,
@@ -46,7 +46,7 @@ namespace NTDataHiveGrpcService.Services
             catch (Exception ex)
             {
                 _nlog.Fatal(ex);
-                return Task.FromResult(new NTDataHiveGrpcService.EmployeeArray { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
+                return Task.FromResult(new EmployeeArray { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
             }
         }
         #endregion
@@ -60,7 +60,7 @@ namespace NTDataHiveGrpcService.Services
 
                 var studentRecord = new BLL.RecordContents.EmployeeFilter(request);
 
-                _employeeRecordRepository.SaveRuleRecord(studentRecord);
+                _employeeRecordRepository.SaveEmployeeRecord(studentRecord);
 
                 return Task.FromResult(new Google.Rpc.Status { Code = 0 });
             }
