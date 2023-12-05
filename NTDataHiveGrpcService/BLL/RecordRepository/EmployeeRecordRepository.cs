@@ -43,9 +43,7 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
                     _nlog.Trace($"Webid {empRecord.Webid} Added in Cache");
                 else
                     _nlog.Warn($"Webid {empRecord.Webid} 2nd try to Add");
-
             }
-
             _employeeRecordPersistence.Save(empRecord);
             _nlog.Trace($"Webid {empRecord.Webid} Saved in gap");
         }

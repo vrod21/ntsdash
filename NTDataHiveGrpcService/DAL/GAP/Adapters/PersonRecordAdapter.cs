@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NLog;
+using NTDataHiveGrpcService.BLL.RecordContents;
 using NTDataHiveGrpcService.DAL.Data;
+using NTDataHiveGrpcService.DAL.Model;
 
 namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 {
@@ -45,6 +47,32 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
+        #region GetAllPersonRecord
+        internal List<PersonRecordComparable> GetAllPersonRecord()
+        {
+            List<PersonRecordComparable> personRecord = new List<PersonRecordComparable>();
+            try
+            {
+                using var dbContext = new NTDataHiveContext(_contextOptions);
+                var record = from person in dbContext.Persons
+                          orderby person.FirstName
+                          select CreateBNewBllPerson(person);
+
+                if (record != null)
+                {
+                    return record.ToList();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal($"{ex.Message}");
+            }
+
+            return personRecord;
+        }
+        #endregion
+
         #region GetPersonByWebId
         internal int GetPersonByWebId(string webid)
         {
@@ -68,5 +96,16 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
+        #region CreateNewBllPerson
+        private static PersonRecordComparable CreateBNewBllPerson(Person person)
+        {
+            return new PersonRecordComparable()
+            {
+                WebId = person.WebId,
+                Username = person.Username,
+                EmailAddress = person.EmailAddress,
+            };
+        }
+        #endregion
     }
 }

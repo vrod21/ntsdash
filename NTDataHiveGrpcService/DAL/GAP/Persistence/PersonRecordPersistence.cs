@@ -31,5 +31,18 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
             return true;
         }
         #endregion
+
+        #region GetAllPerson
+        public List<BLL.RecordContents.PersonRecordComparable> GetAllPerson()
+        {
+            List<BLL.RecordContents.PersonRecordComparable> selectPerson = new PersonRecordAdapter(_config).GetAllPersonRecord();
+
+            if (selectPerson.Count() >= 1)
+            {
+                return selectPerson;
+            }
+            throw new Exception("There is no value");
+        }
+        #endregion
     }
 }

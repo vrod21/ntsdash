@@ -101,6 +101,40 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
+        #region SelectPreEditFeedbackPart
+        //internal bool SelectPreEditFeedbackPart(NTDataHiveGrpcService.PreEditingFeedbackRecordRequest recordRequest)
+        //{
+        //    try
+        //    {
+        //        using var dbContext = new NTDataHiveContext(_contextOptions);
+
+        //        var feedbackRecord = (from preEdit in dbContext.PreEditing
+        //                       where preEdit.WebId == recordRequest.WebId
+        //                       select preEdit).ToList();
+
+        //        if (feedbackRecord.Count == 0)
+        //        {
+        //            _nlog.Error("No data found");
+        //            return false;
+        //        }
+        //        else if (feedbackRecord.Count == 1)
+        //        {
+        //            var feedbackList = feedbackRecord[0];
+        //            recordRequest.
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _nlog.Fatal(ex); 
+        //        return false;
+        //    }
+        //}
+        #endregion
+
+
+
+
         #region GetPreEditingFeedbackByWebId
         internal int GetFeedbackByWebId(string webid)
         {

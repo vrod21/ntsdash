@@ -9,12 +9,23 @@ package Person;
 
 service PersonBackend {
 	rpc SavePersonNotExist (PersonNotExistRequest) returns (google.rpc.Status);
+
+    rpc GetAll (PersonEmpty) returns (PersonNotExistArray);
+}
+message PersonEmpty {
+    
 }
 
 message PersonNotExistRequest {
 	string webId = 1;
     string username = 2;
     string emailAddress = 3;
+
+    google.rpc.Status status = 99;
+}
+
+message PersonNotExistArray {
+    repeated PersonNotExistRequest items = 1;
 
     google.rpc.Status status = 99;
 }

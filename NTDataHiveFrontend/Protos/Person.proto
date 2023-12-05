@@ -9,6 +9,11 @@ package Person;
 
 service PersonBackend {
 	rpc SavePersonNotExist (PersonNotExistRequest) returns (google.rpc.Status);
+
+    rpc GetAll (PersonEmpty) returns (PersonNotExistArray);
+}
+message PersonEmpty {
+    
 }
 
 message PersonNotExistRequest {
@@ -19,4 +24,18 @@ message PersonNotExistRequest {
     google.rpc.Status status = 99;
 }
 
+message PersonNotExistArray {
+    repeated PersonNotExistRequest items = 1;
 
+    google.rpc.Status status = 99;
+}
+
+message PersonExistRequest {
+	string firstName = 1;
+    string lastName = 2;    
+    string position = 3;
+    string companyId = 4;
+    google.protobuf.Timestamp birthday = 5;
+
+    google.rpc.Status status = 99;
+}

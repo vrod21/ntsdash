@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+
 @attribute [Authorize]
 @inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
 @inject IConfiguration Configuration
@@ -155,9 +156,7 @@ else
     {      
         await base.OnInitializedAsync();
         // StateHasChanged();
-        preEditList = await MyBackendService.GetAllPreEditingRecord();
-
-        
+        preEditList = await MyBackendService.GetAllPreEditingRecord();     
 
         
     }

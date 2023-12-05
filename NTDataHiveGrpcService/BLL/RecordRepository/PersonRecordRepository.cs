@@ -1,5 +1,6 @@
 ﻿using NLog;
 using NTDataHiveGrpcService.BLL.RecordInterfaces;
+using NTDataHiveGrpcService.DAL.GAP.Persistence;
 using NTDataHiveGrpcService.DAL.GAP.PersistenceInterfaces;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -37,6 +38,17 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
 
             _recordPersistence.Save(personRecord);
             _nlog.Trace($"Webid {personRecord.Webid} Saved in gap");
+        }
+        #endregion
+
+        #region GetAllRecord
+        public List<RecordContents.PersonRecordComparable> GetAllRecord()
+        {
+            List<RecordContents.PersonRecordComparable> personList = _recordPersistence.GetAllPerson();
+
+            _nlog.Trace("Employee are order by name");
+
+            return personList;
         }
         #endregion
     }

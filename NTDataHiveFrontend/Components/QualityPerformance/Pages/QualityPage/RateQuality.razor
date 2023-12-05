@@ -1,6 +1,4 @@
-﻿@page "/quality-details"
-
-@using Microsoft.AspNetCore.Authorization
+﻿@using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
 @inject IConfiguration Configuration
@@ -10,7 +8,7 @@
 
 <h3>QualityDetailsPage</h3>
 
-<RadzenRow class="rz-text-align-center rz-border-info-light" Gap="1rem">
+@* <RadzenRow class="rz-text-align-center rz-border-info-light" Gap="1rem">
     <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
         <RadzenCard class="rz-my-12 rz-mx-auto" Style="max-width: 420px">
 
@@ -40,7 +38,7 @@
     <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
         Auto
     </RadzenColumn>
-</RadzenRow>
+</RadzenRow> *@
 
 @code {
     private List<NTDataHiveFrontend.Model.Employee> empList = new List<Model.Employee>();
