@@ -1,20 +1,34 @@
-﻿<RadzenRow class="rz-text-align-center rz-border-info-light" Gap="1rem">
-    <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
+﻿@using NTDataHiveFrontend.Components.QualityPerformance.Layout
+@using NTDataHiveFrontend.Components.Home
+
+@inject NavigationManager MyNavigation
+
+<LayoutJumbotron />
+
+<RadzenRow class="rz-text-align-center" Gap="1rem">
+    <RadzenColumn class="rz-p-5" Size="4">
         <div class="rz-shadow-5 rz-p-3 rz-border-radius-3">
             <div Class="rz-p-0 rz-p-md-5">
-                <RadzenChart>
+                <h4>Over All Accuracy</h4>
+                <RadzenChart Style="height:200px;">
                     <RadzenColumnSeries Data="@revenue" CategoryProperty="Quarter" ValueProperty="Revenue" />
                 </RadzenChart>
             </div>
         </div>
     </RadzenColumn>
-    <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
-        Auto
+    <RadzenColumn class="rz-p-5">
+        <div class="shadows rz-p-12 rz-shadow-5 rz-border-radius-3">
+
+            <h1>Specific Details Page</h1>
+
+        </div>
     </RadzenColumn>
-    <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
-        <RadzenButton Style="background-color: #e81f4b" Text="Create FeedBack" />
+    <RadzenColumn class="rz-p-5">
+        <RadzenButton Style="background-color: #e81f4b" Text="Create FeedBack" Click="@(()=>MyNavigation.NavigateTo("/pre-editing-feedback"))" />
     </RadzenColumn>
 </RadzenRow>
+
+<HomeLinks />
 
 @code {
     class DataItem
@@ -31,3 +45,6 @@
       new DataItem { Quarter = "Q4", Revenue = 294000 }
     };
 }
+
+
+

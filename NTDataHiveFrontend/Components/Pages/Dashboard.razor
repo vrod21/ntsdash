@@ -2,15 +2,9 @@
 
 @using Microsoft.AspNetCore.Authorization
 @using NTDataHiveFrontend.Components.Dashboard
-@using NTDataHiveFrontend.Components.QualityPerformance.Pages
-@using NTDataHiveFrontend.Components.Home
+
 @attribute [Authorize]
 
 <PageTitle>Home</PageTitle>
 
-<NTDataHiveFrontend.Components.QualityPerformance.Layout.LayoutJumbotron />
-
-@* <DashboardLinks /> *@
-
-<HomeLinks @rendermode="InteractiveServer" />
-
+<DashboardLinks @rendermode="InteractiveServer" />

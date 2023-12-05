@@ -12,12 +12,12 @@
 <RadzenDialog />
 
 
-<h1 style="text-align:center">List Of Person</h1>
+@* <h1 style="text-align:center">List Of Person</h1> *@
 
 <div class="container">
     <RadzenFieldset class="row" Style="border:none; float:none;">
         <RadzenDataGrid Style="border:none;" Data="@empList" TItem="NTDataHiveFrontend.Model.Employee" AllowFiltering="false" AllowColumnResize="false"
-                        AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="false" PageSize="3" AllowPaging="true"
+                        AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="false" PageSize="5" AllowPaging="true"
                         PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
                         ColumnWidth="500px" LogicalFilterOperator="LogicalFilterOperator.Or">
             <Columns>

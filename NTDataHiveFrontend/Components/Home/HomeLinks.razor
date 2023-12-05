@@ -47,11 +47,17 @@
             <h4>Quality Performance Score Cards</h4>
         </div>
     </RadzenColumn> *@
-    <RadzenColumn>
-        <div >
-            <NTDataHiveFrontend.Components.QualityPerformance.Pages.EmployeeList />
-        </div>
-    </RadzenColumn>
+
 
 </RadzenRow>
-
+<RadzenRow class="rz-text-align-center rz-border-info-light" Gap="1rem">
+    <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-12">
+        @* Auto *@
+    </RadzenColumn>
+    <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-12">
+        <NTDataHiveFrontend.Components.QualityPerformance.Pages.EmployeeList />
+    </RadzenColumn>
+    <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-12">
+        @* <RadzenButton Style="background-color: #e81f4b" Text="Create FeedBack" /> *@
+    </RadzenColumn>
+</RadzenRow>
