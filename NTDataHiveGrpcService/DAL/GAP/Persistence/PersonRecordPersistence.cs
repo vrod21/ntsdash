@@ -18,9 +18,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         public bool Save(BLL.RecordContents.PersonFilter personRecord)
         {
             var createRecord = new PersonRecordAdapter(_config);
-            int empId = createRecord.GetPersonByWebId(personRecord.personNotExistRequest.WebId);
+            int personId = createRecord.GetPersonByWebId(personRecord.personNotExistRequest.WebId);
 
-            if (empId == 0)
+            if (personId == 0)
             {
                 createRecord.InserPerson(personRecord.personNotExistRequest);
             }

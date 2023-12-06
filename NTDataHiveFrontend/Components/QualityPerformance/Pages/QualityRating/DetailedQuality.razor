@@ -1,4 +1,4 @@
-﻿@page "/productivity-details"
+﻿@page "/quality-details"
 
 @using Microsoft.AspNetCore.Authorization
 
@@ -14,12 +14,12 @@
 <NTDataHiveFrontend.Components.QualityPerformance.Layout.LayoutJumbotron />
 @* <h3 style="text-align:center;">Performance Dashboard</h3> *@
 
-<RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" Data="@preEditList"
-                TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback">
+<RadzenDataGrid Style="border:none;" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="true" FilterMode="FilterMode.Advanced"
+                AllowPaging="true" PageSize="7" AllowSorting="true" Data="@preEditList" PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true"
+                TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" class="rz-p-12">
     <Template Context="data">
         <RadzenCard class="rz-p-12" Style="margin-bottom:20px">
             Description of Error :
-
             <div class="rz-text-align-center rz-p-12 rz-shadow-7 rz-border-radius-3">
                 <p class="lead" style="text-align:center; white-space:pre-line;">
                     @data.DescriptionOfError
@@ -29,9 +29,9 @@
     </Template>
     <Columns>
         <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="SupplierName" Title="Suppler Name"
-                              Width="140px" />
+                              Width="140px" Frozen="true" />
         <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="QualityAssurance" Title="Quality Assurance"
-                              Width="140px" />
+                              Width="140px" Frozen="true" />
         <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="PublisherName" Title="Publisher Name"
                               Width="140px" />
         <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="JournalId" Title="Journal ID"
@@ -54,9 +54,5 @@
 
 
     }
-
-}
-
-@code {
 
 }
