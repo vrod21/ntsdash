@@ -51,7 +51,6 @@
 
   <ItemGroup>
     <Folder Include="Components\QualityPerformance\Pages\Manage\" />
-    <Folder Include="Components\QualityPerformance\Shared\" />
   </ItemGroup>
 
 </Project>
