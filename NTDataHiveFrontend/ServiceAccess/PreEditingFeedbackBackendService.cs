@@ -39,26 +39,6 @@ namespace NTDataHiveFrontend.ServiceAccess
             }
         }
 
-        #region GetAll
-        public async Task<List<Model.PreEditingErrorFeedback>> GetAllPreEditingRecord()
-        {
-            if (_client == null)
-                Connect();
-
-            var preEditingList = await _client.GetAllAsync(new NTDataHiveGrpcService.PreEditingFeedbackEmpty());
-
-            List<Model.PreEditingErrorFeedback> preEditing = new List<Model.PreEditingErrorFeedback>();
-
-            foreach (var preEditingRecord in preEditingList.Items)
-            {
-                preEditing.Add(ToFrontendFormat(preEditingRecord));
-            }
-            return preEditing;
-        }
-        #endregion
-
-
-
         #region SavePreEditingFeedback
         public async Task<Google.Rpc.Status> SavePreEditFeedback(Model.PreEditingErrorFeedback preEditRecord)
         {
@@ -80,6 +60,25 @@ namespace NTDataHiveFrontend.ServiceAccess
             }
         }
         #endregion
+
+        #region GetAll
+        public async Task<List<Model.PreEditingErrorFeedback>> GetAllPreEditingRecord()
+        {
+            if (_client == null)
+                Connect();
+
+            var preEditingList = await _client.GetAllAsync(new NTDataHiveGrpcService.PreEditingFeedbackEmpty());
+
+            List<Model.PreEditingErrorFeedback> preEditing = new List<Model.PreEditingErrorFeedback>();
+
+            foreach (var preEditingRecord in preEditingList.Items)
+            {
+                preEditing.Add(ToFrontendFormat(preEditingRecord));
+            }
+            return preEditing;
+        }
+        #endregion
+
 
         #region ToGrpcFormat
         public NTDataHiveGrpcService.PreEditingFeedbackRecordRequest ToGrpcFormat(Model.PreEditingErrorFeedback preEditRecord)

@@ -49,5 +49,36 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
             return selectRevision;
         }
         #endregion
+
+        #region SelectById
+        public bool SelectById(string webid, out BLL.RecordContents.RevisionFeedbackFilter revisionRecord)
+        {
+            if (CreateRevisionRecordByWebId(webid, out BLL.RecordContents.RevisionFeedbackFilter revisionRecordLocal))
+            {
+                revisionRecord = revisionRecordLocal;
+                return true;
+            }
+            else
+            {
+                revisionRecord = new BLL.RecordContents.RevisionFeedbackFilter(webid);
+                return false;
+            }
+        }
+        #endregion
+
+        #region CreateRevisionRecordByWebId
+        private bool CreateRevisionRecordByWebId(string webid, out BLL.RecordContents.RevisionFeedbackFilter revisionRecord) 
+        {
+            revisionRecord = new BLL.RecordContents.RevisionFeedbackFilter(webid);
+
+            var revisionAdapter= new RevisionFeedbackRecordAdapter(_config);
+
+            if (!revisionAdapter.SelectStudentPart(revisionRecord.feedbackRecordRequest))
+                return false;
+
+            return true;
+        }
+
+        #endregion
     }
 }

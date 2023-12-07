@@ -153,11 +153,9 @@ else
     
 
     protected override async Task OnInitializedAsync()
-    {      
+    {
         await base.OnInitializedAsync();
         // StateHasChanged();
-        preEditList = await MyBackendService.GetAllPreEditingRecord();     
-
-        
+        preEditList = await MyBackendService.GetAllPreEditingRecord();        
     }
 }

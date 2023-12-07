@@ -1,0 +1,11 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using NTDataHiveFrontend.Components.QualityPerformance.Pages.Revision
+
+@attribute [Authorize]
+@inject IConfiguration Configuration
+
+@page "/revision-performance"
+
+<h3>Revision_Page</h3>
+
+<PerformanceFeedback @rendermode="InteractiveServer" />

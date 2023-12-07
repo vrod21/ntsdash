@@ -51,5 +51,33 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
             return revisionedList;
         }
         #endregion
+
+        #region GetRecord
+        public bool GetRecord(string WebId, out RecordContents.RevisionFeedbackFilter revisionFilter)
+        {
+            if (WebId == null)
+            {
+                _nlog.Fatal("Attempting to find a Rule Record with WebId == NULL in the repo.");
+                revisionFilter = new RecordContents.RevisionFeedbackFilter(Guid.NewGuid().ToString());
+                return false;
+            }
+
+            if (_feedbackRecordCache.TryGetValue(WebId, out RecordContents.RevisionFeedbackFilter revisionFromCache))
+            {
+                revisionFilter = revisionFromCache;
+                return true;
+            }
+
+            if (_feedbackRecordPersistence.SelectById(WebId, out RecordContents.RevisionFeedbackFilter revisionFromDB))
+            {
+                _feedbackRecordCache.TryAdd(WebId, revisionFromDB);
+                revisionFilter = revisionFromDB;
+                return true;
+            }
+
+            revisionFilter = new RecordContents.RevisionFeedbackFilter(WebId);
+            return false;
+        }
+        #endregion
     }
 }

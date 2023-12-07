@@ -6,5 +6,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.PersistenceInterfaces
     {
         List<RevisionFeedbackRecordComparable> GetAllRevision();
         bool Save(RevisionFeedbackFilter feedbackRecord);
+        bool SelectById(string webid, out RevisionFeedbackFilter revisionRecord);
     }
 }

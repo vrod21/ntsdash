@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Google.Protobuf.WellKnownTypes;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using NTDataHiveGrpcService.BLL.RecordContents;
 using NTDataHiveGrpcService.DAL.Data;
 using NTDataHiveGrpcService.DAL.Model;
+using System;
 
 namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 {
@@ -19,32 +21,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             optionsBuilder.UseSqlServer(config.GetConnectionString("connectionString"));
             _contextOptions = optionsBuilder.Options;
         }
-
-        #region GetAllRevisionErrorRecord
-        internal List<RevisionFeedbackRecordComparable> GetAllRevisionFeedbackRecord()
-        {
-            List<RevisionFeedbackRecordComparable> revisionRecord = new List<RevisionFeedbackRecordComparable>();
-
-            try
-            {
-                using var dbContext = new NTDataHiveContext(_contextOptions);
-                var revisions = from revision in dbContext.Revisions
-                                orderby revision.EmployeeName
-                                select CreateNewBLLRevision(revision);
-
-                if (revisions != null)
-                {
-                    return revisions.ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                _nlog.Fatal($"{ex.Message}");
-            }
-
-            return revisionRecord;
-        }
-        #endregion
 
         #region InsertRevisionErrorFeedback
         internal void Insert(RevisionFeedbackRecordRequest recordRequest)
@@ -86,6 +62,87 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             {
                 _nlog.Fatal(ex);
                 throw;
+            }
+        }
+        #endregion
+
+        #region GetAllRevisionErrorRecord
+        internal List<RevisionFeedbackRecordComparable> GetAllRevisionFeedbackRecord()
+        {
+            List<RevisionFeedbackRecordComparable> revisionRecord = new List<RevisionFeedbackRecordComparable>();
+
+            try
+            {
+                using var dbContext = new NTDataHiveContext(_contextOptions);
+                var revisions = from revision in dbContext.Revisions
+                                orderby revision.EmployeeName
+                                select CreateNewBLLRevision(revision);
+
+                if (revisions != null)
+                {
+                    return revisions.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal($"{ex.Message}");
+            }
+
+            return revisionRecord;
+        }
+        #endregion
+
+        #region SelectRevision
+        internal bool SelectStudentPart(RevisionFeedbackRecordRequest recordRequest)
+        {
+            try
+            {
+                using var dbContext = new NTDataHiveContext(_contextOptions);
+
+                var revisionRecord = (from revision in dbContext.Revisions
+                                     where revision.WebId == recordRequest.WebId
+                                     select revision).ToList();
+
+                if (revisionRecord.Count == 0)
+                {
+                    _nlog.Error($"No data found");
+                    return false;
+                }
+                else if (revisionRecord.Count == 1)
+                {
+                    var revisionList = revisionRecord[0];
+                    recordRequest.SupplierName = revisionList.SupplierName?.Trim() ?? "";
+                    recordRequest.QualityAssurance = revisionList.QualityAssurance?.Trim() ?? "";
+                    recordRequest.PublisherName = revisionList.PublisherName?.Trim() ?? "";
+                    recordRequest.JournalId = revisionList.JournalId?.Trim() ?? "";
+                    recordRequest.ArticleId = revisionList.ArticleId?.Trim() ?? "";
+                    recordRequest.PageCount = revisionList.PageCount;
+                    recordRequest.ErrorCount = revisionList.ErrorCount;
+                    recordRequest.DescriptionOfError = revisionList.DescriptionOfError?.Trim() ?? "";
+                    recordRequest.Matter = revisionList.Matter?.Trim() ?? "";
+                    recordRequest.ErrorLocation = revisionList.ErrorLocation?.Trim() ?? "";
+                    recordRequest.ErrorCode = revisionList.ErrorCode?.Trim() ?? "";
+                    recordRequest.ErrorType = revisionList.ErrorType?.Trim() ?? "";
+                    recordRequest.ErrorSubtype = revisionList.ErrorSubtype?.Trim() ?? "";
+                    recordRequest.ErrorCategory = revisionList.ErrorCategory?.Trim() ?? "";
+                    recordRequest.IntroducedOrMissed = revisionList.IntroducedOrMissed?.Trim() ?? "";
+                    recordRequest.Department = revisionList.Department?.Trim() ?? "";
+                    recordRequest.EmployeeName = revisionList.EmployeeName?.Trim() ?? "";
+                    recordRequest.CopyEditingLevel = revisionList.CopyEditingLevel?.Trim() ?? "";
+                    recordRequest.CreatedAt = revisionList.CreatedAt.ToUniversalTime().ToTimestamp();
+
+                    return true;
+                }
+                else
+                {
+                    _nlog.Error($"Webid {recordRequest.WebId} duplicate rule");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal(ex);
+                return false;
             }
         }
         #endregion

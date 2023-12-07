@@ -1,12 +1,11 @@
-﻿@page "/revision-feedback"
-
-@using Microsoft.AspNetCore.Authorization
+﻿@using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
+@rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.RevisionBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
-
+@page "/revision-feedback"
 
 <PageTitle>Pre-Editing Feedback</PageTitle>
 
@@ -190,7 +189,7 @@ else
                             </div>
                             <div class="col-md-8">
                                 <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="addRevisionFeedback.CreatedAt" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                  DateFormat="MM/dd/yyyy h:mm:ss tt" Placeholder="@($"{@DateTime.Now.ToLocalTime()}")" />
+                                                  DateFormat="MM/dd/yyyy h:mm:ss tt" Placeholder="@($"{@DateTime.Now.ToLocalTime()}")" Change="@(args => PickDateOfTime())" />
                             </div>
                         </div>
                     </RadzenFieldset>
@@ -205,15 +204,17 @@ else
 @code {
     private NTDataHiveFrontend.Model.Revision addRevisionFeedback = new Model.Revision();
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-
     private async Task Save()
     {
         await MyBackendService.SaveRevisionFeedback(addRevisionFeedback);
 
-        MyNavigation.NavigateTo("/pre-editing-performance");
+        MyNavigation.NavigateTo("/revision-performance");
+    }
+
+    private void PickDateOfTime()
+    {
+        var value = DateTime.Now;
+        addRevisionFeedback.CreatedAt = value;
+        StateHasChanged();
     }
 }

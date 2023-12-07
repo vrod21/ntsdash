@@ -9,6 +9,10 @@ package RevisionErrorFeedback;
 
 service RevisionFeedbackBackend {
 	rpc SaveRevisionFeedback (RevisionFeedbackRecordRequest) returns (google.rpc.Status);
+
+    rpc GetAll (RevisionFeedbackEmpty) returns (RevisionFeedbackRecordArray);
+
+    rpc GetRevisionRecord (RevisionRecordFilter) returns (RevisionFeedbackRecordRequest);
 }
 
 message RevisionFeedbackEmpty {

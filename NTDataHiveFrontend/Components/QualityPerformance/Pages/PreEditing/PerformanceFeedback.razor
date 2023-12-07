@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+@inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigation
+
+<PageTitle>Pre-Editors Performance</PageTitle>
+
+@if (preEditList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" Data="@preEditList"
+                    TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback">
+        <Template Context="data">
+            <RadzenCard class="rz-p-12" Style="margin-bottom:20px">
+                Description of Error :
+
+                <div class="rz-text-align-center rz-p-12 rz-shadow-7 rz-border-radius-3">
+                    <p class="lead" style="text-align:center; white-space:pre-line;">
+                        @data.DescriptionOfError
+                    </p>
+                </div>
+            </RadzenCard>
+        </Template>
+        <Columns>
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="SupplierName" Title="Suppler Name"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="QualityAssurance" Title="Quality Assurance"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="PublisherName" Title="Publisher Name"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="JournalId" Title="Journal ID"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ArticleId" Title="Article ID"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="CopyEditedBy" Title="Copy Edited By"
+                                  Width="140px" />
+        </Columns>
+    </RadzenDataGrid>
+}
+
+
+
+@code {
+    private List<NTDataHiveFrontend.Model.PreEditingErrorFeedback> preEditList = new List<Model.PreEditingErrorFeedback>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        preEditList = await MyBackendService.GetAllPreEditingRecord();
+    }
+
+}

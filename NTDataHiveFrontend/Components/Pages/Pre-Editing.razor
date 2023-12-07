@@ -1,11 +1,12 @@
-﻿@using NTDataHiveFrontend.Components.QualityPerformance.Pages
+﻿@using Microsoft.AspNetCore.Authorization
+@using NTDataHiveFrontend.Components.QualityPerformance.Pages.PreEditing
+
+@attribute [Authorize]
+@inject IConfiguration Configuration
 
 @page "/pre-editing-performance"
 
 <h3>Pre_EditingPage</h3>
 
-<PreEditingPerformanceFeedbackPage @rendermode="InteractiveServer" />  
+<PerformanceFeedback @rendermode="InteractiveServer" />
 
-@code {
-
-}

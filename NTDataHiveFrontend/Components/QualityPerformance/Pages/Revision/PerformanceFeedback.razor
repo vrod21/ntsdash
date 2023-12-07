@@ -1,7 +1,67 @@
-﻿@page "/revision-performance"
+﻿@using Microsoft.AspNetCore.Authorization
 
-<h3>RevisionPerformanceFeedbackPage</h3>
+@attribute [Authorize]
+@inject NTDataHiveFrontend.ServiceAccess.RevisionBackendService MyBackendService
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigationManager
+
+<PageTitle>Revision Performance</PageTitle> 
+
+@if (revisionList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" Data="@revisionList"
+                    TItem="NTDataHiveFrontend.Model.Revision">
+        <Template Context="data">
+            <RadzenCard class="rz-p-12" Style="margin-bottom:20px">
+                Description of Error :
+
+                <div class="rz-text-align-center rz-p-12 rz-shadow-7 rz-border-radius-3">
+                    <p class="lead" style="text-align:center; white-space:pre-line;">
+                        @data.DescriptionOfError
+                    </p>
+                </div>
+            </RadzenCard>
+        </Template>
+        <Columns>
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Revision" Property="SupplierName" Title="Suppler Name"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Revision" Property="QualityAssurance" Title="Quality Assurance"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Revision" Property="PublisherName" Title="Publisher Name"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Revision" Property="JournalId" Title="Journal ID"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Revision" Property="ArticleId" Title="Article ID"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Revision" Property="CopyEditedBy" Title="Copy Edited By"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="Model.Revision" Property="WebId" Title="Select Report" Width="120px">               
+                <Template Context="data">
+                    <RadzenButton Style="background-color:#e81f4b" Text="Specific Detail" Click="@(() => OnSpecificDetail(data))" />
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+}
+
 
 @code {
+    private List<NTDataHiveFrontend.Model.Revision> revisionList = new List<Model.Revision>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        revisionList = await MyBackendService.GetAllRevision();
+    }
+
+    private void OnSpecificDetail(NTDataHiveFrontend.Model.Revision revision)
+    {
+        MyNavigationManager.NavigateTo($"/revision-specific-detail-page/{revision.WebId}");
+        // @* <RadzenButton Style="background-color: #e81f4b" Text="Create FeedBack" Click="@(()=>MyNavigationManager.NavigateTo("/pre-editing-feedback"))" /> *@
+    }
 }
