@@ -5,8 +5,7 @@ namespace NTDataHiveFrontend.Model
     public class Revision
     {
         public Guid id { get; set; } = Guid.NewGuid();
-        public string WebId { get; set; }
-        
+        public string WebId { get; set; }        
         public string SupplierName { get; set; }
         public string QualityAssurance { get; set; }
         public string PublisherName { get; set; }

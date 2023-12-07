@@ -1,13 +1,56 @@
-﻿@page "/revision-specific-detail-page/{id:guid}"
+﻿@using Microsoft.AspNetCore.Authorization
 
-
-
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject NTDataHiveFrontend.ServiceAccess.RevisionBackendService MyBackendService
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigationManager
+@page "/revision-specific-detail-page/{id:guid}"
 
 <h3>RevisionSpecificDetail</h3>
 
+@if (revision == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <RadzenRow class="rz-text-align-center rz-border-info-light" Gap="1rem">
+        <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
+            <div class="rz-text-align-center rz-p-12 rz-shadow-7 rz-border-radius-3">
+                <p class="lead" style="text-align:center; white-space:pre-line;">
+                    @revision.DescriptionOfError
+                </p>
+            </div>
+        </RadzenColumn>
+        <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
+            Column 2 of 4
+        </RadzenColumn>
+        <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
+            Column 3 of 4
+        </RadzenColumn>
+        <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
+            Column 4 of 4
+        </RadzenColumn>
+    </RadzenRow>
+}
+
+
+
+
+
+
+
 @code {
     [Parameter]
-    private Guid id { get; set; }   
-    
-    
+    public Guid id { get; set; }
+
+    private NTDataHiveFrontend.Model.Revision revision = new Model.Revision();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        StateHasChanged();
+        revision = await MyBackendService.GetRevisionRecord(id);
+    }
 }

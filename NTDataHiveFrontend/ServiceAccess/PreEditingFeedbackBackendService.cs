@@ -170,7 +170,7 @@ namespace NTDataHiveFrontend.ServiceAccess
             };
             try
             {
-
+                frontendPreEditingRecord.id = Guid.Parse(preEditingRequest.WebId);
             }
             catch (Exception ex)
             {

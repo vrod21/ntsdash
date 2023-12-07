@@ -81,7 +81,7 @@ namespace NTDataHiveFrontend.ServiceAccess
         #endregion
 
         #region GetRevisionRecord
-        public async Task<NTDataHiveFrontend.Model.Revision> GetRuleRecord(Guid id)
+        public async Task<Model.Revision> GetRevisionRecord(Guid id)
         {
             if (_client == null)
                 Connect();
@@ -101,7 +101,7 @@ namespace NTDataHiveFrontend.ServiceAccess
 
                 if (result.Status.Code == 0)
                 {
-                    NTDataHiveFrontend.Model.Revision revision = ToFrontendFormat(result);                    
+                    Model.Revision revision = ToFrontendFormat(result);                    
 
                     if (result.WebId != "")
                         return revision;
@@ -119,27 +119,12 @@ namespace NTDataHiveFrontend.ServiceAccess
         #endregion
 
         #region GetFilterFor
-        public NTDataHiveGrpcService.RevisionRecordFilter GetFilterFor(NTDataHiveFrontend.Model.Revision revision)
-        {
-            return new NTDataHiveGrpcService.RevisionRecordFilter()
-            {
-                WebId = revision.WebId.ToString(),
-            };
-        }
 
         public NTDataHiveGrpcService.RevisionRecordFilter GetFilterFor(Guid id)
         {
             return new NTDataHiveGrpcService.RevisionRecordFilter()
             {
                 WebId = id.ToString(),
-            };
-        }
-
-        public NTDataHiveGrpcService.RevisionRecordFilter GetFilterFor(string id)
-        {
-            return new NTDataHiveGrpcService.RevisionRecordFilter()
-            {
-                WebId = id.ToString()
             };
         }
         #endregion
@@ -181,34 +166,34 @@ namespace NTDataHiveFrontend.ServiceAccess
         #endregion
 
         #region ToFrontendFormat
-        public Model.Revision ToFrontendFormat(NTDataHiveGrpcService.RevisionFeedbackRecordRequest RevisionRequest)
+        public Model.Revision ToFrontendFormat(NTDataHiveGrpcService.RevisionFeedbackRecordRequest revisionRequest)
         {
             Model.Revision frontendRevisionRecord = new Model.Revision()
             {
-                WebId = RevisionRequest.WebId,
-                SupplierName = RevisionRequest.SupplierName,
-                QualityAssurance = RevisionRequest.QualityAssurance,
-                PublisherName = RevisionRequest.PublisherName,
-                JournalId = RevisionRequest.JournalId,
-                ArticleId = RevisionRequest.ArticleId,
-                PageCount = RevisionRequest.PageCount,
-                ErrorCount = RevisionRequest.ErrorCount,
-                DescriptionOfError = RevisionRequest.DescriptionOfError,
-                Matter = RevisionRequest.Matter,
-                ErrorLocation = RevisionRequest.ErrorLocation,
-                ErrorCode = RevisionRequest.ErrorCode,
-                ErrorType = RevisionRequest.ErrorType,
-                ErrorSubtype = RevisionRequest.ErrorType,
-                ErrorCategory = RevisionRequest.ErrorType,
-                IntroducedOrMissed = RevisionRequest.IntroducedOrMissed,
-                Department = RevisionRequest.Department,
-                EmployeeName = RevisionRequest.EmployeeName,
-                CopyEditingLevel = RevisionRequest.CopyEditingLevel,
-                CreatedAt = RevisionRequest.CreatedAt.ToDateTime()
+                WebId = revisionRequest.WebId,
+                SupplierName = revisionRequest.SupplierName,
+                QualityAssurance = revisionRequest.QualityAssurance,
+                PublisherName = revisionRequest.PublisherName,
+                JournalId = revisionRequest.JournalId,
+                ArticleId = revisionRequest.ArticleId,
+                PageCount = revisionRequest.PageCount,
+                ErrorCount = revisionRequest.ErrorCount,
+                DescriptionOfError = revisionRequest.DescriptionOfError,
+                Matter = revisionRequest.Matter,
+                ErrorLocation = revisionRequest.ErrorLocation,
+                ErrorCode = revisionRequest.ErrorCode,
+                ErrorType = revisionRequest.ErrorType,
+                ErrorSubtype = revisionRequest.ErrorType,
+                ErrorCategory = revisionRequest.ErrorType,
+                IntroducedOrMissed = revisionRequest.IntroducedOrMissed,
+                Department = revisionRequest.Department,
+                EmployeeName = revisionRequest.EmployeeName,
+                CopyEditingLevel = revisionRequest.CopyEditingLevel,
+                CreatedAt = revisionRequest.CreatedAt.ToDateTime()
             };
             try
             {
-
+                frontendRevisionRecord.id = Guid.Parse(revisionRequest.WebId);
             }
             catch (Exception ex)
             {
