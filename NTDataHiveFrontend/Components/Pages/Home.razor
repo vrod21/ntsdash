@@ -4,11 +4,12 @@
 @using NTDataHiveFrontend.Components.Home
 @using NTDataHiveFrontend.Components.QualityPerformance.Pages
 @attribute [Authorize]
+@rendermode InteractiveServer
 
 <PageTitle>Home Page</PageTitle>
 
-<HomeJumbotron @rendermode="InteractiveServer" />
+<HomeJumbotron />
 
-<EmployeeList @rendermode="InteractiveServer" />
+<EmployeeList />
 
 

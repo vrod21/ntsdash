@@ -17,6 +17,7 @@ namespace NTDataHiveGrpcService.DAL.Data
         public DbSet<Position> Positions { get; set; }
         public DbSet<PreEditing> PreEditing { get; set; }
         public DbSet<Revision> Revisions { get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -184,3 +184,7 @@ w-100 {
 .prod-container {
     max-width: 1500px !important;
 }
+
+.rz-fieldset-legend {
+    color: white !important;
+}

@@ -5,6 +5,10 @@ using NTDataHiveFrontend.Components;
 using NTDataHiveFrontend.Components.Account;
 using NTDataHiveFrontend.Data;
 using NTDataHiveFrontend.ServiceAccess;
+using Plugins.DataStore.InMemory.Dropdown;
+using UseCases.Dropdown.DataStorePluginInterfaces;
+using UseCases.Dropdown.DropdownUseCase;
+using UseCases.Dropdown.UseCaseInterfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,10 +40,22 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
-builder.Services.AddScoped<EmployeeBackendService>();
-builder.Services.AddScoped<PreEditingFeedbackBackendService>();
-builder.Services.AddScoped<RevisionBackendService>();
-builder.Services.AddScoped<PersonNotExistBackendService>();
+builder.Services.AddTransient<EmployeeBackendService>();
+builder.Services.AddTransient<PreEditingFeedbackBackendService>();
+builder.Services.AddTransient<RevisionBackendService>();
+builder.Services.AddTransient<PersonNotExistBackendService>();
+
+
+
+builder.Services.AddScoped<IPublisherRepository, PublisherInMemoryRepository>();
+builder.Services.AddScoped<IJournalRepository, JournalInMemoryRepository>();
+
+
+
+builder.Services.AddTransient<IViewPublisherUseCase, ViewPublisherUseCase>();
+builder.Services.AddTransient<IViewJournalUseCase, ViewJournalUseCase>();
+
+
 
 builder.Services.AddScoped<Radzen.DialogService>();
 

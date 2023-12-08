@@ -12,8 +12,8 @@ using NTDataHiveGrpcService.DAL.Data;
 namespace NTDataHiveGrpcService.Migrations
 {
     [DbContext(typeof(NTDataHiveContext))]
-    [Migration("20231201043404_ChangeClassNames")]
-    partial class ChangeClassNames
+    [Migration("20231208120404_AddPublisher")]
+    partial class AddPublisher
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,7 +95,10 @@ namespace NTDataHiveGrpcService.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SecretKey")
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WebId")
@@ -242,6 +245,22 @@ namespace NTDataHiveGrpcService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PreEditing");
+                });
+
+            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Publisher", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PublisherName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Publishers");
                 });
 
             modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Revision", b =>

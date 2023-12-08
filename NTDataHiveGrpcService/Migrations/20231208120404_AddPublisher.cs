@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NTDataHiveGrpcService.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialMigration : Migration
+    public partial class AddPublisher : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,11 +49,12 @@ namespace NTDataHiveGrpcService.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WebId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SecretKey = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -88,7 +89,7 @@ namespace NTDataHiveGrpcService.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PreEditingErrorFeedbacks",
+                name: "PreEditing",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -127,7 +128,52 @@ namespace NTDataHiveGrpcService.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PreEditingErrorFeedbacks", x => x.Id);
+                    table.PrimaryKey("PK_PreEditing", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Publishers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PublisherName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Publishers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Revisions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WebId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SupplierName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QualityAssurance = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PublisherName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JournalId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ArticleId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PageCount = table.Column<int>(type: "int", nullable: false),
+                    ErrorCount = table.Column<int>(type: "int", nullable: false),
+                    DescriptionOfError = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Matter = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorSubtype = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorCategory = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IntroducedOrMissed = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Department = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CopyEditingLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Revisions", x => x.Id);
                 });
         }
 
@@ -150,7 +196,13 @@ namespace NTDataHiveGrpcService.Migrations
                 name: "Positions");
 
             migrationBuilder.DropTable(
-                name: "PreEditingErrorFeedbacks");
+                name: "PreEditing");
+
+            migrationBuilder.DropTable(
+                name: "Publishers");
+
+            migrationBuilder.DropTable(
+                name: "Revisions");
         }
     }
 }

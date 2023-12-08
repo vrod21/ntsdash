@@ -244,6 +244,22 @@ namespace NTDataHiveGrpcService.Migrations
                     b.ToTable("PreEditing");
                 });
 
+            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Publisher", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PublisherName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Publishers");
+                });
+
             modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Revision", b =>
                 {
                     b.Property<int>("Id")

@@ -1,8 +1,11 @@
 ﻿@page "/pre-editing-feedback"
 
 @using Microsoft.AspNetCore.Authorization
+
 @attribute [Authorize]
 @rendermode InteractiveServer
+@inject UseCases.Dropdown.UseCaseInterfaces.IViewPublisherUseCase MyViewPublisherUseCase
+@inject UseCases.Dropdown.UseCaseInterfaces.IViewJournalUseCase MyViewJournalUseCase
 @inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
@@ -31,7 +34,7 @@ else
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
-                    <RadzenFieldset Text="Input Text">
+                    <RadzenFieldset class="rz-color-base-300" Text="Input Text">
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
                                 <RadzenLabel Text="Supplier Name" />
@@ -53,8 +56,9 @@ else
                                 <RadzenLabel Text="Publisher Name" />
                                 
                             </div>
-                            <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-value="addPreEditFeedback.PublisherName" Placeholder="Publisher Name" />
+                            <div class="col-md-8">                                
+                                <RadzenDropDown @bind-Value="addPreEditFeedback.PublisherName" AllowClear="true" TValue="string" Placeholder="Select Publisher Name"
+                                                Data="@publishers" Style="width: 100%;" TextProperty="PublisherName" ValueProperty="PublisherName" />
                             </div>
                         </div>
                         <div class="row">
@@ -62,7 +66,10 @@ else
                                 <RadzenLabel Text="Journal ID" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-value="addPreEditFeedback.JournalId" Placeholder="Journal ID" />
+                                
+                                <RadzenDropDown @bind-Value="addPreEditFeedback.JournalId" AllowClear="true" TValue="string" Placeholder="Select Journal ID"
+                                                Data="@journals" Style="width: 100%" TextProperty="JournalName" ValueProperty="JournalName" 
+                                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
                             </div>
                         </div>
                         <div class="row">
@@ -156,7 +163,7 @@ else
                     </RadzenFieldset>
                 </div>
                 <div class="col-md-6">
-                    <RadzenFieldset Text="Drop Down">
+                    <RadzenFieldset class="rz-color-base-300" Text="Drop Down">
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
                                 <RadzenLabel Text="Introduced/Missed" />
@@ -290,9 +297,16 @@ else
 @code {
     private NTDataHiveFrontend.Model.PreEditingErrorFeedback addPreEditFeedback = new Model.PreEditingErrorFeedback();
 
+    private List<CoreBusiness.Dropdown.Publisher> publishers;
+    private List<CoreBusiness.Dropdown.Journal> journals;
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
+        publishers = MyViewPublisherUseCase.Execute().ToList();
+        journals = MyViewJournalUseCase.Execute().ToList();
+
     }
 
     private async Task Save()

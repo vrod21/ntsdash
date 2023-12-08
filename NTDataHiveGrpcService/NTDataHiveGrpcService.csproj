@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\Dropdown.proto" />
     <None Remove="Protos\Employee.proto" />
     <None Remove="Protos\Person.proto" />
     <None Remove="Protos\PreEditingErrorFeedback.proto" />
@@ -17,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\Dropdown.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\Employee.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\Person.proto" GrpcServices="Server" />

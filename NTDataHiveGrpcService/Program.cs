@@ -20,6 +20,8 @@ builder.Services.AddScoped<IRevisionFeedbackRecordPersistence, RevisionFeedbackR
 builder.Services.AddScoped<IRevisionFeedbackRecordRepository, RevisionFeedbackRecordRepository>();
 builder.Services.AddScoped<IPersonRecordPersistence, PersonRecordPersistence>();
 builder.Services.AddScoped<IPersonRecordRepository, PersonRecordRepository>();
+builder.Services.AddScoped<IDropdownRecordPersistence, DropdownRecordPersistence>();
+builder.Services.AddScoped<IDropdownRecordRepository, DropdownRecordRepository>();
 
 builder.Services.AddDbContext<NTDataHiveContext>(options =>
 {
