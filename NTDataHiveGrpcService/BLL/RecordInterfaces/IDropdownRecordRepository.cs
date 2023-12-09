@@ -2,6 +2,6 @@
 {
     public interface IDropdownRecordRepository
     {
-        PublisherRecordRequest GetAllRecord();
+        List<BLL.RecordContents.FeedbackComparable> GetAllRecord();
     }
 }

@@ -18,26 +18,30 @@ namespace NTDataHiveGrpcService.Services
         }
 
         #region GetAll
-        public override Task<PublisherNameArray> GetPublisherName(PublisherNameEmpty request, ServerCallContext context)
-        {
-            try
-            {
-                var record = new PublisherNameArray();
+        //public override Task<PublisherNameArray> GetPublisherName(PublisherNameEmpty request, ServerCallContext context)
+        //{
+        //    try
+        //    {
+        //        var record = new PublisherNameArray();
 
-                record.Status = new Google.Rpc.Status { Code = 0, Message = "Publisher is queryable." };
+        //        record.Status = new Google.Rpc.Status { Code = 0, Message = "Publisher is queryable." };
 
-                var allRecord = _dropdownRecordRepository.GetAllRecord();
-                
-                record.Items.Add(allRecord);
+        //        var allRecord = _dropdownRecordRepository.GetAllRecord();
 
-                return Task.FromResult(record);
-            }
-            catch (Exception ex)
-            {
-                _nlog.Fatal(ex);
-                return Task.FromResult(new PublisherNameArray { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
-            }
-        }
+
+        //        foreach (var item in allRecord)
+        //        {
+        //            record.Items.Add(new PublisherRecordRequest);
+        //        }                
+
+        //        return Task.FromResult(record);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _nlog.Fatal(ex);
+        //        return Task.FromResult(new PublisherNameArray { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
+        //    }
+        //}
         #endregion
     }
 }

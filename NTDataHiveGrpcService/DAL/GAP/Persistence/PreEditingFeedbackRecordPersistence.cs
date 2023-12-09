@@ -15,17 +15,20 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         }
 
         #region Save
-        public bool Save(BLL.RecordContents.PreEditingFeedbackFilter feedbackRecord)
+        public bool Save(BLL.RecordContents.FeedbackFilter feedbackRecord)
         {
+            bool newFeedback = false;
             var createRecord = new PreEditingFeedbackRecordAdapter(_config);
-
-            int feedbackId = createRecord.GetFeedbackByWebId(feedbackRecord.feedbackRecordRequest.WebId);
+            int feedbackId = createRecord.GetFeedbackIdByWebId(feedbackRecord.feedbackRecordRequest.WebId);
 
             if (feedbackId == 0)
             {
-                createRecord.Insert(feedbackRecord.feedbackRecordRequest);
+                createRecord.Insert(feedbackRecord.feedbackRecordRequest, out int recordId);
+                feedbackId = recordId;
+                newFeedback = true;
             }
-            else
+            
+            if (newFeedback && feedbackId == 1)
             {
                 return false;
             }
@@ -35,7 +38,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         #endregion
 
         #region GetAll
-        public List<BLL.RecordContents.FeedbackComparable> GetAllPreEdited()
+        public List<PreEditingFeedbackRecordRequest> GetAllPreEdited()
         {
             var selectPreEdited = new PreEditingFeedbackRecordAdapter(_config).GetAllPreEditingFeedbackRecord();
 

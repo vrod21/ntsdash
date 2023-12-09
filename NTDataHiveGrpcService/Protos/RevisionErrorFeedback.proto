@@ -26,8 +26,8 @@ message RevisionFeedbackRecordRequest {
     string PublisherName = 4;
     string JournalId = 5;
     string ArticleId = 6;
-    int32 PageCount = 8;
-    int32 ErrorCount = 9;
+    double PageCount = 8;
+    double ErrorCount = 9;
     string DescriptionOfError = 10;
     string Matter = 11;
     string ErrorLocation = 12; 

@@ -6,7 +6,7 @@
 @rendermode InteractiveServer
 @inject UseCases.Dropdown.UseCaseInterfaces.IViewPublisherUseCase MyViewPublisherUseCase
 @inject UseCases.Dropdown.UseCaseInterfaces.IViewJournalUseCase MyViewJournalUseCase
-@inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
+@inject NTDataHiveFrontend.ServiceAccess.FeedbackBackendService MyBackendService
 @inject NTDataHiveFrontend.ServiceAccess.DropdownBackendService MyDropdownService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
@@ -59,7 +59,7 @@ else
                             </div>
                             <div class="col-md-8">                                
                                 <RadzenDropDown @bind-Value="addPreEditFeedback.PublisherName" AllowClear="true" TValue="string" Placeholder="Select Publisher Name"
-                                                Data="@publisher" Style="width: 100%;" TextProperty="PublisherName" ValueProperty="PublisherName" />
+                                                Data="@publishers" Style="width: 100%;" TextProperty="PublisherName" ValueProperty="PublisherName" />
                             </div>
                         </div>
                         <div class="row">
@@ -227,7 +227,7 @@ else
                             </div>
                             <div class="col-md-8">
                                 <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="addPreEditFeedback.TargetDateOfCompletionCA" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                  DateFormat="MM/dd/yyyy" Placeholder="@($"{@DateTime.Now.Date}")" />
+                                                  DateFormat="MM/dd/yyyy" Placeholder="12/01/2023" />
                             </div>
                         </div>
                         <div class="row">
@@ -252,7 +252,7 @@ else
                             </div>
                             <div class="col-md-8">
                                 <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="addPreEditFeedback.TargetDateOfCompletionPM" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                  DateFormat="MM/dd/yyyy" Placeholder="@($"{@DateTime.Now.Date}")" />
+                                                  DateFormat="MM/dd/yyyy" Placeholder="12/01/2023" />
                             </div>
                         </div>
                         <div class="row">
@@ -296,7 +296,7 @@ else
 }
 
 @code {
-    private NTDataHiveFrontend.Model.PreEditingErrorFeedback addPreEditFeedback = new Model.PreEditingErrorFeedback();
+    private NTDataHiveFrontend.Model.Feedback addPreEditFeedback = new Model.Feedback();
 
     private List<CoreBusiness.Dropdown.Publisher> publishers;
     private List<CoreBusiness.Dropdown.Journal> journals;
@@ -306,9 +306,9 @@ else
     {
         await base.OnInitializedAsync();
 
-        // publishers = MyViewPublisherUseCase.Execute().ToList();
-        // journals = MyViewJournalUseCase.Execute().ToList();
-        publisher = await MyDropdownService.GetAllPublisher();
+        publishers = MyViewPublisherUseCase.Execute().ToList();
+        journals = MyViewJournalUseCase.Execute().ToList();
+        // publisher = await MyDropdownService.GetAllPublisher();
     }
 
     private async Task Save()

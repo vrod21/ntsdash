@@ -39,3 +39,16 @@ message PersonExistRequest {
 
     google.rpc.Status status = 99;
 }
+
+message PersonAlreadyExistArray {
+    string webId = 1;
+    string username = 2;
+    string emailAddress = 3;
+    string firstName = 4;
+    string lastName = 5;
+    string position = 6;
+    string companyId = 7;
+    google.protobuf.Timestamp birthday = 8;
+
+    google.rpc.Status Status = 99;
+}

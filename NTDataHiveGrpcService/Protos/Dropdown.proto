@@ -8,20 +8,20 @@ package Dropdown;
 
 service DropdownbackBackend {
 
-    rpc GetPublisherName (PublisherNameEmpty) returns (PublisherNameArray);
+	rpc GetDropdown (DropdownEmpty) returns (DropdownArray);
 
 }
 
-message PublisherNameEmpty {
+message DropdownEmpty {
 
 }
 
-message PublisherRecordRequest {
-    string PublisherName = 1;
+message DropdownRecordRequest {
+	string PublisherName = 1;
 }
 
-message PublisherNameArray {
-	repeated PublisherRecordRequest items = 1;
+message DropdownArray {
+	repeated  DropdownRecordRequest items = 1;
 
 	google.rpc.Status status = 99;
 }

@@ -24,14 +24,16 @@ namespace NTDataHiveGrpcService.BLL.RecordContents
 
 
 
+        public int CreditId { get; set; }
+        public int ErrorId { get; set; }
         public string SupplierName { get; set; }
         public string QualityAssurance { get; set; }
         public string PublisherName { get; set; }
         public string JournalId { get; set; }
         public string ArticleId { get; set; }
         public string CopyEditedBy { get; set; }
-        public int PageCount { get; set; }
-        public int ErrorCount { get; set; }
+        public double PageCount { get; set; }
+        public double ErrorCount { get; set; }
         public string DescriptionOfError { get; set; }
         public string Matter { get; set; }
         public string ErrorLocation { get; set; }

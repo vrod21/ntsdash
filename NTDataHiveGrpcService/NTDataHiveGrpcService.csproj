@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="Protos\Dropdown.proto" />
     <None Remove="Protos\Employee.proto" />
+    <None Remove="Protos\Feedback.proto" />
     <None Remove="Protos\Person.proto" />
     <None Remove="Protos\PreEditingErrorFeedback.proto" />
     <None Remove="Protos\RevisionErrorFeedback.proto" />
@@ -20,6 +21,7 @@
   <ItemGroup>
     <Protobuf Include="Protos\Dropdown.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\Employee.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\Feedback.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\Person.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\PreEditingErrorFeedback.proto" GrpcServices="Server" />

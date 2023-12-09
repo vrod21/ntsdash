@@ -1,8 +1,8 @@
-﻿namespace NTDataHiveGrpcService.DAL.Model
+﻿namespace NTDataHiveFrontend.Model
 {
-    public class PreEditing
+    public class Feedback
     {
-        public int Id { get; set; }
+        public Guid id { get; set; } = Guid.NewGuid();
         public string WebId { get; set; }
         public string SupplierName { get; set; }
         public string QualityAssurance { get; set; }
@@ -26,14 +26,14 @@
         public string CorrectiveAction { get; set; }
         public string NatureOfCA { get; set; }
         public string OwnerOfCA { get; set; }
-        public DateTime TargetDateOfCompletionCA { get; set; }
+        public DateTime? TargetDateOfCompletionCA { get; set; }
         public string PreventiveMeasure { get; set; }
         public string NatureOfPM { get; set; }
         public string OwnerOfPM { get; set; }
-        public DateTime TargetDateOfCompletionPM { get; set; }
+        public DateTime? TargetDateOfCompletionPM { get; set; }
         public string StatusOfCA { get; set; }
         public string StatusOfPM { get; set; }
         public string CopyEditingLevel { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 }

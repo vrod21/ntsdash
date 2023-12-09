@@ -2,6 +2,6 @@
 {
     public interface IDropdownRecordPersistence
     {
-        PublisherRecordRequest GetAllPublisher();
+        List<BLL.RecordContents.FeedbackComparable> GetAllPublisher();
     }
 }

@@ -18,7 +18,7 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
         }
 
         #region GetAllRecord
-        public NTDataHiveGrpcService.PublisherRecordRequest GetAllRecord()
+        public List<BLL.RecordContents.FeedbackComparable> GetAllRecord()
         {
             var publisherRecordRequest = _dropdownRecordPersistence.GetAllPublisher();
 

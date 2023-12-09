@@ -31,13 +31,12 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 using var dbContext = new NTDataHiveContext(_contextOptions);
                 var emp = from employee in dbContext.Employees
                           orderby employee.Create_at
-                          select CreateBNewBllEmployee(employee);
+                          select CreateNewBllEmployee(employee);
 
                 if (emp != null)
                 {
                     return emp.ToList();
                 }
-
             }
             catch (Exception ex)
             {
@@ -100,7 +99,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region CreateNewBllEmployee
-        private static EmployeeRecordRequest CreateBNewBllEmployee(Employee employee)
+        private static EmployeeRecordRequest CreateNewBllEmployee(Employee employee)
         {
             return new EmployeeRecordRequest()
             {

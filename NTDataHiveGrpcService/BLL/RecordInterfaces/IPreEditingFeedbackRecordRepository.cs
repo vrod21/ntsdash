@@ -4,7 +4,7 @@ namespace NTDataHiveGrpcService.BLL.RecordInterfaces
 {
     public interface IPreEditingFeedbackRecordRepository
     {
-        List<FeedbackComparable> GeAllRecord();
-        void SavePreEditingFeedbackRecord(PreEditingFeedbackFilter preEditRecord);
+        List<PreEditingFeedbackRecordRequest> GeAllRecord();
+        void SavePreEditingFeedbackRecord(FeedbackFilter preEditRecord);
     }
 }

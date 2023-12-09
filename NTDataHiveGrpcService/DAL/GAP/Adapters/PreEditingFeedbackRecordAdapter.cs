@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Google.Protobuf.WellKnownTypes;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using NTDataHiveGrpcService.BLL.RecordContents;
 using NTDataHiveGrpcService.DAL.Data;
@@ -21,9 +22,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
 
         #region GetAllPreEditingErrorRecord
-        internal List<FeedbackComparable> GetAllPreEditingFeedbackRecord()
+        internal List<PreEditingFeedbackRecordRequest> GetAllPreEditingFeedbackRecord()
         {
-            List<FeedbackComparable> preEditingRecord = new List<FeedbackComparable>();
+            List<PreEditingFeedbackRecordRequest> preEditingRecord = new List<PreEditingFeedbackRecordRequest>();
 
             try
             {
@@ -47,51 +48,72 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
         
         #region InsertPreEditingErrorFeedback
-        internal void Insert(PreEditingFeedbackRecordRequest recordRequest)
+        internal void Insert(PreEditingRecordRequest recordRequest, out int feedbackId)
         {
+            feedbackId = 0;
             try
-            {
-                using var dbContext = new NTDataHiveContext(_contextOptions);
+            {                
                 if (recordRequest != null)
                 {
-                    var preEdit = new Model.PreEditing()
+                    using var dbContext = new NTDataHiveContext(_contextOptions);
+
+                    var feedback = new Model.Feedback()
                     {
-                        WebId = recordRequest.WebId,
+                        WebId = recordRequest.WebId.Trim(),
+                        PageCount = recordRequest.PageCount,
+                        RootCause = recordRequest.RootCause.Trim(),
+                        CorrectiveAction = recordRequest.CorrectiveAction.Trim(),
+                        NatureOfCA = recordRequest.NatureOfCA.Trim(),
+                        OwnerOfCA = recordRequest.OwnerOfCA.Trim(),
+                        TargetDateOfCompletionCA = recordRequest.TargetDateOfCompletionCA.ToDateTime().ToLocalTime(),
+                        PreventiveMeasure = recordRequest.PreventiveMeasure.Trim(),
+                        NatureOfPM = recordRequest.NatureOfPM.Trim(),
+                        OwnerOfPM = recordRequest.OwnerOfPM.Trim(),
+                        TargetDateOfCompletionPM = recordRequest.TargetDateOfCompletionPM.ToDateTime().ToLocalTime(),
+                        StatusOfCA = recordRequest.StatusOfCA.Trim(),
+                        StatusOfPM = recordRequest.StatusOfPM.Trim(),
+                        CreatedAt = recordRequest.CreatedAt.ToDateTime().ToLocalTime(),
+                    };
+                    dbContext.Feedback.Add(feedback); 
+                    _ = dbContext.SaveChanges();
+
+                    feedbackId = feedback.Id;
+
+                    var errors = new Model.Error()
+                    {
+                        Id = feedbackId,
+                        ErrorCount = recordRequest.ErrorCount,
+                        DescriptionOfError = recordRequest.DescriptionOfError.Trim(),
+                        Matter = recordRequest.Matter.Trim(),
+                        ErrorLocation = recordRequest.ErrorLocation.Trim(),
+                        ErrorCode = recordRequest.ErrorCode.Trim(),
+                        ErrorType = recordRequest.ErrorType.Trim(),
+                        ErrorSubtype = recordRequest.ErrorSubtype.Trim(),
+                        ErrorCategory = recordRequest.ErrorCategory.Trim(),
+                        IntroducedOrMissed = recordRequest.IntroducedOrMissed.Trim(),
+                    };
+                    dbContext.Error.Add(errors); 
+                    _ = dbContext.SaveChanges();
+
+                    feedbackId = errors.Id;
+
+                    var preEditCredits = new Model.Credit()
+                    {
+                        Id = feedbackId,
                         SupplierName = recordRequest.SupplierName,
                         QualityAssurance = recordRequest.QualityAssurance,
                         PublisherName = recordRequest.PublisherName,
                         JournalId = recordRequest.JournalId,
                         ArticleId = recordRequest.ArticleId,
                         CopyEditedBy = recordRequest.CopyEditedBy,
-                        PageCount = recordRequest.PageCount,
-                        ErrorCount = recordRequest.ErrorCount,
-                        DescriptionOfError = recordRequest.DescriptionOfError,
-                        Matter = recordRequest.Matter,
-                        ErrorLocation = recordRequest.ErrorLocation,
-                        ErrorCode = recordRequest.ErrorCode,
-                        ErrorType = recordRequest.ErrorType,
-                        ErrorSubtype = recordRequest.ErrorType,
-                        ErrorCategory = recordRequest.ErrorCategory,
-                        IntroducedOrMissed = recordRequest.IntroducedOrMissed,
                         Department = recordRequest.Department,
                         EmployeeName = recordRequest.EmployeeName,
-                        RootCause = recordRequest.RootCause,
-                        CorrectiveAction = recordRequest.CorrectiveAction,
-                        NatureOfCA = recordRequest.NatureOfCA,
-                        OwnerOfCA = recordRequest.OwnerOfCA,
-                        TargetDateOfCompletionCA = recordRequest.TargetDateOfCompletionCA.ToDateTime().ToLocalTime(),
-                        PreventiveMeasure = recordRequest.PreventiveMeasure,
-                        NatureOfPM = recordRequest.NatureOfPM,
-                        TargetDateOfCompletionPM = recordRequest.TargetDateOfCompletionPM.ToDateTime().ToLocalTime(),
-                        StatusOfCA = recordRequest.StatusOfCA,
-                        StatusOfPM = recordRequest.StatusOfPM,
                         CopyEditingLevel = recordRequest.CopyEditingLevel,
-                        CreatedAt = recordRequest.CreatedAt.ToDateTime().ToLocalTime(),
                     };
-
-                    dbContext.PreEditing.Add(preEdit);
+                    dbContext.Credit.Add(preEditCredits); 
+                    _ = dbContext.SaveChanges();
                 }
-                _ = dbContext.SaveChanges();
+                
             }
             catch (Exception ex)
             {
@@ -136,13 +158,13 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 
 
         #region GetPreEditingFeedbackByWebId
-        internal int GetFeedbackByWebId(string webid)
+        internal int GetFeedbackIdByWebId(string webid)
         {
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var getFeedbackById = from preEditingFeedback in dbContext.PreEditing
-                                      where preEditingFeedback.WebId == webid
+                var getFeedbackById = from preEditingFeedback in dbContext.Feedback
+                                      where preEditingFeedback.WebId == webid.ToString()
                                       select preEditingFeedback;
 
                 if (getFeedbackById.Count() > 0)
@@ -159,9 +181,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region
-        private static NTDataHiveGrpcService.BLL.RecordContents.FeedbackComparable CreateNewBLLPreEditing(PreEditing preEditing)
+        private static PreEditingFeedbackRecordRequest CreateNewBLLPreEditing(PreEditing preEditing)
         {
-            return new BLL.RecordContents.FeedbackComparable()
+            return new PreEditingFeedbackRecordRequest()
             {
                 WebId = preEditing.WebId,
                 SupplierName = preEditing.SupplierName,
@@ -186,14 +208,14 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 CorrectiveAction = preEditing.CorrectiveAction,
                 NatureOfCA = preEditing.NatureOfCA,
                 OwnerOfCA = preEditing.OwnerOfCA,
-                TargetDateOfCompletionCA = preEditing.TargetDateOfCompletionCA,
+                TargetDateOfCompletionCA = preEditing.TargetDateOfCompletionCA.ToUniversalTime().ToTimestamp(),
                 PreventiveMeasure = preEditing.PreventiveMeasure,
                 NatureOfPM = preEditing.NatureOfPM,
-                TargetDateOfCompletionPM = preEditing.TargetDateOfCompletionPM,
+                TargetDateOfCompletionPM = preEditing.TargetDateOfCompletionPM.ToUniversalTime().ToTimestamp(),
                 StatusOfCA = preEditing.StatusOfCA,
                 StatusOfPM = preEditing.StatusOfPM,
                 CopyEditingLevel = preEditing.CopyEditingLevel,
-                CreatedAt = preEditing.CreatedAt,
+                CreatedAt = preEditing.CreatedAt.ToUniversalTime().ToTimestamp(),
             };
         }
         #endregion

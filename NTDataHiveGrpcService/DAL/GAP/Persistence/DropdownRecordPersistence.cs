@@ -15,11 +15,11 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         }
 
         #region GetAllPublisher
-        public NTDataHiveGrpcService.PublisherRecordRequest GetAllPublisher()
+        public List<BLL.RecordContents.FeedbackComparable> GetAllPublisher()
         {
-            var selectPublisher = new PublisherRecordAdapter(_config).GetAllPublisherRecord();
+            var selectPublisher = new FeedbackRecordAdapter(_config).GetAllDropdownRecord();
 
-            if (selectPublisher.PublisherName.Count() > 1)
+            if (selectPublisher.Count() > 1)
             {
                 return selectPublisher;
             }

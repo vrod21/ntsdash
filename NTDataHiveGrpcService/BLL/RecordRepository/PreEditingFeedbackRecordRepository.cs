@@ -9,7 +9,7 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
     {
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         private readonly IPreEditingFeedbackRecordPersistence _feedbackRecordPersistence;
-        private ConcurrentDictionary<string, RecordContents.PreEditingFeedbackFilter> _feedbackRecordCache = new ConcurrentDictionary<string, RecordContents.PreEditingFeedbackFilter>();
+        private ConcurrentDictionary<string, RecordContents.FeedbackFilter> _feedbackRecordCache = new ConcurrentDictionary<string, RecordContents.FeedbackFilter>();
 
         public PreEditingFeedbackRecordRepository(IPreEditingFeedbackRecordPersistence feedbackRecordPersistence)
         {
@@ -17,34 +17,34 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
         }
 
         #region SavePreEditingFeedbackRecor
-        public void SavePreEditingFeedbackRecord(RecordContents.PreEditingFeedbackFilter preEditRecord)
+        public void SavePreEditingFeedbackRecord(RecordContents.FeedbackFilter feedbackRecord)
         {
-            if (_feedbackRecordCache.ContainsKey(preEditRecord.Webid))
+            if (_feedbackRecordCache.ContainsKey(feedbackRecord.Webid))
             {
-                _feedbackRecordCache.TryRemove(preEditRecord.Webid, out RecordContents.PreEditingFeedbackFilter preEditFilter);
+                _feedbackRecordCache.TryRemove(feedbackRecord.Webid, out RecordContents.FeedbackFilter preEditFilter);
 
-                if (!_feedbackRecordCache.TryAdd(preEditRecord.Webid, preEditFilter))
-                    throw new Exception($"Pre-Editing Record couldn't add to the rules: {preEditRecord.Webid}");
+                if (!_feedbackRecordCache.TryAdd(feedbackRecord.Webid, preEditFilter))
+                    throw new Exception($"Pre-Editing Record couldn't add to the rules: {feedbackRecord.Webid}");
 
-                _nlog.Trace("Webid {0} Update is Cache", preEditRecord.Webid);
+                _nlog.Trace("Webid {0} Update is Cache", feedbackRecord.Webid);
             }
             else
             {
-                if (_feedbackRecordCache.TryAdd(preEditRecord.Webid, preEditRecord))
-                    _nlog.Trace($"Webid {preEditRecord.Webid} Added in Cache");
+                if (_feedbackRecordCache.TryAdd(feedbackRecord.Webid, feedbackRecord))
+                    _nlog.Trace($"Webid {feedbackRecord.Webid} Added in Cache");
                 else
-                    _nlog.Warn($"Webid {preEditRecord.Webid} 2nd try to add");
+                    _nlog.Warn($"Webid {feedbackRecord.Webid} 2nd try to add");
             }
 
-            _feedbackRecordPersistence.Save(preEditRecord);
-            _nlog.Trace($"Webid {preEditRecord.Webid} saved in gap");
+            _feedbackRecordPersistence.Save(feedbackRecord);
+            _nlog.Trace($"Webid {feedbackRecord.Webid} saved in gap");
         }
         #endregion
 
         #region GetAllRecord
-        public List<RecordContents.FeedbackComparable> GeAllRecord()
+        public List<PreEditingFeedbackRecordRequest> GeAllRecord()
         {
-            List<RecordContents.FeedbackComparable> preEditedList = _feedbackRecordPersistence.GetAllPreEdited();
+            List<PreEditingFeedbackRecordRequest> preEditedList = _feedbackRecordPersistence.GetAllPreEdited();
 
             _nlog.Trace("Pre-Edited is order by name");
 

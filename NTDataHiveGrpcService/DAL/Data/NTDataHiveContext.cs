@@ -18,6 +18,9 @@ namespace NTDataHiveGrpcService.DAL.Data
         public DbSet<PreEditing> PreEditing { get; set; }
         public DbSet<Revision> Revisions { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
+        public DbSet<Credit> Credit { get; set; }
+        public DbSet<Error> Error { get; set; }
+        public DbSet<Feedback> Feedback { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

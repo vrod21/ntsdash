@@ -1,10 +1,8 @@
-﻿using NTDataHiveGrpcService.BLL.RecordContents;
-
-namespace NTDataHiveGrpcService.DAL.GAP.PersistenceInterfaces
+﻿namespace NTDataHiveGrpcService.DAL.GAP.PersistenceInterfaces
 {
     public interface IPreEditingFeedbackRecordPersistence
     {
-        List<FeedbackComparable> GetAllPreEdited();
-        bool Save(PreEditingFeedbackFilter feedbackRecord);
+        List<PreEditingFeedbackRecordRequest> GetAllPreEdited();
+        bool Save(BLL.RecordContents.FeedbackFilter feedbackRecord);
     }
 }
