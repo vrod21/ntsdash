@@ -17,9 +17,9 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
         }
 
         #region GetAllRecord
-        public List<RecordContents.EmployeeRecordComparable> GetAllRecord()
+        public List<EmployeeRecordRequest> GetAllRecord()
         {
-            List<RecordContents.EmployeeRecordComparable> employeeList = _employeeRecordPersistence.GetAllEmployee();
+            List<EmployeeRecordRequest> employeeList = _employeeRecordPersistence.GetAllEmployee();
 
             _nlog.Trace("Employee are order by name");
 

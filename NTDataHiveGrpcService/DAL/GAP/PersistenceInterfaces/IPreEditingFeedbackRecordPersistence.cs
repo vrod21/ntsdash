@@ -4,7 +4,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.PersistenceInterfaces
 {
     public interface IPreEditingFeedbackRecordPersistence
     {
-        List<PreEditingFeedbackRecordComparable> GetAllPreEdited();
+        List<FeedbackComparable> GetAllPreEdited();
         bool Save(PreEditingFeedbackFilter feedbackRecord);
     }
 }

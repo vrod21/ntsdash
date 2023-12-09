@@ -35,7 +35,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         #endregion
 
         #region GetAll
-        public List<BLL.RecordContents.RevisionFeedbackRecordComparable> GetAllRevision()
+        public List<BLL.RecordContents.FeedbackComparable> GetAllRevision()
         {
             var selectRevision = new RevisionFeedbackRecordAdapter(_config).GetAllRevisionFeedbackRecord();
 

@@ -4,7 +4,7 @@ namespace NTDataHiveGrpcService.BLL.RecordInterfaces
 {
     public interface IPersonRecordRepository
     {
-        List<PersonRecordComparable> GetAllRecord();
+        List<FeedbackComparable> GetAllRecord();
         void SavePersonRecord(PersonFilter personRecord);
     }
 }

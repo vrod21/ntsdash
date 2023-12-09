@@ -2,9 +2,28 @@
 
 namespace NTDataHiveGrpcService.BLL.RecordContents
 {
-    public class PreEditingFeedbackRecordComparable : IComparable<PreEditingFeedbackRecordComparable>
+    public class FeedbackComparable : IComparable<FeedbackComparable>
     {
+        public int Id { get; set; }
+        public string PublisherIdentity { get; set; }
+        public DateTime Created_at { get; set; }
+        public int ScoreCard { get; set; }
+
+
+
+
         public string WebId { get; set; }
+        public string Username { get; set; }
+        public string EmailAddress { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime Birthday { get; set; }
+        public string Position { get; set; }
+        public string CompanyId { get; set; }
+
+
+
+
         public string SupplierName { get; set; }
         public string QualityAssurance { get; set; }
         public string PublisherName { get; set; }
@@ -35,21 +54,22 @@ namespace NTDataHiveGrpcService.BLL.RecordContents
         public string StatusOfPM { get; set; }
         public string CopyEditingLevel { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int CompareTo([AllowNull] PreEditingFeedbackRecordComparable other)
+
+        public int CompareTo([AllowNull] FeedbackComparable other)
         {
             if (other == null)
                 return 1;
 
-            return EmployeeName.CompareTo(other.EmployeeName);
+            return CreatedAt.CompareTo(other.CreatedAt);
         }
 
         public override bool Equals(object obj)
         {
-            var other = obj as PreEditingFeedbackRecordComparable;
+            var other = obj as FeedbackComparable;
 
             if (other == null) return false;
 
-            return this.WebId == other.WebId;
+            return WebId == other.WebId;
         }
     }
 }

@@ -67,9 +67,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region GetAllRevisionErrorRecord
-        internal List<RevisionFeedbackRecordComparable> GetAllRevisionFeedbackRecord()
+        internal List<FeedbackComparable> GetAllRevisionFeedbackRecord()
         {
-            List<RevisionFeedbackRecordComparable> revisionRecord = new List<RevisionFeedbackRecordComparable>();
+            List<FeedbackComparable> revisionRecord = new List<FeedbackComparable>();
 
             try
             {
@@ -171,9 +171,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region CreateNewBLLRevision
-        private static NTDataHiveGrpcService.BLL.RecordContents.RevisionFeedbackRecordComparable CreateNewBLLRevision(Revision revision)
+        private static NTDataHiveGrpcService.BLL.RecordContents.FeedbackComparable CreateNewBLLRevision(Revision revision)
         {
-            return new BLL.RecordContents.RevisionFeedbackRecordComparable()
+            return new BLL.RecordContents.FeedbackComparable()
             {
                 WebId = revision.WebId,
                 SupplierName = revision.SupplierName,

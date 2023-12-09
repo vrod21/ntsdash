@@ -42,9 +42,9 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
         #endregion
 
         #region GetAllRecord
-        public List<RecordContents.PreEditingFeedbackRecordComparable> GeAllRecord()
+        public List<RecordContents.FeedbackComparable> GeAllRecord()
         {
-            List<RecordContents.PreEditingFeedbackRecordComparable> preEditedList = _feedbackRecordPersistence.GetAllPreEdited();
+            List<RecordContents.FeedbackComparable> preEditedList = _feedbackRecordPersistence.GetAllPreEdited();
 
             _nlog.Trace("Pre-Edited is order by name");
 

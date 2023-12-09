@@ -48,9 +48,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region GetAllPersonRecord
-        internal List<PersonRecordComparable> GetAllPersonRecord()
+        internal List<FeedbackComparable> GetAllPersonRecord()
         {
-            List<PersonRecordComparable> personRecord = new List<PersonRecordComparable>();
+            List<FeedbackComparable> personRecord = new List<FeedbackComparable>();
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
@@ -97,9 +97,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region CreateNewBllPerson
-        private static PersonRecordComparable CreateBNewBllPerson(Person person)
+        private static FeedbackComparable CreateBNewBllPerson(Person person)
         {
-            return new PersonRecordComparable()
+            return new FeedbackComparable()
             {
                 WebId = person.WebId,
                 Username = person.Username,

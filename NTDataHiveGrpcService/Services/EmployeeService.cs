@@ -26,21 +26,10 @@ namespace NTDataHiveGrpcService.Services
                 var record = new EmployeeArray();
                 record.Status = new Google.Rpc.Status { Code = 0, Message = "Rule is queryable." };
 
-                var list = _employeeRecordRepository.GetAllRecord();
+                var allRecord = _employeeRecordRepository.GetAllRecord();
 
-                foreach (var item in list)
-                {
-                    record.Items.Add(new EmployeeRecordRequest
-                    {
-                        Id = item.Id,
-                        WebId = item.WebId,
-                        FirstName = item.FirstName,
-                        LastName = item.LastName,
-                        PublisherIdentity = item.PublisherIdentity,
-                        CreatedAt = item.Created_at.ToUniversalTime().ToTimestamp(),
-                        ScoreCard = item.ScoreCard,
-                    });
-                }
+                record.Items.Add(allRecord);
+
                 return Task.FromResult(record);
             }
             catch (Exception ex)

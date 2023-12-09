@@ -15,9 +15,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         }
 
         #region GetAllEmployee
-        public List<BLL.RecordContents.EmployeeRecordComparable> GetAllEmployee()
+        public List<EmployeeRecordRequest> GetAllEmployee()
         {
-            List<BLL.RecordContents.EmployeeRecordComparable> selectEmployee = new RecordAdapter(_config).GetAllEmployeeRecord();
+            List<EmployeeRecordRequest> selectEmployee = new RecordAdapter(_config).GetAllEmployeeRecord();
 
             if (selectEmployee.Count() >= 1)
             {

@@ -33,9 +33,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         #endregion
 
         #region GetAllPerson
-        public List<BLL.RecordContents.PersonRecordComparable> GetAllPerson()
+        public List<BLL.RecordContents.FeedbackComparable> GetAllPerson()
         {
-            List<BLL.RecordContents.PersonRecordComparable> selectPerson = new PersonRecordAdapter(_config).GetAllPersonRecord();
+            List<BLL.RecordContents.FeedbackComparable> selectPerson = new PersonRecordAdapter(_config).GetAllPersonRecord();
 
             if (selectPerson.Count() >= 1)
             {

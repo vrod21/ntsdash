@@ -4,7 +4,7 @@ namespace NTDataHiveGrpcService.BLL.RecordInterfaces
 {
     public interface IEmployeeRecordRepository
     {
-        List<EmployeeRecordComparable> GetAllRecord();
+        List<EmployeeRecordRequest> GetAllRecord();
         void SaveEmployeeRecord(EmployeeFilter empRecord);
     }
 }

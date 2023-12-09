@@ -26,9 +26,9 @@ namespace NTDataHiveGrpcService.Services
 
                 record.Status = new Google.Rpc.Status { Code = 0, Message = "Publisher is queryable." };
 
-                var list = _dropdownRecordRepository.GetAllRecord();
-
-                record.Items.Add(list);
+                var allRecord = _dropdownRecordRepository.GetAllRecord();
+                
+                record.Items.Add(allRecord);
 
                 return Task.FromResult(record);
             }

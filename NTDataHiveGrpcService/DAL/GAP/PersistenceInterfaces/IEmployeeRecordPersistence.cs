@@ -4,7 +4,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.PersistenceInterfaces
 {
     public interface IEmployeeRecordPersistence
     {
-        List<EmployeeRecordComparable> GetAllEmployee();
+        List<EmployeeRecordRequest> GetAllEmployee();
         bool Save(EmployeeFilter employeeRecord);
     }
 }

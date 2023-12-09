@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option csharp_namespace = "NTDataHiveGrpcService";
+
+import "Protos/status.proto";
+
+package Dropdown;
+
+service DropdownbackBackend {
+
+    rpc GetPublisherName (PublisherNameEmpty) returns (PublisherNameArray);
+
+}
+
+message PublisherNameEmpty {
+
+}
+
+message PublisherRecordRequest {
+    string PublisherName = 1;
+}
+
+message PublisherNameArray {
+	repeated PublisherRecordRequest items = 1;
+
+	google.rpc.Status status = 99;
+}

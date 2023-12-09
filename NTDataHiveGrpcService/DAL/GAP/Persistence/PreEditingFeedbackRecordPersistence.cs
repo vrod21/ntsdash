@@ -35,7 +35,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         #endregion
 
         #region GetAll
-        public List<BLL.RecordContents.PreEditingFeedbackRecordComparable> GetAllPreEdited()
+        public List<BLL.RecordContents.FeedbackComparable> GetAllPreEdited()
         {
             var selectPreEdited = new PreEditingFeedbackRecordAdapter(_config).GetAllPreEditingFeedbackRecord();
 

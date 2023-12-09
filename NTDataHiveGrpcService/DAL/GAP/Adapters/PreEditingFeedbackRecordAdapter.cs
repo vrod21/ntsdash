@@ -21,9 +21,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
 
         #region GetAllPreEditingErrorRecord
-        internal List<PreEditingFeedbackRecordComparable> GetAllPreEditingFeedbackRecord()
+        internal List<FeedbackComparable> GetAllPreEditingFeedbackRecord()
         {
-            List<PreEditingFeedbackRecordComparable> preEditingRecord = new List<PreEditingFeedbackRecordComparable>();
+            List<FeedbackComparable> preEditingRecord = new List<FeedbackComparable>();
 
             try
             {
@@ -159,9 +159,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region
-        private static NTDataHiveGrpcService.BLL.RecordContents.PreEditingFeedbackRecordComparable CreateNewBLLPreEditing(PreEditing preEditing)
+        private static NTDataHiveGrpcService.BLL.RecordContents.FeedbackComparable CreateNewBLLPreEditing(PreEditing preEditing)
         {
-            return new BLL.RecordContents.PreEditingFeedbackRecordComparable()
+            return new BLL.RecordContents.FeedbackComparable()
             {
                 WebId = preEditing.WebId,
                 SupplierName = preEditing.SupplierName,

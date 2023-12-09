@@ -44,6 +44,7 @@ builder.Services.AddTransient<EmployeeBackendService>();
 builder.Services.AddTransient<PreEditingFeedbackBackendService>();
 builder.Services.AddTransient<RevisionBackendService>();
 builder.Services.AddTransient<PersonNotExistBackendService>();
+builder.Services.AddTransient<DropdownBackendService>();
 
 
 

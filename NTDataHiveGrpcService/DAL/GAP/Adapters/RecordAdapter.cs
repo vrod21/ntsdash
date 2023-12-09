@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Google.Protobuf.WellKnownTypes;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using NTDataHiveGrpcService.BLL.RecordContents;
 using NTDataHiveGrpcService.DAL.Data;
@@ -22,14 +23,14 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
 
         #region GetAllEmployeeRecord
-        internal List<EmployeeRecordComparable> GetAllEmployeeRecord()
+        internal List<EmployeeRecordRequest> GetAllEmployeeRecord()
         {
-            List<EmployeeRecordComparable> employeeRecord = new List<EmployeeRecordComparable>();
+            List<EmployeeRecordRequest> employeeRecord = new List<EmployeeRecordRequest>();
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
                 var emp = from employee in dbContext.Employees
-                          orderby employee.FirstName
+                          orderby employee.Create_at
                           select CreateBNewBllEmployee(employee);
 
                 if (emp != null)
@@ -99,16 +100,16 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region CreateNewBllEmployee
-        private static NTDataHiveGrpcService.BLL.RecordContents.EmployeeRecordComparable CreateBNewBllEmployee(Employee employee)
+        private static EmployeeRecordRequest CreateBNewBllEmployee(Employee employee)
         {
-            return new BLL.RecordContents.EmployeeRecordComparable()
+            return new EmployeeRecordRequest()
             {
                 Id = employee.Id,
                 WebId = employee.WebId,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 PublisherIdentity = employee.PublisherIdentity,
-                Created_at = employee.Create_at,
+                CreatedAt = employee.Create_at.ToUniversalTime().ToTimestamp(),
                 ScoreCard = employee.ScoreCard,
             };
         }

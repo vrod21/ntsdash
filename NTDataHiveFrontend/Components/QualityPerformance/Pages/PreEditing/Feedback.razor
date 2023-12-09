@@ -7,6 +7,7 @@
 @inject UseCases.Dropdown.UseCaseInterfaces.IViewPublisherUseCase MyViewPublisherUseCase
 @inject UseCases.Dropdown.UseCaseInterfaces.IViewJournalUseCase MyViewJournalUseCase
 @inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
+@inject NTDataHiveFrontend.ServiceAccess.DropdownBackendService MyDropdownService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
 
@@ -58,7 +59,7 @@ else
                             </div>
                             <div class="col-md-8">                                
                                 <RadzenDropDown @bind-Value="addPreEditFeedback.PublisherName" AllowClear="true" TValue="string" Placeholder="Select Publisher Name"
-                                                Data="@publishers" Style="width: 100%;" TextProperty="PublisherName" ValueProperty="PublisherName" />
+                                                Data="@publisher" Style="width: 100%;" TextProperty="PublisherName" ValueProperty="PublisherName" />
                             </div>
                         </div>
                         <div class="row">
@@ -299,14 +300,15 @@ else
 
     private List<CoreBusiness.Dropdown.Publisher> publishers;
     private List<CoreBusiness.Dropdown.Journal> journals;
+    private List<NTDataHiveFrontend.Model.Publisher> publisher = new List<Model.Publisher>();
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        publishers = MyViewPublisherUseCase.Execute().ToList();
-        journals = MyViewJournalUseCase.Execute().ToList();
-
+        // publishers = MyViewPublisherUseCase.Execute().ToList();
+        // journals = MyViewJournalUseCase.Execute().ToList();
+        publisher = await MyDropdownService.GetAllPublisher();
     }
 
     private async Task Save()

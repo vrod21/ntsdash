@@ -42,9 +42,9 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
         #endregion
 
         #region GetAllRecord
-        public List<RecordContents.PersonRecordComparable> GetAllRecord()
+        public List<RecordContents.FeedbackComparable> GetAllRecord()
         {
-            List<RecordContents.PersonRecordComparable> personList = _recordPersistence.GetAllPerson();
+            List<RecordContents.FeedbackComparable> personList = _recordPersistence.GetAllPerson();
 
             _nlog.Trace("Employee are order by name");
 
