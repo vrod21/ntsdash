@@ -1,6 +1,6 @@
 ﻿namespace NTDataHiveGrpcService.DAL.Model
 {
-    public class Employee
+    public partial class Employee
     {
         public int Id { get; set; }
         public string WebId { get; set; }

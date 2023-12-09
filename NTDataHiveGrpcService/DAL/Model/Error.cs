@@ -1,8 +1,8 @@
 ﻿namespace NTDataHiveGrpcService.DAL.Model
 {
-    public class Error
+    public partial class Error
     {
-        public int Id { get; set; }
+        public int ErrorIdExt { get; set; }
         public double ErrorCount { get; set; }
         public string DescriptionOfError { get; set; }
         public string Matter { get; set; }
@@ -13,6 +13,6 @@
         public string ErrorCategory { get; set; }
         public string IntroducedOrMissed { get; set; }
 
-        public Feedback Feedbacks { get; set; }
+        public virtual Feedback FeedbackErrorNavigation { get; set; }
     }
 }

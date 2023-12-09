@@ -29,7 +29,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var emp = from employee in dbContext.Employees
+                var emp = from employee in dbContext.Employee
                           orderby employee.Create_at
                           select CreateNewBllEmployee(employee);
 
@@ -63,7 +63,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         PublisherIdentity = recordRequest.PublisherIdentity,                        
                     };
 
-                    dbContext.Employees.Add(emp);
+                    dbContext.Employee.Add(emp);
                 }
                 _ = dbContext.SaveChanges();
             }
@@ -81,7 +81,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var getEmployeeById = from employee in dbContext.Employees
+                var getEmployeeById = from employee in dbContext.Employee
                                       where employee.WebId == webid
                                       select employee;
 

@@ -22,20 +22,62 @@ namespace NTDataHiveGrpcService.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Department", b =>
+            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Credit", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("CreditIdExt")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("ArticleId")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("CopyEditedBy")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("CopyEditingLevel")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Department")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("EmployeeName")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("JournalId")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("PublisherName")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("QualityAssurance")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("SupplierName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("WebId")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
 
-                    b.ToTable("Departments");
+                    b.HasKey("CreditIdExt");
+
+                    b.ToTable("Credit");
                 });
 
             modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Employee", b =>
@@ -66,7 +108,136 @@ namespace NTDataHiveGrpcService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employee");
+                });
+
+            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Error", b =>
+                {
+                    b.Property<int>("ErrorIdExt")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DescriptionOfError")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ErrorCategory")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ErrorCode")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<double>("ErrorCount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ErrorLocation")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ErrorSubtype")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ErrorType")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("IntroducedOrMissed")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Matter")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("ErrorIdExt");
+
+                    b.ToTable("Error");
+                });
+
+            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Feedback", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CorrectiveAction")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("MegaFeedback")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NatureOfCA")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("NatureOfPM")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("OwnerOfCA")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("OwnerOfPM")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<double>("PageCount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("PreventiveMeasure")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("RootCause")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("StatusOfCA")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("StatusOfPM")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime>("TargetDateOfCompletionCA")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("TargetDateOfCompletionPM")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MegaFeedback");
+
+                    b.ToTable("Feedback");
                 });
 
             modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Person", b =>
@@ -103,7 +274,7 @@ namespace NTDataHiveGrpcService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Persons");
+                    b.ToTable("Person");
                 });
 
             modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.PersonTypes", b =>
@@ -119,7 +290,7 @@ namespace NTDataHiveGrpcService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PersonTypes");
+                    b.ToTable("PersonType");
                 });
 
             modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Position", b =>
@@ -135,7 +306,7 @@ namespace NTDataHiveGrpcService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Positions");
+                    b.ToTable("Position");
                 });
 
             modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.PreEditing", b =>
@@ -206,6 +377,9 @@ namespace NTDataHiveGrpcService.Migrations
                     b.Property<string>("OwnerOfCA")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OwnerOfPM")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("PageCount")
                         .HasColumnType("int");
 
@@ -257,7 +431,7 @@ namespace NTDataHiveGrpcService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publishers");
+                    b.ToTable("Publisher");
                 });
 
             modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Revision", b =>
@@ -292,8 +466,8 @@ namespace NTDataHiveGrpcService.Migrations
                     b.Property<string>("ErrorCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ErrorCount")
-                        .HasColumnType("int");
+                    b.Property<double>("ErrorCount")
+                        .HasColumnType("float");
 
                     b.Property<string>("ErrorLocation")
                         .HasColumnType("nvarchar(max)");
@@ -313,8 +487,8 @@ namespace NTDataHiveGrpcService.Migrations
                     b.Property<string>("Matter")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PageCount")
-                        .HasColumnType("int");
+                    b.Property<double>("PageCount")
+                        .HasColumnType("float");
 
                     b.Property<string>("PublisherName")
                         .HasColumnType("nvarchar(max)");
@@ -330,7 +504,48 @@ namespace NTDataHiveGrpcService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Revisions");
+                    b.ToTable("Revision");
+                });
+
+            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Credit", b =>
+                {
+                    b.HasOne("NTDataHiveGrpcService.DAL.Model.Feedback", "FeedbackCreditNavigation")
+                        .WithOne("Credit")
+                        .HasForeignKey("NTDataHiveGrpcService.DAL.Model.Credit", "CreditIdExt")
+                        .IsRequired()
+                        .HasConstraintName("FK_Credit_Feedback");
+
+                    b.Navigation("FeedbackCreditNavigation");
+                });
+
+            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Error", b =>
+                {
+                    b.HasOne("NTDataHiveGrpcService.DAL.Model.Feedback", "FeedbackErrorNavigation")
+                        .WithOne("Error")
+                        .HasForeignKey("NTDataHiveGrpcService.DAL.Model.Error", "ErrorIdExt")
+                        .IsRequired()
+                        .HasConstraintName("FK_Error_Feedback");
+
+                    b.Navigation("FeedbackErrorNavigation");
+                });
+
+            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Feedback", b =>
+                {
+                    b.HasOne("NTDataHiveGrpcService.DAL.Model.Feedback", "MegaFeedbackNavigation")
+                        .WithMany("InverseMegaFeedbackNavigation")
+                        .HasForeignKey("MegaFeedback")
+                        .HasConstraintName("FK_Address_Address");
+
+                    b.Navigation("MegaFeedbackNavigation");
+                });
+
+            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Feedback", b =>
+                {
+                    b.Navigation("Credit");
+
+                    b.Navigation("Error");
+
+                    b.Navigation("InverseMegaFeedbackNavigation");
                 });
 #pragma warning restore 612, 618
         }

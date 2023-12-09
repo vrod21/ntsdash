@@ -28,7 +28,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
                 newFeedback = true;
             }
             
-            if (newFeedback && feedbackId == 1)
+            if (newFeedback == false && feedbackId == 0)
             {
                 return false;
             }

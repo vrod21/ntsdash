@@ -1,6 +1,6 @@
 ﻿namespace NTDataHiveGrpcService.DAL.Model
 {
-    public class PreEditing
+    public partial class PreEditing
     {
         public int Id { get; set; }
         public string WebId { get; set; }

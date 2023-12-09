@@ -59,7 +59,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 
                     var feedback = new Model.Feedback()
                     {
-                        WebId = recordRequest.WebId.Trim(),
                         PageCount = recordRequest.PageCount,
                         RootCause = recordRequest.RootCause.Trim(),
                         CorrectiveAction = recordRequest.CorrectiveAction.Trim(),
@@ -81,7 +80,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 
                     var errors = new Model.Error()
                     {
-                        Id = feedbackId,
+                        ErrorIdExt = feedbackId,
                         ErrorCount = recordRequest.ErrorCount,
                         DescriptionOfError = recordRequest.DescriptionOfError.Trim(),
                         Matter = recordRequest.Matter.Trim(),
@@ -95,11 +94,12 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     dbContext.Error.Add(errors); 
                     _ = dbContext.SaveChanges();
 
-                    feedbackId = errors.Id;
+                    feedbackId = errors.ErrorIdExt;
 
                     var preEditCredits = new Model.Credit()
                     {
-                        Id = feedbackId,
+                        CreditIdExt = feedbackId,
+                        WebId = recordRequest.WebId.Trim(),
                         SupplierName = recordRequest.SupplierName,
                         QualityAssurance = recordRequest.QualityAssurance,
                         PublisherName = recordRequest.PublisherName,
@@ -163,12 +163,12 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var getFeedbackById = from preEditingFeedback in dbContext.Feedback
+                var getFeedbackById = from preEditingFeedback in dbContext.Credit
                                       where preEditingFeedback.WebId == webid.ToString()
                                       select preEditingFeedback;
 
                 if (getFeedbackById.Count() > 0)
-                    return getFeedbackById.FirstOrDefault().Id;
+                    return getFeedbackById.FirstOrDefault().CreditIdExt;
                 else
                     return 0;
             }

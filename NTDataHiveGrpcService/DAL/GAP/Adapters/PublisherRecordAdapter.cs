@@ -28,7 +28,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 using var dbContext = new NTDataHiveContext(_contextOptions);
 
                 var Feedback = from Feedbacks in dbContext.Feedback
-                                orderby Feedbacks.Credits.SupplierName
+                                orderby Feedbacks.Credit.SupplierName
                                 select CreateNewBllDropdown(Feedbacks);
             }
             catch (Exception ex)
@@ -45,19 +45,19 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         {
             return new BLL.RecordContents.FeedbackComparable()
             {
-                SupplierName = feedback.Credits.SupplierName,
-                QualityAssurance = feedback.Credits.QualityAssurance,
-                PublisherName = feedback.Credits.PublisherName,
-                JournalId = feedback.Credits.SupplierName,
-                CopyEditedBy = feedback.Credits.CopyEditedBy,
-                Matter = feedback.Errors.Matter,
-                ErrorLocation = feedback.Errors.ErrorLocation,
-                ErrorCode = feedback.Errors.ErrorCode,
-                ErrorType = feedback.Errors.ErrorType,
-                ErrorSubtype = feedback.Errors.ErrorSubtype,
-                ErrorCategory = feedback.Errors.ErrorCategory,
-                IntroducedOrMissed = feedback.Errors.IntroducedOrMissed,
-                Department = feedback.Credits.Department,
+                SupplierName = feedback.Credit.SupplierName,
+                QualityAssurance = feedback.Credit.QualityAssurance,
+                PublisherName = feedback.Credit.PublisherName,
+                JournalId = feedback.Credit.SupplierName,
+                CopyEditedBy = feedback.Credit.CopyEditedBy,
+                Matter = feedback.Error.Matter,
+                ErrorLocation = feedback.Error.ErrorLocation,
+                ErrorCode = feedback.Error.ErrorCode,
+                ErrorType = feedback.Error.ErrorType,
+                ErrorSubtype = feedback.Error.ErrorSubtype,
+                ErrorCategory = feedback.Error.ErrorCategory,
+                IntroducedOrMissed = feedback.Error.IntroducedOrMissed,
+                Department = feedback.Credit.Department,
                 NatureOfCA = feedback.NatureOfCA,
                 NatureOfPM = feedback.NatureOfPM,
                 StatusOfCA = feedback.StatusOfCA,

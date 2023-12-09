@@ -1,6 +1,6 @@
 ﻿namespace NTDataHiveGrpcService.DAL.Model
 {
-    public class Revision
+    public partial class Revision
     {
         public int Id { get; set; }
         public string WebId { get; set; }

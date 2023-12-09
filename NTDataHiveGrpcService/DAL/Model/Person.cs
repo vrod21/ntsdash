@@ -2,7 +2,7 @@
 
 namespace NTDataHiveGrpcService.DAL.Model
 {
-    public class Person
+    public partial class Person
     {
         public int Id { get; set; }
         public string WebId { get; set; }

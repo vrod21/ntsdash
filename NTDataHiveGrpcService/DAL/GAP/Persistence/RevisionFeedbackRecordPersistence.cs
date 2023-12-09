@@ -73,7 +73,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
 
             var revisionAdapter= new RevisionFeedbackRecordAdapter(_config);
 
-            if (!revisionAdapter.SelectStudentPart(revisionRecord.feedbackRecordRequest))
+            if (!revisionAdapter.SelectREvisionPart(revisionRecord.feedbackRecordRequest))
                 return false;
 
             return true;

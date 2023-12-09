@@ -54,7 +54,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         CreatedAt = recordRequest.CreatedAt.ToDateTime().ToLocalTime(),
                     };
 
-                    dbContext.Revisions.Add(revision);
+                    dbContext.Revision.Add(revision);
                 }
                 _ = dbContext.SaveChanges();
             }
@@ -74,7 +74,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var revisions = from revision in dbContext.Revisions
+                var revisions = from revision in dbContext.Revision
                                 orderby revision.EmployeeName
                                 select CreateNewBLLRevision(revision);
 
@@ -93,13 +93,13 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region SelectRevision
-        internal bool SelectStudentPart(RevisionFeedbackRecordRequest recordRequest)
+        internal bool SelectREvisionPart(RevisionFeedbackRecordRequest recordRequest)
         {
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
 
-                var revisionRecord = (from revision in dbContext.Revisions
+                var revisionRecord = (from revision in dbContext.Revision
                                      where revision.WebId == recordRequest.WebId
                                      select revision).ToList();
 
@@ -153,7 +153,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var getFeedbackById = from revisionFeedback in dbContext.Revisions
+                var getFeedbackById = from revisionFeedback in dbContext.Revision
                                       where revisionFeedback.WebId == webid
                                       select revisionFeedback;
 

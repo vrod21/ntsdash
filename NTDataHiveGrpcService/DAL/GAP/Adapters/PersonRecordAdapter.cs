@@ -35,7 +35,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         EmailAddress = recordRequest.EmailAddress,
                     };
 
-                    dbContext.Persons.Add(emp);
+                    dbContext.Person.Add(emp);
                 }
                 _ = dbContext.SaveChanges();
             }
@@ -54,7 +54,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var record = from person in dbContext.Persons
+                var record = from person in dbContext.Person
                           orderby person.FirstName
                           select CreateBNewBllPerson(person);
 
@@ -79,7 +79,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var getPersonById = from person in dbContext.Persons
+                var getPersonById = from person in dbContext.Person
                                       where person.WebId == webid
                                       select person;
 
