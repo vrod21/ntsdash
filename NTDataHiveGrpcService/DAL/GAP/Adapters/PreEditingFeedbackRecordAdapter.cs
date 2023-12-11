@@ -24,7 +24,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 
         private void LoadConfiguration()
         {
-            var tz = _config.GetValue<string>("NTDataHive:CurrentTimeZone");
+            var tz = _config.GetValue<string>("UTC");
             _currentTimeZone = TimeZoneInfo.FindSystemTimeZoneById(tz);
         }
 
@@ -68,19 +68,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     {
                         WebId = recordRequest.WebId.Trim(),
                         PageCount = recordRequest.PageCount,
-                        RootCause = recordRequest.RootCause.Trim(),
-                        CorrectiveAction = recordRequest.CorrectiveAction.Trim(),
-                        NatureOfCA = recordRequest.NatureOfCA.Trim(),
-                        OwnerOfCA = recordRequest.OwnerOfCA.Trim(),
-                        TargetDateOfCompletionCA = GetTargetTimeFromUtc(recordRequest),
-                        PreventiveMeasure = recordRequest.PreventiveMeasure.Trim(),
-                        NatureOfPM = recordRequest.NatureOfPM.Trim(),
-                        OwnerOfPM = recordRequest.OwnerOfPM.Trim(),
-                        TargetDateOfCompletionPM = GetTargetTimeFromUtc(recordRequest),
-                        StatusOfCA = recordRequest.StatusOfCA.Trim(),
-                        StatusOfPM = recordRequest.StatusOfPM.Trim(),
-                        CreatedAt = recordRequest.CreatedAt.ToDateTime().ToLocalTime(),          
-                        
+                        CreatedAt = recordRequest.CreatedAt.ToDateTime(),                                                  
                     };
                     dbContext.Feedback.Add(feedback); 
                     _ = dbContext.SaveChanges();
@@ -98,7 +86,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         ErrorType = recordRequest.ErrorType.Trim(),
                         ErrorSubtype = recordRequest.ErrorSubtype.Trim(),
                         ErrorCategory = recordRequest.ErrorCategory.Trim(),
-                        
+                        IntroducedOrMissed = recordRequest.IntroducedOrMissed.Trim(),                        
                     };
                     dbContext.Error.Add(errors); 
                     _ = dbContext.SaveChanges();
@@ -120,8 +108,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     };
                     dbContext.Credit.Add(preEditCredits); 
                     _ = dbContext.SaveChanges();
-                }
-                
+                }                
             }
             catch (Exception ex)
             {
@@ -129,6 +116,10 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 throw;
             }
         }
+        #endregion
+
+        #region UpdatePreEditingFeedBack
+
         #endregion
 
         #region SelectPreEditFeedbackPart
@@ -188,7 +179,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
-        #region
+        #region CreateNewBLLPreEditing
         private static PreEditingFeedbackRecordRequest CreateNewBLLPreEditing(PreEditing preEditing)
         {
             return new PreEditingFeedbackRecordRequest()
@@ -228,7 +219,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
-
+        #region GetTargetTimeFromUTC
         private DateTime? GetTargetTimeFromUtc(PreEditingRecordRequest preEditingRecord)
         {
             DateTime? targetDate = null;
@@ -241,5 +232,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 
             return targetDate;
         }
+        #endregion
     }
 }
