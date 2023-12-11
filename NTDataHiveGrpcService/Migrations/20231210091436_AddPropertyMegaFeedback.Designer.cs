@@ -12,8 +12,8 @@ using NTDataHiveGrpcService.DAL.Data;
 namespace NTDataHiveGrpcService.Migrations
 {
     [DbContext(typeof(NTDataHiveContext))]
-    [Migration("20231209212342_AddNormalizationWithFluentApi")]
-    partial class AddNormalizationWithFluentApi
+    [Migration("20231210091436_AddPropertyMegaFeedback")]
+    partial class AddPropertyMegaFeedback
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,9 +71,6 @@ namespace NTDataHiveGrpcService.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("SupplierName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WebId")
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)");
@@ -185,7 +182,8 @@ namespace NTDataHiveGrpcService.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<int?>("MegaFeedback")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("megaFeedback");
 
                     b.Property<string>("NatureOfCA")
                         .HasMaxLength(100)
@@ -235,6 +233,11 @@ namespace NTDataHiveGrpcService.Migrations
 
                     b.Property<DateTime>("TargetDateOfCompletionPM")
                         .HasColumnType("datetime");
+
+                    b.Property<string>("WebId")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 

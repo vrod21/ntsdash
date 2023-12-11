@@ -101,12 +101,13 @@ namespace NTDataHiveFrontend.ServiceAccess
 
             if (preEditRecord?.TargetDateOfCompletionCA != null)
                 grpcPreEditingRecord.TargetDateOfCompletionCA = preEditRecord.TargetDateOfCompletionCA.Value.ToUniversalTime().ToTimestamp();
+            else
+                grpcPreEditingRecord.TargetDateOfCompletionCA = null;
 
             if (preEditRecord?.TargetDateOfCompletionPM != null)
                 grpcPreEditingRecord.TargetDateOfCompletionPM = preEditRecord.TargetDateOfCompletionPM.Value.ToUniversalTime().ToTimestamp();
-
-            if (preEditRecord?.CreatedAt == null && preEditRecord?.TargetDateOfCompletionCA == null && preEditRecord?.TargetDateOfCompletionPM == null)
-                grpcPreEditingRecord = null;
+            else
+                grpcPreEditingRecord.TargetDateOfCompletionPM = null;
 
             return grpcPreEditingRecord;
         }

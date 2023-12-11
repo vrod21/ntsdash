@@ -12,6 +12,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         private readonly IConfiguration _config;
         private DbContextOptions<NTDataHiveContext> _contextOptions;
+        private TimeZoneInfo _currentTimeZone;
 
         public PreEditingFeedbackRecordAdapter(IConfiguration config)
         {
@@ -19,6 +20,12 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             var optionsBuilder = new DbContextOptionsBuilder<NTDataHiveContext>();
             optionsBuilder.UseSqlServer(config.GetConnectionString("connectionString"));
             _contextOptions = optionsBuilder.Options;
+        }
+
+        private void LoadConfiguration()
+        {
+            var tz = _config.GetValue<string>("NTDataHive:CurrentTimeZone");
+            _currentTimeZone = TimeZoneInfo.FindSystemTimeZoneById(tz);
         }
 
         #region GetAllPreEditingErrorRecord
@@ -59,19 +66,21 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 
                     var feedback = new Model.Feedback()
                     {
+                        WebId = recordRequest.WebId.Trim(),
                         PageCount = recordRequest.PageCount,
                         RootCause = recordRequest.RootCause.Trim(),
                         CorrectiveAction = recordRequest.CorrectiveAction.Trim(),
                         NatureOfCA = recordRequest.NatureOfCA.Trim(),
                         OwnerOfCA = recordRequest.OwnerOfCA.Trim(),
-                        TargetDateOfCompletionCA = recordRequest.TargetDateOfCompletionCA.ToDateTime().ToLocalTime(),
+                        TargetDateOfCompletionCA = GetTargetTimeFromUtc(recordRequest),
                         PreventiveMeasure = recordRequest.PreventiveMeasure.Trim(),
                         NatureOfPM = recordRequest.NatureOfPM.Trim(),
                         OwnerOfPM = recordRequest.OwnerOfPM.Trim(),
-                        TargetDateOfCompletionPM = recordRequest.TargetDateOfCompletionPM.ToDateTime().ToLocalTime(),
+                        TargetDateOfCompletionPM = GetTargetTimeFromUtc(recordRequest),
                         StatusOfCA = recordRequest.StatusOfCA.Trim(),
                         StatusOfPM = recordRequest.StatusOfPM.Trim(),
-                        CreatedAt = recordRequest.CreatedAt.ToDateTime().ToLocalTime(),
+                        CreatedAt = recordRequest.CreatedAt.ToDateTime().ToLocalTime(),          
+                        
                     };
                     dbContext.Feedback.Add(feedback); 
                     _ = dbContext.SaveChanges();
@@ -89,7 +98,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         ErrorType = recordRequest.ErrorType.Trim(),
                         ErrorSubtype = recordRequest.ErrorSubtype.Trim(),
                         ErrorCategory = recordRequest.ErrorCategory.Trim(),
-                        IntroducedOrMissed = recordRequest.IntroducedOrMissed.Trim(),
+                        
                     };
                     dbContext.Error.Add(errors); 
                     _ = dbContext.SaveChanges();
@@ -99,16 +108,15 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     var preEditCredits = new Model.Credit()
                     {
                         CreditIdExt = feedbackId,
-                        WebId = recordRequest.WebId.Trim(),
-                        SupplierName = recordRequest.SupplierName,
-                        QualityAssurance = recordRequest.QualityAssurance,
-                        PublisherName = recordRequest.PublisherName,
-                        JournalId = recordRequest.JournalId,
-                        ArticleId = recordRequest.ArticleId,
-                        CopyEditedBy = recordRequest.CopyEditedBy,
-                        Department = recordRequest.Department,
-                        EmployeeName = recordRequest.EmployeeName,
-                        CopyEditingLevel = recordRequest.CopyEditingLevel,
+                        SupplierName = recordRequest.SupplierName.Trim(),
+                        QualityAssurance = recordRequest.QualityAssurance.Trim(),
+                        PublisherName = recordRequest.PublisherName.Trim(),
+                        JournalId = recordRequest.JournalId.Trim(),
+                        ArticleId = recordRequest.ArticleId.Trim(),
+                        CopyEditedBy = recordRequest.CopyEditedBy.Trim(),
+                        Department = recordRequest.Department.Trim(),
+                        EmployeeName = recordRequest.EmployeeName.Trim(),
+                        CopyEditingLevel = recordRequest.CopyEditingLevel.Trim(),
                     };
                     dbContext.Credit.Add(preEditCredits); 
                     _ = dbContext.SaveChanges();
@@ -163,12 +171,12 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
-                var getFeedbackById = from preEditingFeedback in dbContext.Credit
+                var getFeedbackById = from preEditingFeedback in dbContext.Feedback
                                       where preEditingFeedback.WebId == webid.ToString()
                                       select preEditingFeedback;
 
                 if (getFeedbackById.Count() > 0)
-                    return getFeedbackById.FirstOrDefault().CreditIdExt;
+                    return getFeedbackById.FirstOrDefault().Id;
                 else
                     return 0;
             }
@@ -219,5 +227,19 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             };
         }
         #endregion
+
+
+        private DateTime? GetTargetTimeFromUtc(PreEditingRecordRequest preEditingRecord)
+        {
+            DateTime? targetDate = null;
+
+            if (preEditingRecord != null)
+                targetDate = TimeZoneInfo.ConvertTimeFromUtc(preEditingRecord.TargetDateOfCompletionCA.ToDateTime(), _currentTimeZone);                
+            
+            if (preEditingRecord != null)
+                targetDate = TimeZoneInfo.ConvertTimeFromUtc(preEditingRecord.TargetDateOfCompletionCA.ToDateTime(), _currentTimeZone);
+
+            return targetDate;
+        }
     }
 }

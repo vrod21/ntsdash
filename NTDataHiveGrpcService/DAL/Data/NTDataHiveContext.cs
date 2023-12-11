@@ -37,6 +37,10 @@ namespace NTDataHiveGrpcService.DAL.Data
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.WebId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.PageCount).HasColumnType("float");
 
                 entity.Property(e => e.RootCause)
@@ -56,7 +60,7 @@ namespace NTDataHiveGrpcService.DAL.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.TargetDateOfCompletionCA)
-                    .HasColumnType("datetime");
+                    .HasColumnType("datetime");              
 
                 entity.Property(e => e.PreventiveMeasure)
                     .HasMaxLength(100)
@@ -84,6 +88,8 @@ namespace NTDataHiveGrpcService.DAL.Data
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.MegaFeedback).HasColumnName("megaFeedback");
+
                 entity.HasOne(d => d.MegaFeedbackNavigation)
                     .WithMany(p => p.InverseMegaFeedbackNavigation)
                     .HasForeignKey(d => d.MegaFeedback)
@@ -97,11 +103,7 @@ namespace NTDataHiveGrpcService.DAL.Data
 
                 entity.Property(e => e.CreditIdExt).ValueGeneratedNever();
 
-                entity.Property(e => e.WebId)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PublisherName)
+                entity.Property(e => e.SupplierName)
                     .HasMaxLength(100)
                     .IsUnicode(false);
 

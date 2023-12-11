@@ -124,8 +124,8 @@ namespace NTDataHiveFrontend.ServiceAccess
             if (preEditRecord?.TargetDateOfCompletionPM != null)
                 grpcPreEditingRecord.TargetDateOfCompletionPM = preEditRecord.TargetDateOfCompletionPM.Value.ToUniversalTime().ToTimestamp();
 
-            if (preEditRecord?.CreatedAt == null && preEditRecord?.TargetDateOfCompletionCA == null && preEditRecord?.TargetDateOfCompletionPM == null)
-                grpcPreEditingRecord = null;
+            //if (preEditRecord?.CreatedAt == null && preEditRecord?.TargetDateOfCompletionCA == null && preEditRecord?.TargetDateOfCompletionPM == null)
+            //    grpcPreEditingRecord = null;
 
             return grpcPreEditingRecord;
         }

@@ -28,7 +28,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 using var dbContext = new NTDataHiveContext(_contextOptions);
 
                 var Feedback = from Feedbacks in dbContext.Feedback
-                                orderby Feedbacks.Credit.SupplierName
+                                orderby Feedbacks.Credit.JournalId
                                 select CreateNewBllDropdown(Feedbacks);
             }
             catch (Exception ex)

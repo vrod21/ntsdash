@@ -3,7 +3,7 @@
     public partial class Error
     {
         public int ErrorIdExt { get; set; }
-        public double ErrorCount { get; set; }
+        public double? ErrorCount { get; set; }
         public string DescriptionOfError { get; set; }
         public string Matter { get; set; }
         public string ErrorLocation { get; set; }

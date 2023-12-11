@@ -68,9 +68,6 @@ namespace NTDataHiveGrpcService.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("SupplierName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WebId")
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)");
@@ -182,7 +179,8 @@ namespace NTDataHiveGrpcService.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<int?>("MegaFeedback")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("megaFeedback");
 
                     b.Property<string>("NatureOfCA")
                         .HasMaxLength(100)
@@ -232,6 +230,11 @@ namespace NTDataHiveGrpcService.Migrations
 
                     b.Property<DateTime>("TargetDateOfCompletionPM")
                         .HasColumnType("datetime");
+
+                    b.Property<string>("WebId")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 

@@ -3,7 +3,6 @@
     public partial class Credit
     {            
         public int CreditIdExt { get; set; }
-        public string WebId { get; set; }
         public string SupplierName { get; set; }
         public string QualityAssurance { get; set; }
         public string PublisherName { get; set; }

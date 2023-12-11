@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NTDataHiveGrpcService.Migrations
 {
     /// <inheritdoc />
-    public partial class AddNormalizationWithFluentApi : Migration
+    public partial class AddPropertyMegaFeedback : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,6 +35,7 @@ namespace NTDataHiveGrpcService.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    WebId = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     PageCount = table.Column<double>(type: "float", nullable: false),
                     RootCause = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     CorrectiveAction = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
@@ -48,14 +49,14 @@ namespace NTDataHiveGrpcService.Migrations
                     StatusOfCA = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     StatusOfPM = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    MegaFeedback = table.Column<int>(type: "int", nullable: true)
+                    megaFeedback = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Feedback", x => x.id);
                     table.ForeignKey(
                         name: "FK_Address_Address",
-                        column: x => x.MegaFeedback,
+                        column: x => x.megaFeedback,
                         principalTable: "Feedback",
                         principalColumn: "id");
                 });
@@ -200,8 +201,7 @@ namespace NTDataHiveGrpcService.Migrations
                 columns: table => new
                 {
                     CreditIdExt = table.Column<int>(type: "int", nullable: false),
-                    WebId = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    SupplierName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SupplierName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     QualityAssurance = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     PublisherName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     JournalId = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
@@ -247,9 +247,9 @@ namespace NTDataHiveGrpcService.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Feedback_MegaFeedback",
+                name: "IX_Feedback_megaFeedback",
                 table: "Feedback",
-                column: "MegaFeedback");
+                column: "megaFeedback");
         }
 
         /// <inheritdoc />
