@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Google.Protobuf.WellKnownTypes;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using NTDataHiveGrpcService.BLL.RecordContents;
 using NTDataHiveGrpcService.DAL.Data;
@@ -33,6 +34,10 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         WebId = recordRequest.WebId,
                         Username = recordRequest.Username,
                         EmailAddress = recordRequest.EmailAddress,
+                        FirstName = recordRequest.FirstName,
+                        LastName = recordRequest.LastName,
+                        Position = recordRequest.Position,
+                        CompanyId = recordRequest.CompanyId,
                     };
 
                     dbContext.Person.Add(emp);
@@ -73,6 +78,60 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
+        #region SelectRevision
+        internal bool SelectPersonPart(PersonNotExistRequest recordRequest)
+        {
+            try
+            {
+                using var dbContext = new NTDataHiveContext(_contextOptions);
+
+                var personRecord = (from person in dbContext.Person
+                                      where person.WebId == recordRequest.WebId
+                                      select person).ToList();
+
+                if (personRecord.Count == 0)
+                {
+                    throw new Exception("There is no value");
+                }
+                else if (personRecord.Count == 1)
+                {
+                    var personList = personRecord[0];
+
+                    recordRequest.Username = personList.Username?.Trim() ?? "";
+                    recordRequest.EmailAddress = personList.EmailAddress.Trim() ?? "";
+                    recordRequest.FirstName = personList.FirstName?.Trim() ?? "";
+                    recordRequest.LastName = personList.LastName?.Trim() ?? "";
+                    recordRequest.Birthday = personList.Birthday.ToUniversalTime().ToTimestamp();
+                    recordRequest.Position = personList.Position?.Trim() ?? "";
+                    recordRequest.CompanyId = personList.CompanyId?.Trim() ?? "";
+
+                    //if (personList.FirstName != null)
+                    //    recordRequest.FirstName = personList.FirstName?.Trim() ?? "";
+                    //if (personList.LastName != null)
+                    //    recordRequest.LastName = personList.LastName?.Trim() ?? "";
+                    //if (personList?.Birthday != null)
+                    //    recordRequest.Birthday = personList.Birthday.ToUniversalTime().ToTimestamp();
+                    //if (personList.Position != null)
+                    //    recordRequest.Position = personList.Position?.Trim() ?? "";
+                    //if (personList.CompanyId != null)
+                    //    recordRequest.CompanyId = personList.CompanyId?.Trim() ?? "";
+
+                    return true;
+                }
+                else
+                {
+                    _nlog.Error($"Webid {recordRequest.WebId} duplicate rule");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal(ex);
+                throw;
+            }
+        }
+        #endregion
+
         #region GetPersonByWebId
         internal int GetPersonByWebId(string webid)
         {
@@ -96,6 +155,8 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
+
+
         #region CreateNewBllPerson
         private static PersonNotExistRequest CreateBNewBllPerson(Person person)
         {
@@ -104,6 +165,11 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 WebId = person.WebId,
                 Username = person.Username,
                 EmailAddress = person.EmailAddress,
+                FirstName = person.FirstName,
+                LastName = person.LastName,
+                Birthday = person.Birthday.ToUniversalTime().ToTimestamp(),
+                Position = person.Position,
+                CompanyId = person.CompanyId,
             };
         }
         #endregion

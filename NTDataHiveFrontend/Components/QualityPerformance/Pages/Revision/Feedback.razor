@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
-@* @rendermode InteractiveServer *@
+@rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.RevisionBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
@@ -78,7 +78,7 @@ else
                                 <RadzenLabel Text="Page Count" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenNumeric Style="width: 100%;" @bind-Value="addRevisionFeedback.PageCount" TValue="int" Placeholder="Page Count" />
+                                <RadzenNumeric Style="width: 100%;" @bind-Value="addRevisionFeedback.PageCount" TValue="double" Placeholder="Page Count" />
                             </div>
                         </div>
                         <div class="row">
@@ -86,7 +86,7 @@ else
                                 <RadzenLabel Text="Error Count" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenNumeric Style="width: 100%;" @bind-value="addRevisionFeedback.ErrorCount" TValue="int" Placeholder="Error Count" />
+                                <RadzenNumeric Style="width: 100%;" @bind-value="addRevisionFeedback.ErrorCount" TValue="double" Placeholder="Error Count" />
                             </div>
                         </div>
                         <div class="row">

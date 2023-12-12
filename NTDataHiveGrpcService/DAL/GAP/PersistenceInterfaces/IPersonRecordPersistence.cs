@@ -6,5 +6,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.PersistenceInterfaces
     {
         List<PersonNotExistRequest> GetAllPerson();
         bool Save(PersonFilter personRecord);
+        bool SelectById(string webid, out PersonFilter personRecord);
     }
 }

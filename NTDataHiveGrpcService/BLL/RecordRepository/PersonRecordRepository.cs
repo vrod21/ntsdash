@@ -51,5 +51,31 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
             return personList;
         }
         #endregion
+
+        public bool GetRecord(string WebId, out RecordContents.PersonFilter personFilter)
+        {
+            if (WebId == null)
+            {
+                _nlog.Fatal("Attempting to find a Rule Record with WebId == NULL in the repo.");
+                personFilter = new RecordContents.PersonFilter(Guid.NewGuid().ToString());
+                return false;
+            }
+
+            if (_personRecordCache.TryGetValue(WebId, out RecordContents.PersonFilter personFromCache))
+            {
+                personFilter = personFromCache;
+                return true;                
+            }
+
+            if (_recordPersistence.SelectById(WebId, out RecordContents.PersonFilter personFromDB))
+            {
+                _personRecordCache.TryAdd(WebId, personFromDB);
+                personFilter = personFromDB;
+                return true;
+            }
+
+            personFilter = new RecordContents.PersonFilter(WebId);
+            return false;
+        }
     }
 }

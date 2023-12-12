@@ -11,20 +11,31 @@
 @using Microsoft.AspNetCore.Components.Authorization
 
 @attribute [Authorize]
+@inject NTDataHiveFrontend.ServiceAccess.PersonNotExistBackendService MyPersonNotExistBackendService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IdentityUserAccessor UserAccessor
 @inject UserManager<ApplicationUser> UserManager
 
-<AuthorizeView>
-    <Authorized>
+@if (result == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <EditForm Model="personRecord">
         <div class="jumbotron" style="text-align:center;">
             <img src="/images/greatplacetowork.png" style="width: 650px;" />
             <hr class="my-3">
+
             <RadzenRow class="rz-text-align-center rz-border-info-light" Gap="1rem">
                 <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
                     <div class="rz-shadow-5 rz-p-3 rz-border-radius-3">
                         <div Class="rz-p-0 rz-p-md-5">
-                            @userId
+                            <RadzenCard class="rz-my-12 rz-mx-auto" Style="max-width: 420px">
+
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black">@(personRecord.Username)</RadzenText>
+
+                            </RadzenCard>
                         </div>
                     </div>
                 </RadzenColumn>
@@ -35,16 +46,22 @@
 
                 </RadzenColumn>
                 <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
-                    Column 4 of 4                    
+                    Column 4 of 4
                 </RadzenColumn>
             </RadzenRow>
         </div>
-    </Authorized>
-</AuthorizeView>
+    </EditForm>
+}
+
+
+
 
 
 @code {
     private string? userId;
+    private Guid id { get; set; }
+    private List<NTDataHiveFrontend.Model.Person> result = new List<Model.Person>();
+    private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
 
     private AuthenticationState authState;
 
@@ -53,6 +70,13 @@
         var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var nameIdentifier = auth.User;
 
-        userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;        
+        userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        personRecord = await MyPersonNotExistBackendService.GetPersonRecord(userId);
+    }
+
+    private void PersonModelToList()
+    {
+        
     }
 }

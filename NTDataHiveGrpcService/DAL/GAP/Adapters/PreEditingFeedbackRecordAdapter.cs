@@ -165,7 +165,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
                 var getFeedbackById = from preEditingFeedback in dbContext.Feedback
-                                      where preEditingFeedback.WebId == webid.ToString()
+                                      where preEditingFeedback.WebId == webid
                                       select preEditingFeedback;
 
                 if (getFeedbackById.Count() > 0)

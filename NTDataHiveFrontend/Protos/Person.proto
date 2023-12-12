@@ -11,6 +11,8 @@ service PersonBackend {
 	rpc SavePersonNotExist (PersonNotExistRequest) returns (google.rpc.Status);
 
     rpc GetAll (PersonEmpty) returns (PersonNotExistArray);
+
+    rpc GetPersonRecord (PersonRecordFilter) returns (PersonNotExistRequest);
 }
 message PersonEmpty {
     
@@ -20,6 +22,11 @@ message PersonNotExistRequest {
 	string webId = 1;
     string username = 2;
     string emailAddress = 3;
+    string firstName = 4;
+    string lastName = 5;
+    string position = 6;
+    string companyId = 7;
+    google.protobuf.Timestamp birthday = 8;
 
     google.rpc.Status status = 99;
 }
@@ -38,4 +45,21 @@ message PersonExistRequest {
     google.protobuf.Timestamp birthday = 5;
 
     google.rpc.Status status = 99;
+}
+
+message PersonRecordFilter {
+    string webId = 1;
+}
+
+message PersonAlreadyExistArray {
+    string webId = 1;
+    string username = 2;
+    string emailAddress = 3;
+    string firstName = 4;
+    string lastName = 5;
+    string position = 6;
+    string companyId = 7;
+    google.protobuf.Timestamp birthday = 8;
+
+    google.rpc.Status Status = 99;
 }

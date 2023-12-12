@@ -68,5 +68,34 @@ namespace NTDataHiveGrpcService.Services
             }
         }
         #endregion
+
+        #region GetPersonRecord
+        public override Task<PersonNotExistRequest> GetPersonRecord(PersonRecordFilter request, ServerCallContext context)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(request.WebId))
+                    return Task.FromResult(new PersonNotExistRequest { Status = new Google.Rpc.Status { Code = 3, Message = "WebId missed" } });
+
+                if (_personRecordRepository.GetRecord(request.WebId, out BLL.RecordContents.PersonFilter personFilter))
+                {
+                    var personList = personFilter.personNotExistRequest;
+                    personList.Status = new Google.Rpc.Status() { Code = 0, Message = "Revision Record found" };
+                    return Task.FromResult(personList);
+                }
+                else
+                {
+                    var personList = new PersonNotExistRequest();
+                    personList.Status = new Google.Rpc.Status { Code = 5, Message = "Revision Record not found" };
+                    return Task.FromResult(personList);
+                }
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal(ex.Message);
+                return Task.FromResult(new PersonNotExistRequest { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
+            }
+        }
+        #endregion
     }
 }

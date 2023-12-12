@@ -44,5 +44,35 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
             throw new Exception("There is no value");
         }
         #endregion
+
+        #region SelectById
+        public bool SelectById(string webid, out BLL.RecordContents.PersonFilter personRecord)
+        {
+            if (CreateRevisionRecordByWebId(webid, out BLL.RecordContents.PersonFilter personRecordLocal))
+            {
+                personRecord = personRecordLocal;
+                return true;
+            }
+            else
+            {
+                personRecord = new BLL.RecordContents.PersonFilter(webid);
+                return false;
+            }
+        }
+        #endregion
+
+        #region CreatePersonRecordByWebId
+        private bool CreateRevisionRecordByWebId(string webid, out BLL.RecordContents.PersonFilter personRecord)
+        {
+            personRecord = new BLL.RecordContents.PersonFilter(webid);
+
+            var personAdapter = new PersonRecordAdapter(_config);
+
+            if (!personAdapter.SelectPersonPart(personRecord.personNotExistRequest))
+                return false;
+
+            return true;
+        }
+        #endregion
     }
 }
