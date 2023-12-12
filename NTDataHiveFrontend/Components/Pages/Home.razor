@@ -4,7 +4,8 @@
 @using NTDataHiveFrontend.Components.Home
 @using NTDataHiveFrontend.Components.QualityPerformance.Pages
 @attribute [Authorize]
-@rendermode InteractiveServer
+@attribute [StreamRendering]
+@* @rendermode @(new InteractiveServerRenderMode(prerender: false)) *@
 
 <PageTitle>Home Page</PageTitle>
 

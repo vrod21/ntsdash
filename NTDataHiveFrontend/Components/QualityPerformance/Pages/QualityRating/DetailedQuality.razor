@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
-@rendermode InteractiveServer
+@* @rendermode InteractiveServer *@
 @inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation

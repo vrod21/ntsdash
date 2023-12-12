@@ -1,8 +1,9 @@
 ﻿namespace NTDataHiveGrpcService.DAL.Model
 {
     public partial class Error
-    {
+    {        
         public int ErrorIdExt { get; set; }
+        public string WebId { get; set; }
         public double? ErrorCount { get; set; }
         public string DescriptionOfError { get; set; }
         public string Matter { get; set; }

@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
-@rendermode InteractiveServer
+@* @rendermode InteractiveServer *@
 @inject UseCases.Dropdown.UseCaseInterfaces.IViewPublisherUseCase MyViewPublisherUseCase
 @inject UseCases.Dropdown.UseCaseInterfaces.IViewJournalUseCase MyViewJournalUseCase
 @inject NTDataHiveFrontend.ServiceAccess.FeedbackBackendService MyBackendService

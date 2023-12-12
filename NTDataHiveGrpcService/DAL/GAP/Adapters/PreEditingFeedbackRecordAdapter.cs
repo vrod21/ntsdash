@@ -58,6 +58,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         internal void Insert(PreEditingRecordRequest recordRequest, out int feedbackId)
         {
             feedbackId = 0;
+            var feedbackChecked = new Model.Feedback();
             try
             {                
                 if (recordRequest != null)
@@ -76,8 +77,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     feedbackId = feedback.Id;
 
                     var errors = new Model.Error()
-                    {
+                    {                        
                         ErrorIdExt = feedbackId,
+                        WebId = recordRequest.WebId.Trim(),
                         ErrorCount = recordRequest.ErrorCount,
                         DescriptionOfError = recordRequest.DescriptionOfError.Trim(),
                         Matter = recordRequest.Matter.Trim(),

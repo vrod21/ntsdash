@@ -152,6 +152,10 @@ namespace NTDataHiveGrpcService.DAL.Data
 
                 entity.Property(e => e.ErrorIdExt).ValueGeneratedNever();
 
+                entity.Property(e => e.WebId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.ErrorCount)
                     .HasColumnType("float");
 
