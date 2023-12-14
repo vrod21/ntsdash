@@ -13,5 +13,8 @@ namespace NTDataHiveGrpcService.DAL.Model
         public DateTime Birthday { get; set; }
         public string Position { get; set; }
         public string CompanyId { get; set; }
+        public string AccountName { get; set; }
+        public string ReportingManager { get; set; }
+        public string Department { get; set; }
     }
 }

@@ -15,6 +15,10 @@ message	FeedbackEmpty {
 
 }
 
+message FeedbackRecordRequest {
+    string WebId = 1;
+}
+
 message PreEditingRecordRequest {
 	string WebId = 1;
     string SupplierName = 2; 
@@ -50,6 +54,10 @@ message PreEditingRecordRequest {
 	google.protobuf.Timestamp createdAt = 32;
 
 	google.rpc.Status status = 99;
+}
+
+message FeedbackRecordArray {
+    repeated FeedbackRecordRequest items = 1;
 }
 
 

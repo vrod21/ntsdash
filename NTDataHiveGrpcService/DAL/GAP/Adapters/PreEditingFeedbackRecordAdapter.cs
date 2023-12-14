@@ -69,6 +69,15 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     {
                         WebId = recordRequest.WebId.Trim(),
                         PageCount = recordRequest.PageCount,
+                        RootCause = recordRequest.RootCause,
+                        CorrectiveAction = recordRequest.CorrectiveAction,
+                        NatureOfCA = recordRequest.NatureOfCA,
+                        OwnerOfCA = recordRequest.OwnerOfCA,                        
+                        PreventiveMeasure = recordRequest.PreventiveMeasure,
+                        NatureOfPM = recordRequest.NatureOfPM,
+                        OwnerOfPM = recordRequest.OwnerOfPM,
+                        StatusOfCA = recordRequest.StatusOfCA,
+                        StatusOfPM = recordRequest.StatusOfPM,
                         CreatedAt = recordRequest.CreatedAt.ToDateTime(),                                                  
                     };
                     dbContext.Feedback.Add(feedback); 
@@ -77,7 +86,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     feedbackId = feedback.Id;
 
                     var errors = new Model.Error()
-                    {                        
+                    {
                         ErrorIdExt = feedbackId,
                         WebId = recordRequest.WebId.Trim(),
                         ErrorCount = recordRequest.ErrorCount,
@@ -88,9 +97,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         ErrorType = recordRequest.ErrorType.Trim(),
                         ErrorSubtype = recordRequest.ErrorSubtype.Trim(),
                         ErrorCategory = recordRequest.ErrorCategory.Trim(),
-                        IntroducedOrMissed = recordRequest.IntroducedOrMissed.Trim(),                        
+                        IntroducedOrMissed = recordRequest.IntroducedOrMissed.Trim(),
                     };
-                    dbContext.Error.Add(errors); 
+                    dbContext.Error.Add(errors);
                     _ = dbContext.SaveChanges();
 
                     feedbackId = errors.ErrorIdExt;

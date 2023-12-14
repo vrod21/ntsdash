@@ -5,12 +5,12 @@
 @using NTDataHiveFrontend.Components.QualityPerformance.Pages
 @attribute [Authorize]
 @attribute [StreamRendering]
-@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@* @rendermode @(new InteractiveServerRenderMode(prerender: false)) *@
 
 <PageTitle>Home Page</PageTitle>
 
-<HomeJumbotron />
+<HomeJumbotron @rendermode="InteractiveServer" />
 
-<EmployeeList />
+<EmployeeList @rendermode="InteractiveServer" />
 
 

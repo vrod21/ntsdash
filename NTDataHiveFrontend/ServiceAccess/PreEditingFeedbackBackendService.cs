@@ -39,28 +39,6 @@ namespace NTDataHiveFrontend.ServiceAccess
             }
         }
 
-        #region SavePreEditingFeedback
-        public async Task<Google.Rpc.Status> SavePreEditFeedback(Model.PreEditingErrorFeedback preEditRecord)
-        {
-            if (_client == null)
-                Connect();
-
-            NTDataHiveGrpcService.PreEditingFeedbackRecordRequest grpcPreEditingRecord = ToGrpcFormat(preEditRecord);
-
-            Google.Rpc.Status result;
-            try
-            {
-                result = await _client.SavePreEditFeedbackAsync(grpcPreEditingRecord);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                _nlog.Error($"Save pre-editing threw up: {ex.Message}, {ex}");
-                return new Google.Rpc.Status { Code = 2, Message = ex.Message };
-            }
-        }
-        #endregion
-
         #region GetAll
         public async Task<List<Model.PreEditingErrorFeedback>> GetAllPreEditingRecord()
         {

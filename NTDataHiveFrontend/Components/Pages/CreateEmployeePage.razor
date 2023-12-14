@@ -2,7 +2,7 @@
 
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
-@* @rendermode InteractiveServer *@
+@rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.EmployeeBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
@@ -10,8 +10,6 @@
 
 
 <PageTitle>Create Performance</PageTitle>
-
-<RadzenDialog />
 
 <style>
     form .row {

@@ -16,7 +16,7 @@
 @inject IdentityUserAccessor UserAccessor
 @inject UserManager<ApplicationUser> UserManager
 
-@if (result == null)
+@if (personRecord == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -27,23 +27,26 @@ else
             <img src="/images/greatplacetowork.png" style="width: 650px;" />
             <hr class="my-3">
 
-            <RadzenRow class="rz-text-align-center rz-border-info-light" Gap="1rem">
-                <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
-                    <div class="rz-shadow-5 rz-p-3 rz-border-radius-3">
-                        <div Class="rz-p-0 rz-p-md-5">
-                            <RadzenCard class="rz-my-12 rz-mx-auto" Style="max-width: 420px">
+            <RadzenRow class="rz-text-align-center" Gap="1rem">
+                <RadzenColumn class="rz-p-5">
+                    <h4>Your Credentials</h4>
+                    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Email: {personRecord.EmailAddress}")" />
+                    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.Username}")" />
 
-                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black">@(personRecord.Username)</RadzenText>
-
-                            </RadzenCard>
-                        </div>
-                    </div>
+                    @if (personRecord.FirstName != "" && personRecord.LastName != "" && personRecord.Position != "" && personRecord.CompanyId != "")
+                    {
+                        <h1>John</h1>
+                        <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.FirstName}")" />
+                        <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.LastName}")" />
+                        <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.Position}")" />
+                        <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.CompanyId}")" />
+                    }                         
                 </RadzenColumn>
                 <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
                     Column 2 of 4
                 </RadzenColumn>
                 <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
-
+                    Column 2 of 4
                 </RadzenColumn>
                 <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
                     Column 4 of 4
@@ -75,8 +78,4 @@ else
         personRecord = await MyPersonNotExistBackendService.GetPersonRecord(userId);
     }
 
-    private void PersonModelToList()
-    {
-        
-    }
 }
