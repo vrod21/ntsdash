@@ -16,5 +16,6 @@ namespace NTDataHiveGrpcService.DAL.Model
         public string AccountName { get; set; }
         public string ReportingManager { get; set; }
         public string Department { get; set; }
+        public string Type { get; set; }
     }
 }

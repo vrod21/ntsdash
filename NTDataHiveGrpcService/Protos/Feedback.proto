@@ -11,12 +11,8 @@ service FeedbackBackend {
 	rpc SavePreEditing (PreEditingRecordRequest) returns (google.rpc.Status);
 }
 
-message	FeedbackEmpty {
+message	Feedback {
 
-}
-
-message FeedbackRecordRequest {
-    string WebId = 1;
 }
 
 message PreEditingRecordRequest {
@@ -54,10 +50,6 @@ message PreEditingRecordRequest {
 	google.protobuf.Timestamp createdAt = 32;
 
 	google.rpc.Status status = 99;
-}
-
-message FeedbackRecordArray {
-    repeated FeedbackRecordRequest items = 1;
 }
 
 

@@ -18,11 +18,11 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         public bool Save(BLL.RecordContents.PersonFilter personRecord)
         {
             var createRecord = new PersonRecordAdapter(_config);
-            int personId = createRecord.GetPersonByWebId(personRecord.personNotExistRequest.WebId);
+            int personId = createRecord.GetPersonByWebId(personRecord.personRequest.WebId);
 
             if (personId == 0)
             {
-                createRecord.InserPerson(personRecord.personNotExistRequest);
+                createRecord.Insert(personRecord.personRequest);
             }
             else
             {
@@ -33,9 +33,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         #endregion
 
         #region GetAllPerson
-        public List<PersonNotExistRequest> GetAllPerson()
+        public List<PersonRequest> GetAllPerson()
         {
-            List<PersonNotExistRequest> selectPerson = new PersonRecordAdapter(_config).GetAllPersonRecord();
+            List<PersonRequest> selectPerson = new PersonRecordAdapter(_config).GetAllPersonRecord();
 
             if (selectPerson.Count() >= 1)
             {
@@ -68,7 +68,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
 
             var personAdapter = new PersonRecordAdapter(_config);
 
-            if (!personAdapter.SelectPersonPart(personRecord.personNotExistRequest))
+            if (!personAdapter.SelectPersonPart(personRecord.personRequest))
                 return false;
 
             return true;

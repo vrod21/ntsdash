@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+option csharp_namespace = "NTDataHiveGrpcService";
+
+import "google/protobuf/timestamp.proto";
+import "Protos/status.proto";
+
+package Evaluation;
+
+service EvaluationBackend {
+
+	rpc SaveFeedback (FeedbackRecordRequest) returns (google.rpc.Status);
+
+    rpc GetAllFeedback (FeedbackEmpty) returns (FeedbackRecordArray);
+
+    rpc GetFeedbackRecord (FeedbackRecordFilter) returns (FeedbackRecordRequest);
+
+}
+
+message	FeedbackEmpty {
+
+}
+
+message FeedbackRecordRequest {
+    string webId = 1;
+    string supplierName = 2; 
+    string qualityAssurance = 3;
+    string publisherName = 4;
+    string journalId = 5;
+    string articleId = 6;
+    string copyEditedBy = 7;
+    double pageCount = 8;
+    double errorCount = 9;
+    string descriptionOfError = 10;
+    string matter = 11;
+    string errorLocation = 12; 
+    string errorCode = 13;
+    string errorType = 14;
+    string errorSubtype = 15;
+    string errorCategory = 16;
+    string introducedOrMissed = 17;
+    string department = 18;
+    string employeeName = 19;
+    string rootCause = 20;
+    string correctiveAction = 21; 
+    string natureOfCA = 22;
+    string ownerOfCA = 23;
+    google.protobuf.Timestamp targetDateOfCompletionCA = 24;
+    string preventiveMeasure = 25;
+    string natureOfPM = 26;
+    string ownerOfPM = 27;
+    google.protobuf.Timestamp targetDateOfCompletionPM = 28; 
+    string statusOfCA = 29;
+    string statusOfPM = 30;
+    string copyEditingLevel = 31; 
+	google.protobuf.Timestamp createdAt = 32;
+
+	google.rpc.Status status = 99;
+}
+
+message FeedbackRecordFilter {
+    string webId = 1;
+}
+
+message FeedbackRecordArray {
+    repeated FeedbackRecordRequest items = 1;
+
+    google.rpc.Status status = 99;
+}
+

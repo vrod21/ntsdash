@@ -11,7 +11,7 @@ service FeedbackBackend {
 	rpc SavePreEditing (PreEditingRecordRequest) returns (google.rpc.Status);
 }
 
-message	FeedbackEmpty {
+message	FeedbackEvaEmpty {
 
 }
 

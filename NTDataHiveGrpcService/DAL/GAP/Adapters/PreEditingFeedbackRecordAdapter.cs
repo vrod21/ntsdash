@@ -65,29 +65,20 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 {
                     using var dbContext = new NTDataHiveContext(_contextOptions);
 
-                    var feedback = new Model.Feedback()
-                    {
-                        WebId = recordRequest.WebId.Trim(),
-                        PageCount = recordRequest.PageCount,
-                        RootCause = recordRequest.RootCause,
-                        CorrectiveAction = recordRequest.CorrectiveAction,
-                        NatureOfCA = recordRequest.NatureOfCA,
-                        OwnerOfCA = recordRequest.OwnerOfCA,                        
-                        PreventiveMeasure = recordRequest.PreventiveMeasure,
-                        NatureOfPM = recordRequest.NatureOfPM,
-                        OwnerOfPM = recordRequest.OwnerOfPM,
-                        StatusOfCA = recordRequest.StatusOfCA,
-                        StatusOfPM = recordRequest.StatusOfPM,
-                        CreatedAt = recordRequest.CreatedAt.ToDateTime(),                                                  
-                    };
-                    dbContext.Feedback.Add(feedback); 
-                    _ = dbContext.SaveChanges();
+                    //var feedback = new Model.Feedback()
+                    //{
+                    //    WebId = recordRequest.WebId.Trim(),
 
-                    feedbackId = feedback.Id;
+                    //    CreatedAt = recordRequest.CreatedAt.ToDateTime(),
+                    //};
+                    //dbContext.Feedback.Add(feedback); 
+                    //_ = dbContext.SaveChanges();
+
+                    //feedbackId = feedback.Id;
 
                     var errors = new Model.Error()
-                    {
-                        ErrorIdExt = feedbackId,
+                    { 
+                        ErrorId = feedbackId,
                         WebId = recordRequest.WebId.Trim(),
                         ErrorCount = recordRequest.ErrorCount,
                         DescriptionOfError = recordRequest.DescriptionOfError.Trim(),
@@ -102,11 +93,11 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     dbContext.Error.Add(errors);
                     _ = dbContext.SaveChanges();
 
-                    feedbackId = errors.ErrorIdExt;
+                    feedbackId = errors.ErrorId;
 
                     var preEditCredits = new Model.Credit()
                     {
-                        CreditIdExt = feedbackId,
+                        CreditId = feedbackId,
                         SupplierName = recordRequest.SupplierName.Trim(),
                         QualityAssurance = recordRequest.QualityAssurance.Trim(),
                         PublisherName = recordRequest.PublisherName.Trim(),
@@ -172,14 +163,14 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         {
             try
             {
-                using var dbContext = new NTDataHiveContext(_contextOptions);
-                var getFeedbackById = from preEditingFeedback in dbContext.Feedback
-                                      where preEditingFeedback.WebId == webid
-                                      select preEditingFeedback;
+                //using var dbContext = new NTDataHiveContext(_contextOptions);
+                //var getFeedbackById = from preEditingFeedback in dbContext.Feedback
+                //                      where preEditingFeedback.WebId == webid
+                //                      select preEditingFeedback;
 
-                if (getFeedbackById.Count() > 0)
-                    return getFeedbackById.FirstOrDefault().Id;
-                else
+                //if (getFeedbackById.Count() > 0)
+                //    return getFeedbackById.FirstOrDefault().Id;
+                //else
                     return 0;
             }
             catch (Exception ex)

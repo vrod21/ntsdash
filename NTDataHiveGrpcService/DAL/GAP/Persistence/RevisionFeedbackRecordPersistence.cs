@@ -78,7 +78,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
 
             return true;
         }
-
         #endregion
     }
 }

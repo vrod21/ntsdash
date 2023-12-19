@@ -4,6 +4,7 @@ namespace NTDataHiveGrpcService.BLL.RecordContents
 {
     public class FeedbackComparable : IComparable<FeedbackComparable>
     {
+        // employee
         public int Id { get; set; }
         public string PublisherIdentity { get; set; }
         public DateTime Created_at { get; set; }
@@ -11,7 +12,7 @@ namespace NTDataHiveGrpcService.BLL.RecordContents
 
 
 
-
+        // person
         public string WebId { get; set; }
         public string Username { get; set; }
         public string EmailAddress { get; set; }
@@ -23,7 +24,7 @@ namespace NTDataHiveGrpcService.BLL.RecordContents
 
 
 
-
+        // feedback
         public int CreditId { get; set; }
         public int ErrorId { get; set; }
         public string SupplierName { get; set; }

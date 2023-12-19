@@ -19,7 +19,7 @@ namespace NTDataHiveGrpcService.Services
         }
 
         #region SavePerson
-        public override Task<Google.Rpc.Status> SavePersonNotExist(PersonNotExistRequest request, ServerCallContext context)
+        public override Task<Google.Rpc.Status> SavePerson(PersonRequest request, ServerCallContext context)
         {
             try
             {
@@ -41,18 +41,18 @@ namespace NTDataHiveGrpcService.Services
         #endregion
 
         #region GetAll
-        public override Task<PersonNotExistArray> GetAll(PersonEmpty request, ServerCallContext context)
+        public override Task<PersonArray> GetAll(PersonEmpty request, ServerCallContext context)
         {
             try
             {
-                var record = new PersonNotExistArray();
+                var record = new PersonArray();
                 record.Status = new Google.Rpc.Status { Code = 0, Message = "Rule is queryable." };
 
                 var list = _personRecordRepository.GetAllRecord();
 
                 foreach (var item in list)
                 {
-                    record.Items.Add(new PersonNotExistRequest
+                    record.Items.Add(new PersonRequest
                     {
                         WebId = item.WebId,
                         Username = item.Username,
@@ -64,28 +64,28 @@ namespace NTDataHiveGrpcService.Services
             catch (Exception ex)
             {
                 _nlog.Fatal(ex);
-                return Task.FromResult(new PersonNotExistArray { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
+                return Task.FromResult(new PersonArray { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
             }
         }
         #endregion
 
         #region GetPersonRecord
-        public override Task<PersonNotExistRequest> GetPersonRecord(PersonRecordFilter request, ServerCallContext context)
+        public override Task<PersonRequest> GetPersonRecord(PersonRecordFilter request, ServerCallContext context)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(request.WebId))
-                    return Task.FromResult(new PersonNotExistRequest { Status = new Google.Rpc.Status { Code = 3, Message = "WebId missed" } });
+                    return Task.FromResult(new PersonRequest { Status = new Google.Rpc.Status { Code = 3, Message = "WebId missed" } });
 
                 if (_personRecordRepository.GetRecord(request.WebId, out BLL.RecordContents.PersonFilter personFilter))
                 {
-                    var personList = personFilter.personNotExistRequest;
+                    var personList = personFilter.personRequest;
                     personList.Status = new Google.Rpc.Status() { Code = 0, Message = "Revision Record found" };
                     return Task.FromResult(personList);
                 }
                 else
                 {
-                    var personList = new PersonNotExistRequest();
+                    var personList = new PersonRequest();
                     personList.Status = new Google.Rpc.Status { Code = 5, Message = "Revision Record not found" };
                     return Task.FromResult(personList);
                 }
@@ -93,7 +93,7 @@ namespace NTDataHiveGrpcService.Services
             catch (Exception ex)
             {
                 _nlog.Fatal(ex.Message);
-                return Task.FromResult(new PersonNotExistRequest { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
+                return Task.FromResult(new PersonRequest { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
             }
         }
         #endregion

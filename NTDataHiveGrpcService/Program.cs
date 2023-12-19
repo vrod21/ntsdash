@@ -22,6 +22,10 @@ builder.Services.AddScoped<IPersonRecordPersistence, PersonRecordPersistence>();
 builder.Services.AddScoped<IPersonRecordRepository, PersonRecordRepository>();
 builder.Services.AddScoped<IDropdownRecordPersistence, DropdownRecordPersistence>();
 builder.Services.AddScoped<IDropdownRecordRepository, DropdownRecordRepository>();
+builder.Services.AddScoped<IEvaluationRecordPersistence, EvaluationRecordPersistence>();
+builder.Services.AddScoped<IEvaluationRecordRepository, EvaluationRecordRepository>();
+builder.Services.AddScoped<IPersonRecordPersistence, PersonRecordPersistence>();
+builder.Services.AddScoped<IPersonRecordRepository, PersonRecordRepository>();
 
 builder.Services.AddDbContext<NTDataHiveContext>(options =>
 {
@@ -48,6 +52,7 @@ app.MapGrpcService<RevisionFeedbackService>();
 app.MapGrpcService<PersonService>();
 app.MapGrpcService<DropdownService>();
 app.MapGrpcService<FeedbackService>();
+app.MapGrpcService<EvaluationService>();
 
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 

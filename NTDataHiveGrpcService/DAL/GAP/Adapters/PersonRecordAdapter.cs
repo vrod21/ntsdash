@@ -22,7 +22,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
 
         #region InsertPerson
-        internal void InserPerson(PersonNotExistRequest recordRequest)
+        internal void Insert(PersonRequest recordRequest)
         {
             try
             {
@@ -38,6 +38,10 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         LastName = recordRequest.LastName,
                         Position = recordRequest.Position,
                         CompanyId = recordRequest.CompanyId,
+                        AccountName = recordRequest.AccountName,
+                        ReportingManager = recordRequest.ReportingManager,
+                        Department = recordRequest.Department,
+                        Type = recordRequest.Type,
                     };
 
                     dbContext.Person.Add(emp);
@@ -53,9 +57,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region GetAllPersonRecord
-        internal List<PersonNotExistRequest> GetAllPersonRecord()
+        internal List<PersonRequest> GetAllPersonRecord()
         {
-            List<PersonNotExistRequest> personRecord = new List<PersonNotExistRequest>();
+            List<PersonRequest> personRecord = new List<PersonRequest>();
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
@@ -79,7 +83,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region SelectRevision
-        internal bool SelectPersonPart(PersonNotExistRequest recordRequest)
+        internal bool SelectPersonPart(PersonRequest recordRequest)
         {
             try
             {
@@ -104,23 +108,16 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     recordRequest.Birthday = personList.Birthday.ToUniversalTime().ToTimestamp();
                     recordRequest.Position = personList.Position?.Trim() ?? "";
                     recordRequest.CompanyId = personList.CompanyId?.Trim() ?? "";
-
-                    //if (personList.FirstName != null)
-                    //    recordRequest.FirstName = personList.FirstName?.Trim() ?? "";
-                    //if (personList.LastName != null)
-                    //    recordRequest.LastName = personList.LastName?.Trim() ?? "";
-                    //if (personList?.Birthday != null)
-                    //    recordRequest.Birthday = personList.Birthday.ToUniversalTime().ToTimestamp();
-                    //if (personList.Position != null)
-                    //    recordRequest.Position = personList.Position?.Trim() ?? "";
-                    //if (personList.CompanyId != null)
-                    //    recordRequest.CompanyId = personList.CompanyId?.Trim() ?? "";
+                    recordRequest.AccountName = personList.AccountName?.Trim() ?? "";
+                    recordRequest.ReportingManager = personList.ReportingManager?.Trim() ?? "";
+                    recordRequest.Department = personList.Department?.Trim() ?? "";
+                    recordRequest.Type = personList.Type?.Trim() ?? "";
 
                     return true;
                 }
                 else
                 {
-                    _nlog.Error($"Webid {recordRequest.WebId} duplicate rule");
+                    _nlog.Error($"Webid {recordRequest.WebId} duplicate person");
                     return false;
                 }
             }
@@ -155,12 +152,10 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
-
-
         #region CreateNewBllPerson
-        private static PersonNotExistRequest CreateBNewBllPerson(Person person)
+        private static PersonRequest CreateBNewBllPerson(Person person)
         {
-            return new PersonNotExistRequest()
+            return new PersonRequest()
             {
                 WebId = person.WebId,
                 Username = person.Username,
@@ -170,6 +165,10 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 Birthday = person.Birthday.ToUniversalTime().ToTimestamp(),
                 Position = person.Position,
                 CompanyId = person.CompanyId,
+                AccountName = person.AccountName,
+                ReportingManager = person.ReportingManager,
+                Department = person.Department,
+                Type = person.Type,
             };
         }
         #endregion

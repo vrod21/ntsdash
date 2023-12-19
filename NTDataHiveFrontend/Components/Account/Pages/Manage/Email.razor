@@ -25,7 +25,7 @@
         </form>
         <EditForm Model="Input" FormName="change-email" OnValidSubmit="OnValidSubmitAsync" method="post">
             <DataAnnotationsValidator />
-            <ValidationSummary class="text-danger" role="alert" />
+            @* <ValidationSummary class="text-danger" role="alert" /> *@
             @if (isEmailConfirmed)
             {
                 <div class="form-floating mb-3 input-group">
@@ -34,14 +34,6 @@
                         <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
                     </div>
                     <label for="email" class="form-label">Email</label>
-                </div>
-
-                <div class="form-floating mb-3 input-group">
-                    <input type="text" value="@userId" class="form-control" placeholder="Please enter your UserId." disabled />
-                    <div class="input-group-append">
-                        <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
-                    </div>
-                    <label for="userid" class="form-label">User Id</label>
                 </div>
             }
             else

@@ -105,7 +105,6 @@ namespace NTDataHiveFrontend.ServiceAccess
 
                     if (result.WebId != "")
                         return revision;
-
                 }
                 _nlog.Error(result.Status.Message);
                 return null;
@@ -158,9 +157,6 @@ namespace NTDataHiveFrontend.ServiceAccess
             if (revisionRecord?.CreatedAt != null)
                 grpcRevisionRecord.CreatedAt = revisionRecord.CreatedAt.Value.ToUniversalTime().ToTimestamp();
 
-            if (revisionRecord?.CreatedAt == null)
-                grpcRevisionRecord = null;
-
             return grpcRevisionRecord;
         }
         #endregion
@@ -204,7 +200,5 @@ namespace NTDataHiveFrontend.ServiceAccess
             return frontendRevisionRecord;
         }
         #endregion
-
-
     }
 }

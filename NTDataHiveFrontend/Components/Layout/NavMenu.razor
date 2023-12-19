@@ -1,6 +1,23 @@
-﻿@implements IDisposable
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Http.Extensions;
+@using Microsoft.AspNetCore.Identity
+@using NTDataHiveFrontend.Components.Account
+@using NTDataHiveFrontend.Data
+
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@implements IDisposable
 
 @inject NavigationManager NavigationManager
+
+@attribute [Authorize]
+@inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyBackendService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IdentityUserAccessor UserAccessor
+@inject UserManager<ApplicationUser> UserManager
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -25,32 +42,18 @@
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="counter">
-                        <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+                    <NavLink class="nav-link" href="feedback">
+                        <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Create Feedback
                     </NavLink>
                 </div>
-
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="weather">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-                    </NavLink>
-                </div>
-
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="auth">
-                        <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Auth Required
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="create-employee">
-                        <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Create Employee
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="pre-editing-feedback">
-                        <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Create Pre-editing Feedback
-                    </NavLink>
-                </div>
+                @if (personRecord.Type == "Admin")
+                {
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="Account/Register">
+                            <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Register
+                        </NavLink>
+                    </div>
+                }
 
                 <br />
                 <div class="nav-item px-3">
@@ -69,11 +72,25 @@
 
 @code {
     private string? currentUrl;
+    private string? userId;
+
+    private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
 
     protected override void OnInitialized()
     {
         currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var nameIdentifier = auth.User;
+
+        userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        personRecord = await MyBackendService.GetPersonRecord(userId);
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)

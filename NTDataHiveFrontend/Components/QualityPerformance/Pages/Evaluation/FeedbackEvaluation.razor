@@ -1,30 +1,43 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
-@inject NTDataHiveFrontend.ServiceAccess.RevisionBackendService MyBackendService
+@rendermode InteractiveServer
+@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyBackendService
 @inject IConfiguration Configuration
-@inject NavigationManager MyNavigationManager
-@page "/revision-specific-detail-page/{id:guid}"
+@inject NavigationManager MyNavigation
+@page "/feedback"
 
-<h3>Feedback Specific Detail</h3>
+<PageTitle>Evaluation Feedback</PageTitle>
 
-@if (revisionDetail == null)
+<style>
+    form .row {
+        margin-bottom: 16px;
+    }
+</style>
+
+<div class="create-feedback-button">
+    <RadzenButton Style="background-color: #e81f4b;" Click="@Save" Text="Create Feedback" />
+</div>
+
+<h3>Create - Feedback</h3>
+
+@if (addFeedback == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <EditForm Model="revisionDetail">
+    <EditForm Model="addFeedback">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
-                    <RadzenFieldset class="rz-color-white " Text="Revision Feedback">
+                    <RadzenFieldset Text="Feedback">
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
                                 <RadzenLabel Text="Supplier Name" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-value="revisionDetail.SupplierName" Placeholder="Supplier Name" />
+                                <RadzenTextBox Style="width: 100%;" @bind-value="addFeedback.SupplierName" Placeholder="Supplier Name" />
                             </div>
                         </div>
                         <div class="row">
@@ -32,7 +45,7 @@ else
                                 <RadzenLabel Text="QA Name" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-value="revisionDetail.QualityAssurance" Placeholder="Quality Assurance Name" />
+                                <RadzenTextBox Style="width: 100%;" @bind-value="addFeedback.QualityAssurance" Placeholder="Quality Assurance Name" />
                             </div>
                         </div>
                         <div class="row">
@@ -41,7 +54,7 @@ else
 
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-value="revisionDetail.PublisherName" Placeholder="Publisher Name" />
+                                <RadzenTextBox Style="width: 100%;" @bind-value="addFeedback.PublisherName" Placeholder="Publisher Name" />
                             </div>
                         </div>
                         <div class="row">
@@ -49,7 +62,7 @@ else
                                 <RadzenLabel Text="Journal ID" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-value="revisionDetail.JournalId" Placeholder="Journal ID" />
+                                <RadzenTextBox Style="width: 100%;" @bind-value="addFeedback.JournalId" Placeholder="Journal ID" />
                             </div>
                         </div>
                         <div class="row">
@@ -57,7 +70,7 @@ else
                                 <RadzenLabel Text="Article ID" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-value="revisionDetail.ArticleId" Placeholder="Article ID" />
+                                <RadzenTextBox Style="width: 100%;" @bind-value="addFeedback.ArticleId" Placeholder="Article ID" />
                             </div>
                         </div>
                         <div class="row">
@@ -65,7 +78,7 @@ else
                                 <RadzenLabel Text="Page Count" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenNumeric Style="width: 100%;" @bind-Value="revisionDetail.PageCount" TValue="double" Placeholder="Page Count" />
+                                <RadzenNumeric Style="width: 100%;" @bind-Value="addFeedback.PageCount" TValue="double" Placeholder="Page Count" />
                             </div>
                         </div>
                         <div class="row">
@@ -73,7 +86,7 @@ else
                                 <RadzenLabel Text="Error Count" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenNumeric Style="width: 100%;" @bind-value="revisionDetail.ErrorCount" TValue="double" Placeholder="Error Count" />
+                                <RadzenNumeric Style="width: 100%;" @bind-value="addFeedback.ErrorCount" TValue="double" Placeholder="Error Count" />
                             </div>
                         </div>
                         <div class="row">
@@ -81,7 +94,7 @@ else
                                 <RadzenLabel Text="Description of Error" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextArea Style="width: 100%;" @bind-value="revisionDetail.DescriptionOfError" Placeholder="Description of Error" />
+                                <RadzenTextArea Style="width: 100%;" @bind-value="addFeedback.DescriptionOfError" Placeholder="Description of Error" />
                             </div>
                         </div>
                         <div class="row">
@@ -89,19 +102,19 @@ else
                                 <RadzenLabel Text="Matter" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="revisionDetail.Matter" Placeholder="FM/Non-FM" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addFeedback.Matter" Placeholder="FM/Non-FM" />
                             </div>
                         </div>
                     </RadzenFieldset>
                 </div>
                 <div class="col-md-6">
-                    <RadzenFieldset class="rz-color-white" Text="Revision Feedback">
+                    <RadzenFieldset Text="Feedback">
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
                                 <RadzenLabel Text="Error Location" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="revisionDetail.ErrorLocation" Placeholder="Error Location" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addFeedback.ErrorLocation" Placeholder="Error Location" />
                             </div>
                         </div>
                         <div class="row">
@@ -109,7 +122,7 @@ else
                                 <RadzenLabel Text="Error Code" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="revisionDetail.ErrorCode" Placeholder="Error Code" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addFeedback.ErrorCode" Placeholder="Error Code" />
                             </div>
                         </div>
                         <div class="row">
@@ -117,7 +130,7 @@ else
                                 <RadzenLabel Text="Error Type" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="revisionDetail.ErrorType" Placeholder="Error Type" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addFeedback.ErrorType" Placeholder="Error Type" />
                             </div>
                         </div>
                         <div class="row">
@@ -125,7 +138,7 @@ else
                                 <RadzenLabel Text="Error SubType" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="revisionDetail.ErrorSubtype" Placeholder="Error SubType" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addFeedback.ErrorSubtype" Placeholder="Error SubType" />
                             </div>
                         </div>
                         <div class="row">
@@ -133,7 +146,7 @@ else
                                 <RadzenLabel Text="Error Category" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="revisionDetail.ErrorCategory" Placeholder="Error Category" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addFeedback.ErrorCategory" Placeholder="Error Category" />
                             </div>
                         </div>
                         <div class="row">
@@ -141,7 +154,7 @@ else
                                 <RadzenLabel Text="Introduced/Missed" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="revisionDetail.IntroducedOrMissed" Placeholder="Introduced/Missed" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addFeedback.IntroducedOrMissed" Placeholder="Introduced/Missed" />
                             </div>
                         </div>
                         <div class="row">
@@ -149,7 +162,7 @@ else
                                 <RadzenLabel Text="Department" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="revisionDetail.Department" Placeholder="Department" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addFeedback.Department" Placeholder="Department" />
                             </div>
                         </div>
                         <div class="row">
@@ -157,7 +170,7 @@ else
                                 <RadzenLabel Text="Employee Name" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="revisionDetail.EmployeeName" Placeholder="Employee Name" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addFeedback.EmployeeName" Placeholder="Employee Name" />
                             </div>
                         </div>
                         <div class="row">
@@ -165,7 +178,7 @@ else
                                 <RadzenLabel Text="CE Level" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="revisionDetail.CopyEditingLevel" Placeholder="Copy Editing Level" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="addFeedback.CopyEditingLevel" Placeholder="Copy Editing Level" />
                             </div>
                         </div>
                         <div class="row">
@@ -173,7 +186,8 @@ else
                                 <RadzenLabel Text="Time Created" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="revisionDetail.CreatedAt" />
+                                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="addFeedback.CreatedAt" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
+                                                  DateFormat="MM/dd/yyyy h:mm:ss tt" Placeholder="@($"{@DateTime.Now.ToLocalTime()}")" Change="@(args => PickDateOfTime())" />
                             </div>
                         </div>
                     </RadzenFieldset>
@@ -184,15 +198,19 @@ else
 }
 
 @code {
-    [Parameter]
-    public Guid id { get; set; }
+    private NTDataHiveFrontend.Model.Feedback addFeedback = new Model.Feedback();
 
-    private NTDataHiveFrontend.Model.Revision revisionDetail = new Model.Revision();
-
-    protected override async Task OnInitializedAsync()
+    private async Task Save()
     {
-        await base.OnInitializedAsync();
-        
-        revisionDetail = await MyBackendService.GetRevisionRecord(id);
+        await MyBackendService.SaveFeedback(addFeedback);
+
+        MyNavigation.NavigateTo("/feedback-performance");
+    }
+
+    private void PickDateOfTime()
+    {
+        var value = DateTime.Now;
+        addFeedback.CreatedAt = value;
+        StateHasChanged();
     }
 }

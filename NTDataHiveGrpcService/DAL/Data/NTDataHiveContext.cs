@@ -21,7 +21,8 @@ namespace NTDataHiveGrpcService.DAL.Data
         public virtual DbSet<Publisher> Publisher { get; set; }
         public virtual DbSet<Credit> Credit { get; set; }
         public virtual DbSet<Error> Error { get; set; }
-        public virtual DbSet<Feedback> Feedback { get; set; }
+        public virtual DbSet<Evaluation> Evaluation { get; set; }
+        public virtual DbSet<Approval> Approval { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,169 +34,30 @@ namespace NTDataHiveGrpcService.DAL.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Feedback>(entity =>
+            modelBuilder.Entity<Evaluation>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.WebId)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                entity.Property(e => e.MegaEvaluation);
 
-                entity.Property(e => e.PageCount).HasColumnType("float");
-
-                entity.Property(e => e.RootCause)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CorrectiveAction)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.NatureOfCA)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.OwnerOfCA)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.TargetDateOfCompletionCA)
-                    .HasColumnType("datetime");              
-
-                entity.Property(e => e.PreventiveMeasure)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.NatureOfPM)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.OwnerOfPM)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.TargetDateOfCompletionPM)
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.StatusOfCA)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.StatusOfPM)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.MegaFeedback).HasColumnName("megaFeedback");
-
-                entity.HasOne(d => d.MegaFeedbackNavigation)
-                    .WithMany(p => p.InverseMegaFeedbackNavigation)
-                    .HasForeignKey(d => d.MegaFeedback)
+                entity.HasOne(d => d.MegaEvaluationNavigation)
+                    .WithMany(p => p.InverseMegaEvaluationNavigation)
+                    .HasForeignKey(d => d.MegaEvaluation)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Address_Address");
+                    .HasConstraintName("FK_Evaluation_Evaluation");
             });
 
-            modelBuilder.Entity<Credit>(entity =>
+            modelBuilder.Entity<Approval>(entity =>
             {
-                entity.HasKey(e => e.CreditIdExt);
+                entity.HasKey(e => e.ApprovalIdExt);
 
-                entity.Property(e => e.CreditIdExt).ValueGeneratedNever();
+                entity.Property(e => e.ApprovalIdExt).ValueGeneratedNever();
 
-                entity.Property(e => e.SupplierName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.QualityAssurance)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PublisherName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.JournalId)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ArticleId)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CopyEditedBy)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Department)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.EmployeeName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CopyEditingLevel)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.FeedbackCreditNavigation)
-                    .WithOne(p => p.Credit)
-                    .HasForeignKey<Credit>(d => d.CreditIdExt)
+                entity.HasOne(d => d.EvaluationNavigation)
+                    .WithOne(p => p.Approval)
+                    .HasForeignKey<Approval>(d => d.ApprovalIdExt)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Credit_Feedback");
-            });
-
-            modelBuilder.Entity<Error>(entity =>
-            {
-                entity.HasKey(e => e.ErrorIdExt);
-
-                entity.Property(e => e.ErrorIdExt).ValueGeneratedNever();
-
-                entity.Property(e => e.WebId)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ErrorCount)
-                    .HasColumnType("float");
-
-                entity.Property(e => e.DescriptionOfError)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Matter)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ErrorLocation)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ErrorCode)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ErrorType)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ErrorSubtype)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ErrorCategory)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.IntroducedOrMissed)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.FeedbackErrorNavigation)
-                    .WithOne(p => p.Error)
-                    .HasForeignKey<Error>(d => d.ErrorIdExt)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Error_Feedback");
+                    .HasConstraintName("FK_Approval_Evaluation");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -6,11 +6,32 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NTDataHiveGrpcService.Migrations
 {
     /// <inheritdoc />
-    public partial class AddPropertyMegaFeedback : Migration
+    public partial class AddPropties : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Credit",
+                columns: table => new
+                {
+                    CreditId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SupplierName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QualityAssurance = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PublisherName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JournalId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ArticleId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CopyEditedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Department = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CopyEditingLevel = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Credit", x => x.CreditId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Employee",
                 columns: table => new
@@ -30,34 +51,63 @@ namespace NTDataHiveGrpcService.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Feedback",
+                name: "Error",
+                columns: table => new
+                {
+                    ErrorId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WebId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorCount = table.Column<double>(type: "float", nullable: true),
+                    DescriptionOfError = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Matter = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorSubtype = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorCategory = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IntroducedOrMissed = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Error", x => x.ErrorId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Evaluation",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WebId = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    SupplierName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    QualityAssurance = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    PublisherName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    JournalId = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    ArticleId = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    CopyEditedBy = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     PageCount = table.Column<double>(type: "float", nullable: false),
-                    RootCause = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    CorrectiveAction = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    NatureOfCA = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    OwnerOfCA = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    TargetDateOfCompletionCA = table.Column<DateTime>(type: "datetime", nullable: false),
-                    PreventiveMeasure = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    NatureOfPM = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    OwnerOfPM = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    TargetDateOfCompletionPM = table.Column<DateTime>(type: "datetime", nullable: false),
-                    StatusOfCA = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    StatusOfPM = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    ErrorCount = table.Column<double>(type: "float", nullable: false),
+                    DescriptionOfError = table.Column<string>(type: "varchar(4000)", unicode: false, maxLength: 4000, nullable: true),
+                    Matter = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    ErrorLocation = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    ErrorCode = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    ErrorType = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    ErrorSubtype = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    ErrorCategory = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    IntroducedOrMissed = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: true),
+                    Department = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    EmployeeName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    CopyEditingLevel = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    megaFeedback = table.Column<int>(type: "int", nullable: true)
+                    MegaEvaluation = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Feedback", x => x.id);
+                    table.PrimaryKey("PK_Evaluation", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Address_Address",
-                        column: x => x.megaFeedback,
-                        principalTable: "Feedback",
+                        name: "FK_Evaluation_Evaluation",
+                        column: x => x.MegaEvaluation,
+                        principalTable: "Evaluation",
                         principalColumn: "id");
                 });
 
@@ -74,7 +124,10 @@ namespace NTDataHiveGrpcService.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CompanyId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AccountName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReportingManager = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Department = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -197,64 +250,44 @@ namespace NTDataHiveGrpcService.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Credit",
+                name: "Approval",
                 columns: table => new
                 {
-                    CreditIdExt = table.Column<int>(type: "int", nullable: false),
-                    SupplierName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    QualityAssurance = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    PublisherName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    JournalId = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    ArticleId = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    CopyEditedBy = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    Department = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    EmployeeName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    CopyEditingLevel = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
+                    ApprovalIdExt = table.Column<int>(type: "int", nullable: false),
+                    RootCause = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    CorrectiveAction = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    NatureOfCA = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    OwnerOfCA = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    TargetDateOfCompletionCA = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PreventiveMeasure = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    NatureOfPM = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    OwnerOfPM = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    TargetDateOfCompletionPM = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StatusOfCA = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    StatusOfPM = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Credit", x => x.CreditIdExt);
+                    table.PrimaryKey("PK_Approval", x => x.ApprovalIdExt);
                     table.ForeignKey(
-                        name: "FK_Credit_Feedback",
-                        column: x => x.CreditIdExt,
-                        principalTable: "Feedback",
-                        principalColumn: "id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Error",
-                columns: table => new
-                {
-                    ErrorIdExt = table.Column<int>(type: "int", nullable: false),
-                    ErrorCount = table.Column<double>(type: "float", nullable: false),
-                    DescriptionOfError = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    Matter = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    ErrorLocation = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    ErrorCode = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    ErrorType = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    ErrorSubtype = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    ErrorCategory = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    IntroducedOrMissed = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Error", x => x.ErrorIdExt);
-                    table.ForeignKey(
-                        name: "FK_Error_Feedback",
-                        column: x => x.ErrorIdExt,
-                        principalTable: "Feedback",
+                        name: "FK_Approval_Evaluation",
+                        column: x => x.ApprovalIdExt,
+                        principalTable: "Evaluation",
                         principalColumn: "id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Feedback_megaFeedback",
-                table: "Feedback",
-                column: "megaFeedback");
+                name: "IX_Evaluation_MegaEvaluation",
+                table: "Evaluation",
+                column: "MegaEvaluation");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Approval");
+
             migrationBuilder.DropTable(
                 name: "Credit");
 
@@ -283,7 +316,7 @@ namespace NTDataHiveGrpcService.Migrations
                 name: "Revision");
 
             migrationBuilder.DropTable(
-                name: "Feedback");
+                name: "Evaluation");
         }
     }
 }

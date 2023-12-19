@@ -11,7 +11,7 @@
 @using Microsoft.AspNetCore.Components.Authorization
 
 @attribute [Authorize]
-@inject NTDataHiveFrontend.ServiceAccess.PersonNotExistBackendService MyPersonNotExistBackendService
+@inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IdentityUserAccessor UserAccessor
 @inject UserManager<ApplicationUser> UserManager
@@ -29,18 +29,22 @@ else
 
             <RadzenRow class="rz-text-align-center" Gap="1rem">
                 <RadzenColumn class="rz-p-5">
-                    <h4>Your Credentials</h4>
-                    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Email: {personRecord.EmailAddress}")" />
-                    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.Username}")" />
+                    <div class="rz-shadow-5 rz-p-3 rz-border-radius-3">
+                        <div Class="rz-p-0 rz-p-md-5">
+                            <h4><b>Your Credentials</b></h4>
+                            <RadzenText class="rz-color-black" Text="@($"Email: {personRecord.EmailAddress}")" />
+                            <RadzenText class="rz-color-black" Text="@($"Usename: {personRecord.Username}")" />
 
-                    @if (personRecord.FirstName != "" && personRecord.LastName != "" && personRecord.Position != "" && personRecord.CompanyId != "")
-                    {
-                        <h1>John</h1>
-                        <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.FirstName}")" />
-                        <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.LastName}")" />
-                        <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.Position}")" />
-                        <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.CompanyId}")" />
-                    }                         
+                            @if (personRecord.FirstName != "" && personRecord.LastName != "" && personRecord.Position != "" && personRecord.CompanyId != "")
+                            {
+                                <h1>John</h1>
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.FirstName}")" />
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.LastName}")" />
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.Position}")" />
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.CompanyId}")" />
+                            }  
+                        </div>
+                    </div>
                 </RadzenColumn>
                 <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
                     Column 2 of 4
@@ -56,12 +60,9 @@ else
     </EditForm>
 }
 
-
-
-
-
 @code {
     private string? userId;
+    private string? userName;
     private Guid id { get; set; }
     private List<NTDataHiveFrontend.Model.Person> result = new List<Model.Person>();
     private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
@@ -70,12 +71,15 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var nameIdentifier = auth.User;
 
         userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        
+        personRecord = await MyPersonBackendService.GetPersonRecord(userId);
 
-        personRecord = await MyPersonNotExistBackendService.GetPersonRecord(userId);
+
     }
 
 }

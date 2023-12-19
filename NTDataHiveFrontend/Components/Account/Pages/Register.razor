@@ -1,5 +1,8 @@
-﻿@page "/Account/Register"
+﻿@using Microsoft.AspNetCore.Http.Extensions;
+@using NTDataHiveFrontend.Components.Account
 
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
 @using System.ComponentModel.DataAnnotations
 @using System.Text
 @using System.Text.Encodings.Web
@@ -9,14 +12,19 @@
 @using NTDataHiveFrontend.Data
 
 @attribute [Authorize]
-@inject NTDataHiveFrontend.ServiceAccess.PersonNotExistBackendService MyBackendService
+@inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyBackendService
 @inject UserManager<ApplicationUser> UserManager
 @inject IUserStore<ApplicationUser> UserStore
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IEmailSender<ApplicationUser> EmailSender
 @inject ILogger<Register> Logger
-@inject NavigationManager NavigationManager
+@inject NavigationManager MyNavigationManager
 @inject IdentityRedirectManager RedirectManager
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IdentityUserAccessor UserAccessor
+@inject UserManager<ApplicationUser> UserManager
+@page "/Account/Register"
 
 
 <PageTitle>Register</PageTitle>
@@ -31,7 +39,25 @@
             @* <ValidationSummary class="text-danger" role="alert" /> *@
             @* <hr /> *@
             <StatusMessage Message="@Message" />
-
+            <div class="form-floating mb-3">
+                <InputSelect @bind-Value="Input.Type">
+                    @foreach (var types in Enum.GetValues(typeof(PersonType)))
+                    {
+                        <option value="@types">@types</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => Input.Type" class="text-danger" />
+            </div>
+            <div class="row">
+                <div class="col-md-3 align-items-center d-flex">
+                    <RadzenLabel Text="Condition Name" />
+                </div>
+                <div class="col-md-8">
+                    <RadzenDropDown @bind-Value="Input.Type" AllowClear="true" TValue="string" Placeholder="Select Conditions"
+                                    Data="@person" style="width: 100%;" TextProperty="PersonType" ValueProperty="PersonType" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                    FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
+                </div>
+            </div>
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.User" class="form-control" autocomplete="user" aria-required="true" />
                 <label for="user">Username</label>
@@ -66,6 +92,9 @@
 </div>
 
 @code {
+    private string? userId;
+    private List<NTDataHiveFrontend.Model.PersonType> person = new List<Model.PersonType>();
+    private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
     private IEnumerable<IdentityError>? identityErrors;
     private NTDataHiveFrontend.Model.Person addPerson = new Model.Person();
     private ApplicationUser user = default;
@@ -75,6 +104,29 @@
     private string? ReturnUrl { get; set; }
     private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
 
+    private enum PersonType
+    {
+        Admin,
+        Manager,
+        Employee
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var nameIdentifier = auth.User;
+
+        userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        personRecord = await MyBackendService.GetPersonRecord(userId);
+
+        if (personRecord.Type != "Admin")
+        {
+            MyNavigationManager.NavigateTo("/");
+        }
+    }
+
     public async Task RegisterUser(EditContext editContext)
     {
         var user = CreateUser();
@@ -83,6 +135,7 @@
         addPerson.Username = Input.User;
         addPerson.WebId = user.Id;
         addPerson.EmailAddress = Input.Email;
+        addPerson.Type = Input.Type;
 
         await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
         var emailStore = GetEmailStore();
@@ -95,6 +148,7 @@
             return;
         }
 
+
         Logger.LogInformation("User created a new account with password.");
 
         
@@ -102,8 +156,8 @@
         var userId = await UserManager.GetUserIdAsync(user);
         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-        var callbackUrl = NavigationManager.GetUriWithQueryParameters(
-            NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
+        var callbackUrl = MyNavigationManager.GetUriWithQueryParameters(
+            MyNavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
             new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
 
         await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
@@ -147,6 +201,10 @@
         [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
         [Display(Name = "Username")]
         public string User { get; set; } = "";
+
+        [Required]
+        [Display(Name = "Type")]
+        public string Type { get; set; } = "";
 
         [Required]
         [EmailAddress]

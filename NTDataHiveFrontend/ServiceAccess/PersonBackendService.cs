@@ -1,10 +1,11 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
 using NLog;
+using NLog.Fluent;
 
 namespace NTDataHiveFrontend.ServiceAccess
 {
-    public class PersonNotExistBackendService
+    public class PersonBackendService
     {
         GrpcChannel _channel;
 
@@ -13,7 +14,7 @@ namespace NTDataHiveFrontend.ServiceAccess
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         private readonly string _url;
 
-        public PersonNotExistBackendService(ILogger<PersonNotExistBackendService> logger, IConfiguration config)
+        public PersonBackendService(ILogger<PersonBackendService> logger, IConfiguration config)
         {
             _url = config.GetValue<string>("ServiceData:BackendService:URL");
         }
@@ -46,12 +47,12 @@ namespace NTDataHiveFrontend.ServiceAccess
             if (_client == null)
                 Connect();
 
-            NTDataHiveGrpcService.PersonNotExistRequest grpcPersonRecord = ToGrpcFromat(personRecord);
+            NTDataHiveGrpcService.PersonRequest grpcPersonRecord = ToGrpcFromat(personRecord);
 
             Google.Rpc.Status result;
             try
             {
-                result = await _client.SavePersonNotExistAsync(grpcPersonRecord);
+                result = await _client.SavePersonAsync(grpcPersonRecord);
                 return result;
             }
             catch (Exception ex)
@@ -70,7 +71,7 @@ namespace NTDataHiveFrontend.ServiceAccess
 
             try
             {
-                NTDataHiveGrpcService.PersonNotExistRequest result;
+                NTDataHiveGrpcService.PersonRequest result;
                 try
                 {
                     result = await _client.GetPersonRecordAsync(GetFilterFor(id));
@@ -103,6 +104,7 @@ namespace NTDataHiveFrontend.ServiceAccess
         #region GetFilterFor
         public NTDataHiveGrpcService.PersonRecordFilter GetFilterFor(string id)
         {
+
             return new NTDataHiveGrpcService.PersonRecordFilter()
             {
                 WebId = id.ToString(),
@@ -111,13 +113,14 @@ namespace NTDataHiveFrontend.ServiceAccess
         #endregion
 
         #region ToGrpcFormat
-        public NTDataHiveGrpcService.PersonNotExistRequest ToGrpcFromat(Model.Person personRecord)
+        public NTDataHiveGrpcService.PersonRequest ToGrpcFromat(Model.Person personRecord)
         {
-            var grpcPersonRecord = new NTDataHiveGrpcService.PersonNotExistRequest()
+            var grpcPersonRecord = new NTDataHiveGrpcService.PersonRequest()
             {
                 WebId = personRecord.WebId,
                 EmailAddress = personRecord.EmailAddress,
                 Username = personRecord.Username,
+                Type = personRecord.Type,
             };
 
             if (personRecord?.Birthday != null)
@@ -125,24 +128,25 @@ namespace NTDataHiveFrontend.ServiceAccess
             else
                 grpcPersonRecord.Birthday = null;
 
-            if (personRecord.FirstName != null)
+            if (personRecord?.FirstName != null || personRecord?.LastName != null || personRecord?.Position != null ||
+                personRecord?.CompanyId != null || personRecord?.AccountName != null || personRecord?.ReportingManager != null ||
+                personRecord?.Department != null || personRecord?.Type != null)
+            {
                 grpcPersonRecord.FirstName = personRecord.FirstName;
-
-            if (personRecord.LastName != null)
                 grpcPersonRecord.LastName = personRecord.LastName;
-
-            if (personRecord.Position != null)
                 grpcPersonRecord.Position = personRecord.Position;
-
-            if (personRecord.CompanyId != null)
                 grpcPersonRecord.CompanyId = personRecord.CompanyId;
+                grpcPersonRecord.AccountName = personRecord.AccountName;
+                grpcPersonRecord.ReportingManager = personRecord.ReportingManager;
+                grpcPersonRecord.Department = personRecord.Department;
+            }
 
             return grpcPersonRecord;
         }
         #endregion
 
         #region ToFrontendFormat
-        public Model.Person ToFrontendFormat(NTDataHiveGrpcService.PersonNotExistRequest personRecord)
+        public Model.Person ToFrontendFormat(NTDataHiveGrpcService.PersonRequest personRecord)
         {
             Model.Person frontendPersonRecord = new Model.Person()
             {
@@ -153,7 +157,11 @@ namespace NTDataHiveFrontend.ServiceAccess
                 LastName = personRecord.LastName,
                 Birthday = personRecord.Birthday.ToDateTime(),
                 Position = personRecord.Position,
-                CompanyId = personRecord.CompanyId,                
+                CompanyId = personRecord.CompanyId,
+                AccountName = personRecord.AccountName,
+                ReportingManager = personRecord.ReportingManager,
+                Department = personRecord.Department,
+                Type = personRecord.Type,
             };
 
             return frontendPersonRecord;

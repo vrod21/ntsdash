@@ -2,7 +2,7 @@
 {
     public partial class Error
     {        
-        public int ErrorIdExt { get; set; }
+        public int ErrorId { get; set; }
         public string WebId { get; set; }
         public double? ErrorCount { get; set; }
         public string DescriptionOfError { get; set; }
@@ -14,6 +14,7 @@
         public string ErrorCategory { get; set; }
         public string IntroducedOrMissed { get; set; }
 
-        public virtual Feedback FeedbackErrorNavigation { get; set; }
+        //public ICollection<Feedback> FeedbackErrorNavigation { get; set; }
+
     }
 }

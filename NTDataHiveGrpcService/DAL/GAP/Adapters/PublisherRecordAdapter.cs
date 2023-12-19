@@ -27,9 +27,11 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
 
-                var Feedback = from Feedbacks in dbContext.Feedback
-                                orderby Feedbacks.Credit.CreditIdExt descending
-                                select CreateNewBllDropdown(Feedbacks);
+
+                var Feedback = from Evaluations in dbContext.Evaluation
+                                orderby Evaluations.Approval.TargetDateOfCompletionCA >= DateTime.Now descending
+                                select CreateNewBllDropdown(Evaluations);
+
             }
             catch (Exception ex)
             {
@@ -41,27 +43,29 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region CreateNewBLLDropdown
-        private static BLL.RecordContents.FeedbackComparable CreateNewBllDropdown(Feedback feedback)
+        private static BLL.RecordContents.FeedbackComparable CreateNewBllDropdown(Evaluation evaluation)
         {
             return new BLL.RecordContents.FeedbackComparable()
             {
-                SupplierName = feedback.Credit.SupplierName,
-                QualityAssurance = feedback.Credit.QualityAssurance,
-                PublisherName = feedback.Credit.PublisherName,
-                JournalId = feedback.Credit.SupplierName,
-                CopyEditedBy = feedback.Credit.CopyEditedBy,
-                Matter = feedback.Error.Matter,
-                ErrorLocation = feedback.Error.ErrorLocation,
-                ErrorCode = feedback.Error.ErrorCode,
-                ErrorType = feedback.Error.ErrorType,
-                ErrorSubtype = feedback.Error.ErrorSubtype,
-                ErrorCategory = feedback.Error.ErrorCategory,
-                IntroducedOrMissed = feedback.Error.IntroducedOrMissed,
-                Department = feedback.Credit.Department,
-                NatureOfCA = feedback.NatureOfCA,
-                NatureOfPM = feedback.NatureOfPM,
-                StatusOfCA = feedback.StatusOfCA,
-                StatusOfPM = feedback.StatusOfPM,
+
+                SupplierName = evaluation.SupplierName,
+                QualityAssurance = evaluation.QualityAssurance,
+                PublisherName = evaluation.PublisherName,
+                JournalId = evaluation.SupplierName,
+                CopyEditedBy = evaluation.CopyEditedBy,
+                Matter = evaluation.Matter,
+                ErrorLocation = evaluation.ErrorLocation,
+                ErrorCode = evaluation.ErrorCode,
+                ErrorType = evaluation.ErrorType,
+                ErrorSubtype = evaluation.ErrorSubtype,
+                ErrorCategory = evaluation.ErrorCategory,
+                IntroducedOrMissed = evaluation.IntroducedOrMissed,
+                Department = evaluation.Department,
+                NatureOfCA = evaluation.Approval.NatureOfCA,
+                NatureOfPM = evaluation.Approval.NatureOfPM,
+                StatusOfCA = evaluation.Approval.StatusOfCA,
+                StatusOfPM = evaluation.Approval.StatusOfPM
+
             };
         }
         #endregion

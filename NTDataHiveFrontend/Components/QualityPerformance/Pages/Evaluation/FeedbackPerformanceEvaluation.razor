@@ -1,0 +1,72 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyBackendService
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigationManager
+@page "/feedback-performance"
+
+<PageTitle>Feedback Performance</PageTitle>
+
+@if (feedbackRecord == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" Data="@feedbackRecord"
+                    TItem="NTDataHiveFrontend.Model.Feedback" AllowColumnResize="true" AllowAlternatingRows="false"
+                    FilterMode="FilterMode.Advanced" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                    ColumnWidth="500px" LogicalFilterOperator="LogicalFilterOperator.Or" 
+                    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive">
+        <Template Context="data">
+            <RadzenCard class="rz-p-12" Style="margin-bottom:20px">
+                Description of Error :
+
+                <div class="rz-text-align-center rz-p-12 rz-shadow-7 rz-border-radius-3">
+                    <p class="lead" style="text-align:center; white-space:pre-line;">
+                        @data.DescriptionOfError
+                    </p>
+                </div>
+            </RadzenCard>
+        </Template>
+        <Columns>
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="SupplierName" Title="Suppler Name"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="QualityAssurance" Title="Quality Assurance"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="PublisherName" Title="Publisher Name"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="JournalId" Title="Journal ID"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="ArticleId" Title="Article ID"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="CopyEditedBy" Title="Copy Edited By"
+                                  Width="140px" />
+            <RadzenDataGridColumn TItem="Model.Feedback" Property="WebId" Title="Select Report" Width="120px">
+                <Template Context="data">
+                    <RadzenButton Style="background-color:#e81f4b" Text="Specific Detail" Click="@(() => OnSpecificDetail(data))" />
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+}
+
+
+@code {
+    private List<NTDataHiveFrontend.Model.Feedback> feedbackRecord = new List<Model.Feedback>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        feedbackRecord = await MyBackendService.GetAllFeedback();
+    }
+
+    private void OnSpecificDetail(NTDataHiveFrontend.Model.Feedback feedback)
+    {
+        MyNavigationManager.NavigateTo($"/feedback-specific-detail-page/{feedback.WebId}/random");
+        // @* <RadzenButton Style="background-color: #e81f4b" Text="Create FeedBack" Click="@(()=>MyNavigationManager.NavigateTo("/pre-editing-feedback"))" /> *@
+    }
+}
