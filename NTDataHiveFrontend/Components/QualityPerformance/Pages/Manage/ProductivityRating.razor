@@ -4,6 +4,58 @@
 
 <h3>ProductivityRating</h3>
 
-@code {
+<div class="container">
+    <div class="col-sm-12 my-5">
+        <RadzenChart>
+            <RadzenLineSeries Data="@revenue2019" CategoryProperty="Date" Title="2019" LineType="LineType.Dashed" ValueProperty="Revenue">
+                <RadzenMarkers MarkerType="MarkerType.Square" />                
+            </RadzenLineSeries>
+        </RadzenChart>
+    </div>
 
+</div>
+
+@code {
+    protected class DataItem
+    {
+        public string Date { get; set; }
+        public double Revenue { get; set; }
+    }
+
+    private string FormatAsMonth(object value)
+    {
+        if (value != null)
+        {
+            return Convert.ToDateTime(value).ToString("MMM");
+        }
+
+        return string.Empty;
+    }
+
+    DataItem[] revenue2019 = new DataItem[]
+    {
+        new DataItem
+        {
+            Date = ("2019-01"),
+            Revenue = 234000
+        },
+        new DataItem
+        {
+            Date = ("2019-02-01"),
+            Revenue = 269000
+        },
+        new DataItem
+        {
+            Date = ("2019-03-01"),
+            Revenue = 233000
+        },
+        new DataItem
+        {
+            Date = ("2019-03-01"),
+            Revenue = 259000
+        }
+
+
+
+    };
 }
