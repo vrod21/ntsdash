@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @using NTDataHiveFrontend.Components.QualityPerformance.Layout
+@using NTDataHiveFrontend.Components.Layout
 
 @attribute [Authorize]
 @page "/dashboard"
@@ -7,3 +8,5 @@
 <PageTitle>Dashboard</PageTitle>
 
 <DashboardJumbotron />
+
+<DashboardBody />

@@ -48,13 +48,10 @@ else
                     </div>
                 </RadzenColumn>
                 <RadzenColumn class="rz-p-5">
-                    Column 2 of 4
-                </RadzenColumn>
-                <RadzenColumn class="rz-p-5">
-                    Column 2 of 4
-                </RadzenColumn>
-                <RadzenColumn class="rz-p-5">
                     <AccuracyRating />
+                </RadzenColumn>
+                <RadzenColumn class="rz-p-5">                    
+                    <ClockGauge />
                 </RadzenColumn>
             </RadzenRow>
         </div>
@@ -78,18 +75,4 @@ else
         
         personRecord = await MyPersonBackendService.GetPersonRecord(userId);
     }
-
-    protected class DataItem
-    {
-        public string Quarter { get; set; }
-        public double Revenue { get; set; }
-    }
-
-    List<DataItem> revenue = new List<DataItem>
-    {
-      new DataItem { Quarter = "Q1", Revenue = 3.34 },
-      new DataItem { Quarter = "Q2", Revenue = 4.84 },
-      new DataItem { Quarter = "Q3", Revenue = 2.74 },
-      new DataItem { Quarter = "Q4", Revenue = 2.94 }
-    };
 }

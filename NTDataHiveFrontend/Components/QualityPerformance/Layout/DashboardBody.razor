@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage
+
+@attribute [Authorize]
+
+<RadzenRow class="rz-text-align-center rz-border-info-light" Gap="1rem">
+    <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
+        <ProductivityRating />
+    </RadzenColumn>
+    <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
+        Auto
+    </RadzenColumn>
+    <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
+        <QualityRating />
+    </RadzenColumn>
+</RadzenRow>
+
+@code {
+
+}
