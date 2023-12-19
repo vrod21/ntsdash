@@ -4,7 +4,7 @@
 @inject NTDataHiveFrontend.ServiceAccess.PreEditingFeedbackBackendService MyBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
-
+@page "/tables"
 <PageTitle>Pre-Edtors Performance</PageTitle>
 
 @if (preEditList == null)
@@ -66,16 +66,7 @@ else
                                           TextAlign="TextAlign.Center" />
                     <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="ErrorCount" Title="Error Count" Width="150px"
                                           TextAlign="TextAlign.Center" />
-                    <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="DescriptionOfError" Title="Description of Error" Width="750px"
-                                          TextAlign="TextAlign.Center" >
 
-                        <Template Context="data">
-                        
-                            <RadzenTextArea Placeholder="@($"{data.DescriptionOfError}")" class="w-100" />
-                            
-                        </Template>                  
-                                  
-                    </RadzenDataGridColumn>
 
                     <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.PreEditingErrorFeedback" Property="Matter" Title="FM/Non-FM" Width="150px"
                                           TextAlign="TextAlign.Center" />

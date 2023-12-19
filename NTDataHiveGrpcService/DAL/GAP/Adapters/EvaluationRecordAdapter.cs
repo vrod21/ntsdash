@@ -59,7 +59,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         Department = recordRequest.Department,
                         EmployeeName = recordRequest.EmployeeName,
                         CopyEditingLevel = recordRequest.CopyEditingLevel,
-                        CreatedAt = recordRequest.CreatedAt.ToDateTime(),
+                        CreatedAt = recordRequest.CreatedAt.ToDateTime().ToLocalTime(),
                         MegaEvaluation =  feedbackId,
                     };
                     dbContext.Evaluation.Add(feedback);
@@ -157,7 +157,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
-        #region
+        #region GetAllFeedbackRecord
         internal List<FeedbackRecordRequest> GetAllFeedbackRecord()
         {
             List<FeedbackRecordRequest> feedback = new List<FeedbackRecordRequest>();
@@ -179,13 +179,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 _nlog.Fatal($"ex.Message");
             }
             return feedback;
-        }
-        #endregion
-
-        #region UpdateFeedback
-        internal int UpdateFeedback()
-        {
-            return 0; 
         }
         #endregion
 
@@ -304,7 +297,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 ErrorLocation = evaluation.ErrorLocation,
                 ErrorCode = evaluation.ErrorCode,
                 ErrorType = evaluation.ErrorType,
-                ErrorSubtype = evaluation.ErrorType,
+                ErrorSubtype = evaluation.ErrorSubtype,
                 ErrorCategory = evaluation.ErrorCategory,
                 IntroducedOrMissed = evaluation.IntroducedOrMissed,
                 Department = evaluation.Department,

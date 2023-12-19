@@ -6,11 +6,12 @@
 @using Microsoft.AspNetCore.Identity
 @using NTDataHiveFrontend.Components.Account
 @using NTDataHiveFrontend.Data
-
+@using NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 
 @attribute [Authorize]
+@rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IdentityUserAccessor UserAccessor
@@ -46,14 +47,14 @@ else
                         </div>
                     </div>
                 </RadzenColumn>
-                <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
+                <RadzenColumn class="rz-p-5">
                     Column 2 of 4
                 </RadzenColumn>
-                <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
+                <RadzenColumn class="rz-p-5">
                     Column 2 of 4
                 </RadzenColumn>
-                <RadzenColumn class="rz-background-color-info-lighter rz-color-on-info-lighter rz-p-5">
-                    Column 4 of 4
+                <RadzenColumn class="rz-p-5">
+                    <AccuracyRating />
                 </RadzenColumn>
             </RadzenRow>
         </div>
@@ -62,11 +63,9 @@ else
 
 @code {
     private string? userId;
-    private string? userName;
     private Guid id { get; set; }
     private List<NTDataHiveFrontend.Model.Person> result = new List<Model.Person>();
     private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
-
     private AuthenticationState authState;
 
     protected override async Task OnInitializedAsync()
@@ -78,8 +77,19 @@ else
         userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         
         personRecord = await MyPersonBackendService.GetPersonRecord(userId);
-
-
     }
 
+    protected class DataItem
+    {
+        public string Quarter { get; set; }
+        public double Revenue { get; set; }
+    }
+
+    List<DataItem> revenue = new List<DataItem>
+    {
+      new DataItem { Quarter = "Q1", Revenue = 3.34 },
+      new DataItem { Quarter = "Q2", Revenue = 4.84 },
+      new DataItem { Quarter = "Q3", Revenue = 2.74 },
+      new DataItem { Quarter = "Q4", Revenue = 2.94 }
+    };
 }

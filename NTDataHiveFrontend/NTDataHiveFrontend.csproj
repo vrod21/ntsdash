@@ -58,10 +58,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\QualityPerformance\Pages\Manage\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Plugins.DataStore.InMemory.Dropdown\Plugins.DataStore.InMemory.Dropdown.csproj" />
     <ProjectReference Include="..\UseCases.Dropdown\UseCases.Dropdown.csproj" />
   </ItemGroup>

@@ -218,7 +218,7 @@ else
                             </div>
                             <div class="col-md-8">
                                 <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionCA" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                  DateFormat="MM/dd/yyyy" Placeholder="12/25/2023" Change="@(args => StateHasChanged() )" />
+                                                  DateFormat="MM/dd/yyyy" Placeholder="12/25/2023" />
                             </div>
                         </div>
                         <div class="row">
@@ -251,7 +251,7 @@ else
                             </div>
                             <div class="col-md-8">
                                 <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionPM" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                  DateFormat="MM/dd/yyyy" Placeholder="12/25/2023" Change="@(args => StateHasChanged())" />
+                                                  DateFormat="MM/dd/yyyy" Placeholder="12/25/2023" />
                             </div>
                         </div>
                         <div class="row">
@@ -300,7 +300,6 @@ else
     [Parameter]
     public Guid id { get; set; }
 
-    private NTDataHiveFrontend.Model.Feedback addFeedback = new Model.Feedback();
     private NTDataHiveFrontend.Model.Feedback feedbackDetail = new Model.Feedback();
 
     protected override async Task OnInitializedAsync()

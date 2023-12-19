@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+<div class="rz-shadow-5 rz-p-3 rz-border-radius-3">
+    <div Class="rz-p-0 rz-p-md-5">
+        <h4>Over All Accuracy</h4>
+        <RadzenChart Style="height:200px;">
+            <RadzenColumnSeries Data="@revenue" CategoryProperty="Quarter" ValueProperty="Revenue" />
+        </RadzenChart>
+    </div>
+</div>
+
+@code {
+    protected class DataItem
+    {
+        public string Quarter { get; set; }
+        public double Revenue { get; set; }
+    }
+
+    List<DataItem> revenue = new List<DataItem>
+    {
+      new DataItem { Quarter = "Q1", Revenue = 3.34 },
+      new DataItem { Quarter = "Q2", Revenue = 4.84 },
+      new DataItem { Quarter = "Q3", Revenue = 2.74 },
+      new DataItem { Quarter = "Q4", Revenue = 2.94 }
+    };
+}

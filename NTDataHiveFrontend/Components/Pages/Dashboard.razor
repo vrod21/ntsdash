@@ -1,10 +1,9 @@
-﻿@page "/dashboard"
-
-@using Microsoft.AspNetCore.Authorization
-@using NTDataHiveFrontend.Components.Dashboard
+﻿@using Microsoft.AspNetCore.Authorization
+@using NTDataHiveFrontend.Components.QualityPerformance.Layout
 
 @attribute [Authorize]
+@page "/dashboard"
 
 <PageTitle>Dashboard</PageTitle>
 
-<DashboardLinks @rendermode="InteractiveServer" />
+<DashboardJumbotron />

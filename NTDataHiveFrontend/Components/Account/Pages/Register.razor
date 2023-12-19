@@ -48,16 +48,6 @@
                 </InputSelect>
                 <ValidationMessage For="() => Input.Type" class="text-danger" />
             </div>
-            <div class="row">
-                <div class="col-md-3 align-items-center d-flex">
-                    <RadzenLabel Text="Condition Name" />
-                </div>
-                <div class="col-md-8">
-                    <RadzenDropDown @bind-Value="Input.Type" AllowClear="true" TValue="string" Placeholder="Select Conditions"
-                                    Data="@person" style="width: 100%;" TextProperty="PersonType" ValueProperty="PersonType" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                    FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
-                </div>
-            </div>
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.User" class="form-control" autocomplete="user" aria-required="true" />
                 <label for="user">Username</label>
@@ -93,7 +83,6 @@
 
 @code {
     private string? userId;
-    private List<NTDataHiveFrontend.Model.PersonType> person = new List<Model.PersonType>();
     private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
     private IEnumerable<IdentityError>? identityErrors;
     private NTDataHiveFrontend.Model.Person addPerson = new Model.Person();
