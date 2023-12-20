@@ -8,14 +8,19 @@
     <div class="col-sm-12 my-5">
         <RadzenChart>
             <RadzenLineSeries Data="@revenue2019" CategoryProperty="Date" Title="2019" LineType="LineType.Dashed" ValueProperty="Revenue">
-                <RadzenMarkers MarkerType="MarkerType.Square" />                
+                <RadzenMarkers MarkerType="MarkerType.Square" />
+                <RadzenSeriesDataLabels Visible="@showDataLabels" />
             </RadzenLineSeries>
+
+            <RadzenCategoryAxis Padding="20" Formatter="@FormatAsMonth" />
         </RadzenChart>
     </div>
 
 </div>
 
 @code {
+    private bool smooth = false;
+    private bool showDataLabels = false;
     protected class DataItem
     {
         public string Date { get; set; }
@@ -54,8 +59,9 @@
             Date = ("2019-03-01"),
             Revenue = 259000
         }
-
-
-
     };
+
+
+
+
 }
