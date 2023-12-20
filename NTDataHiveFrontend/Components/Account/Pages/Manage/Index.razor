@@ -5,11 +5,12 @@
 @using Microsoft.AspNetCore.Identity
 @using NTDataHiveFrontend.Data
 
+@attribute [Authorize]
+@inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyBackendService
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
-@attribute [Authorize]
 
 <PageTitle>Profile</PageTitle>
 
@@ -22,13 +23,49 @@
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
-                <input type="text" value="@username" class="form-control" placeholder="Please choose your username." disabled />
-                <label for="username" class="form-label">Username</label>
-            </div>
-            <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number." />
                 <label for="phone-number" class="form-label">Phone number</label>
                 <ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.FirstName" class="form-control" placeholder="Please enter your first name." />
+                <label for="first-name" class="form-label">First Name</label>
+                <ValidationMessage For="() => Input.FirstName" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.LastName" class="form-control" placeholder="Please enter your last name." />
+                <label for="last-name" class="form-label">Last Name</label>
+                <ValidationMessage For="() => Input.LastName" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.Position" class="form-control" placeholder="Please enter your position." />
+                <label for="phone-number" class="form-label">Position</label>
+                <ValidationMessage For="() => Input.Position" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.CompanyId" class="form-control" placeholder="Please enter your company id." />
+                <label for="phone-number" class="form-label">Company ID</label>
+                <ValidationMessage For="() => Input.CompanyId" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.AccountName" class="form-control" placeholder="Please enter your account name." />
+                <label for="phone-number" class="form-label">Account Name</label>
+                <ValidationMessage For="() => Input.AccountName" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.ReportingManager" class="form-control" placeholder="Please enter your reporting manager." />
+                <label for="phone-number" class="form-label">Reporting Manager</label>
+                <ValidationMessage For="() => Input.ReportingManager" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.Department" class="form-control" placeholder="Please enter your department." />
+                <label for="phone-number" class="form-label">Department</label>
+                <ValidationMessage For="() => Input.Department" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <h5>Date of Birth</h5>
+                <InputDate style="width:25%;" class="form-control" @bind-Value="Input.Birthday" />
+                <ValidationMessage For="() => Input.Birthday" class="text-danger" />
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </EditForm>
@@ -39,6 +76,8 @@
     private ApplicationUser user = default!;
     private string? username;
     private string? phoneNumber;
+    private string? personId;
+    private NTDataHiveFrontend.Model.Person addPerson = new Model.Person();
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
@@ -51,12 +90,25 @@
         user = await UserAccessor.GetRequiredUserAsync(HttpContext);
         username = await UserManager.GetUserNameAsync(user);
         phoneNumber = await UserManager.GetPhoneNumberAsync(user);
-
+        personId = await UserManager.GetUserIdAsync(user);
         Input.PhoneNumber ??= phoneNumber;
+
+
     }
 
     private async Task OnValidSubmitAsync()
     {
+        personId = await UserManager.GetUserIdAsync(user);
+
+        addPerson.WebId = personId;
+        addPerson.FirstName = Input.FirstName;
+        addPerson.LastName = Input.LastName;
+        addPerson.Birthday = Input.Birthday;
+        addPerson.Position = Input.Position;
+        addPerson.CompanyId = Input.CompanyId;
+        addPerson.AccountName = Input.AccountName;
+        addPerson.ReportingManager = Input.ReportingManager;
+        addPerson.Department = Input.Department;
         if (Input.PhoneNumber != phoneNumber)
         {
             var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
@@ -65,7 +117,7 @@
                 RedirectManager.RedirectToCurrentPageWithStatus("Error: Failed to set phone number.", HttpContext);
             }
         }
-
+        await MyBackendService.SavePerson(addPerson);
         await SignInManager.RefreshSignInAsync(user);
         RedirectManager.RedirectToCurrentPageWithStatus("Your profile has been updated", HttpContext);
     }
@@ -75,5 +127,32 @@
         [Phone]
         [Display(Name = "Phone number")]
         public string? PhoneNumber { get; set; }
+
+        [Required]
+        public string? FirstName { get; set; }
+
+        [Required]
+        public string? LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Date of birth")]
+        public DateTime? Birthday { get; set; }
+
+        [Required]
+        public string? Position { get; set; }
+        
+        [Required]
+        public string? CompanyId { get; set; }
+        
+        [Required]
+        public string? AccountName { get; set; }
+
+        [Required]
+        public string? ReportingManager { get; set; }
+
+        [Required]
+        public string? Department { get; set; }
     }
+
+    
 }

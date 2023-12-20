@@ -1,10 +1,23 @@
-﻿@using Microsoft.AspNetCore.Authorization
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Http.Extensions;
+@using Microsoft.AspNetCore.Identity
+@using NTDataHiveFrontend.Components.Account
+@using NTDataHiveFrontend.Data
+@using NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
 @rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyBackendService
+@inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IdentityUserAccessor UserAccessor
+@inject UserManager<ApplicationUser> UserManager
 @page "/feedback"
 
 <PageTitle>Evaluation Feedback</PageTitle>
@@ -19,13 +32,21 @@
     <RadzenButton Style="background-color: #e81f4b;" Click="@Save" Text="Create Feedback" />
 </div>
 
-<h3>Create - Feedback</h3>
-
-@if (addFeedback == null)
+@if (personRecord.Type == "Manager")
 {
-    <p><em>Loading...</em></p>
+    <h3>Create - Feedback Revision </h3>
 }
-else
+
+@if (personRecord.Type == "Employee")
+{
+    <h3>Create - Feedback Pre-Editing </h3>
+}
+
+@if (personRecord == null)
+{
+    <p><em>Please update your profile...! Click you email in right top below...</em></p>
+}
+@if (personRecord.Type == "Manager" || personRecord.Type == "Employee")
 {
     <EditForm Model="addFeedback">
         <div class="container-fluid">
@@ -198,7 +219,25 @@ else
 }
 
 @code {
+    private string? userId;
     private NTDataHiveFrontend.Model.Feedback addFeedback = new Model.Feedback();
+    private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var nameIdentifier = auth.User;
+
+        userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        personRecord = await MyPersonBackendService.GetPersonRecord(userId);
+
+        if (personRecord.Type == "Admin")
+        {
+            MyNavigation.NavigateTo("/");
+        }
+    }
 
     private async Task Save()
     {

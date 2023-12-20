@@ -115,13 +115,21 @@ namespace NTDataHiveFrontend.ServiceAccess
         #region ToGrpcFormat
         public NTDataHiveGrpcService.PersonRequest ToGrpcFromat(Model.Person personRecord)
         {
-            var grpcPersonRecord = new NTDataHiveGrpcService.PersonRequest()
+            var grpcPersonRecord = new NTDataHiveGrpcService.PersonRequest();
+            //{
+            //    WebId = personRecord.WebId,
+            //    EmailAddress = personRecord.EmailAddress,
+            //    Username = personRecord.Username,
+            //    Type = personRecord.Type,
+            //};
+
+            if (personRecord?.WebId != null && personRecord?.EmailAddress != null && personRecord?.Username != null && personRecord?.Type != null)
             {
-                WebId = personRecord.WebId,
-                EmailAddress = personRecord.EmailAddress,
-                Username = personRecord.Username,
-                Type = personRecord.Type,
-            };
+                grpcPersonRecord.WebId = personRecord.WebId;
+                grpcPersonRecord.EmailAddress = personRecord.EmailAddress;
+                grpcPersonRecord.Username = personRecord.Username;
+                grpcPersonRecord.Type = personRecord.Type;
+            }
 
             if (personRecord?.Birthday != null)
                 grpcPersonRecord.Birthday = personRecord.Birthday.Value.ToUniversalTime().ToTimestamp();
