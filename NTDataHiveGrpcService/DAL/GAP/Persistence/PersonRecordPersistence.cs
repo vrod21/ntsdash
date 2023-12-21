@@ -17,17 +17,21 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         #region Save
         public bool Save(BLL.RecordContents.PersonFilter personRecord)
         {
+            bool newPerson = false;
             var createRecord = new PersonRecordAdapter(_config);
             int personId = createRecord.GetPersonByWebId(personRecord.personRequest.WebId);
 
             if (personId == 0)
             {
                 createRecord.Insert(personRecord.personRequest);
+                newPerson = true;
             }
-            else
+            if (newPerson == false && personId >= 1)
             {
-                return false;
+                createRecord.UpdatePerson(personRecord.personRequest);
+                return true;
             }
+
             return true;
         }
         #endregion

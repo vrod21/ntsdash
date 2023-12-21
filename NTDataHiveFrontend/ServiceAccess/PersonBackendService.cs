@@ -2,6 +2,7 @@
 using Grpc.Net.Client;
 using NLog;
 using NLog.Fluent;
+using System.Reflection.PortableExecutable;
 
 namespace NTDataHiveFrontend.ServiceAccess
 {
@@ -115,39 +116,23 @@ namespace NTDataHiveFrontend.ServiceAccess
         #region ToGrpcFormat
         public NTDataHiveGrpcService.PersonRequest ToGrpcFromat(Model.Person personRecord)
         {
-            var grpcPersonRecord = new NTDataHiveGrpcService.PersonRequest();
-            //{
-            //    WebId = personRecord.WebId,
-            //    EmailAddress = personRecord.EmailAddress,
-            //    Username = personRecord.Username,
-            //    Type = personRecord.Type,
-            //};
-
-            if (personRecord?.WebId != null && personRecord?.EmailAddress != null && personRecord?.Username != null && personRecord?.Type != null)
+            var grpcPersonRecord = new NTDataHiveGrpcService.PersonRequest()
             {
-                grpcPersonRecord.WebId = personRecord.WebId;
-                grpcPersonRecord.EmailAddress = personRecord.EmailAddress;
-                grpcPersonRecord.Username = personRecord.Username;
-                grpcPersonRecord.Type = personRecord.Type;
-            }
+                WebId = personRecord.WebId,
+                Username = personRecord.Username,
+                EmailAddress = personRecord.EmailAddress,
+                FirstName = personRecord.FirstName,
+                LastName = personRecord.LastName,
+                Position = personRecord.Position,
+                CompanyId = personRecord.CompanyId,
+                AccountName = personRecord.AccountName,
+                ReportingManager = personRecord.ReportingManager,
+                Department = personRecord.Department,
+                Type = personRecord.Type,
+            };
 
             if (personRecord?.Birthday != null)
                 grpcPersonRecord.Birthday = personRecord.Birthday.Value.ToUniversalTime().ToTimestamp();
-            else
-                grpcPersonRecord.Birthday = null;
-
-            if (personRecord?.FirstName != null || personRecord?.LastName != null || personRecord?.Position != null ||
-                personRecord?.CompanyId != null || personRecord?.AccountName != null || personRecord?.ReportingManager != null ||
-                personRecord?.Department != null || personRecord?.Type != null)
-            {
-                grpcPersonRecord.FirstName = personRecord.FirstName;
-                grpcPersonRecord.LastName = personRecord.LastName;
-                grpcPersonRecord.Position = personRecord.Position;
-                grpcPersonRecord.CompanyId = personRecord.CompanyId;
-                grpcPersonRecord.AccountName = personRecord.AccountName;
-                grpcPersonRecord.ReportingManager = personRecord.ReportingManager;
-                grpcPersonRecord.Department = personRecord.Department;
-            }
 
             return grpcPersonRecord;
         }

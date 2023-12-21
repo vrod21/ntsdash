@@ -59,7 +59,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         Department = recordRequest.Department,
                         EmployeeName = recordRequest.EmployeeName,
                         CopyEditingLevel = recordRequest.CopyEditingLevel,
-                        CreatedAt = recordRequest.CreatedAt.ToDateTime().ToLocalTime(),
+                        CreatedAt = recordRequest.CreatedAt.ToDateTime(),
                         MegaEvaluation =  feedbackId,
                     };
                     dbContext.Evaluation.Add(feedback);
@@ -92,7 +92,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
-        #region Update
+        #region UpdateFeedback
         internal void UpdateFeedback(FeedbackRecordRequest recordRequest)
         {
             try

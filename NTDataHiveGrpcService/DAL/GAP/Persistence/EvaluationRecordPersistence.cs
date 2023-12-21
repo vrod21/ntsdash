@@ -13,6 +13,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         {
             _config = config;
         }
+
         #region Save
         public bool Save(BLL.RecordContents.EvaluationFilter evaluationRecord)
         {
@@ -31,7 +32,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
                 createRecord.UpdateFeedback(evaluationRecord.feedbackRecordRequest);
                 return true;
             }
-
             return true;
         }
         #endregion

@@ -24,8 +24,13 @@
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number." />
-                <label for="phone-number" class="form-label">Phone number</label>
+                <label for="phone-number" class="form-label">Phone Number</label>
                 <ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.Username" class="form-control" placeholder="Please enter your username." />
+                <label for="username" class="form-label">Username</label>
+                <ValidationMessage For="() => Input.Username" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.FirstName" class="form-control" placeholder="Please enter your first name." />
@@ -39,32 +44,32 @@
             </div>
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.Position" class="form-control" placeholder="Please enter your position." />
-                <label for="phone-number" class="form-label">Position</label>
+                <label for="position" class="form-label">Position</label>
                 <ValidationMessage For="() => Input.Position" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.CompanyId" class="form-control" placeholder="Please enter your company id." />
-                <label for="phone-number" class="form-label">Company ID</label>
+                <label for="company-id" class="form-label">Company ID</label>
                 <ValidationMessage For="() => Input.CompanyId" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.AccountName" class="form-control" placeholder="Please enter your account name." />
-                <label for="phone-number" class="form-label">Account Name</label>
+                <label for="account-name" class="form-label">Account Name</label>
                 <ValidationMessage For="() => Input.AccountName" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.ReportingManager" class="form-control" placeholder="Please enter your reporting manager." />
-                <label for="phone-number" class="form-label">Reporting Manager</label>
+                <label for="reporting-manager" class="form-label">Reporting Manager</label>
                 <ValidationMessage For="() => Input.ReportingManager" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.Department" class="form-control" placeholder="Please enter your department." />
-                <label for="phone-number" class="form-label">Department</label>
+                <label for="department" class="form-label">Department</label>
                 <ValidationMessage For="() => Input.Department" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
                 <h5>Date of Birth</h5>
-                <InputDate style="width:25%;" class="form-control" @bind-Value="Input.Birthday" />
+                <InputDate style="width:30%;" class="form-control" @bind-Value="Input.Birthday" />
                 <ValidationMessage For="() => Input.Birthday" class="text-danger" />
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
@@ -90,10 +95,8 @@
         user = await UserAccessor.GetRequiredUserAsync(HttpContext);
         username = await UserManager.GetUserNameAsync(user);
         phoneNumber = await UserManager.GetPhoneNumberAsync(user);
-        personId = await UserManager.GetUserIdAsync(user);
+
         Input.PhoneNumber ??= phoneNumber;
-
-
     }
 
     private async Task OnValidSubmitAsync()
@@ -101,6 +104,7 @@
         personId = await UserManager.GetUserIdAsync(user);
 
         addPerson.WebId = personId;
+        addPerson.Username = Input.Username;
         addPerson.FirstName = Input.FirstName;
         addPerson.LastName = Input.LastName;
         addPerson.Birthday = Input.Birthday;
@@ -109,6 +113,7 @@
         addPerson.AccountName = Input.AccountName;
         addPerson.ReportingManager = Input.ReportingManager;
         addPerson.Department = Input.Department;
+
         if (Input.PhoneNumber != phoneNumber)
         {
             var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
@@ -129,6 +134,9 @@
         public string? PhoneNumber { get; set; }
 
         [Required]
+        public string Username { get; set; }
+
+        [Required]
         public string? FirstName { get; set; }
 
         [Required]
@@ -140,10 +148,10 @@
 
         [Required]
         public string? Position { get; set; }
-        
+
         [Required]
         public string? CompanyId { get; set; }
-        
+
         [Required]
         public string? AccountName { get; set; }
 
@@ -152,7 +160,5 @@
 
         [Required]
         public string? Department { get; set; }
-    }
-
-    
+    }    
 }
