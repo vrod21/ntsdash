@@ -20,7 +20,7 @@
 <div class="row">
     <div class="col-md-6">
         <EditForm Model="Input" FormName="profile" OnValidSubmit="OnValidSubmitAsync" method="post">
-            <DataAnnotationsValidator />
+            @* <DataAnnotationsValidator /> *@
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number." />
@@ -134,6 +134,8 @@
         public string? PhoneNumber { get; set; }
 
         [Required]
+        [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
+        [Display(Name = "Username")]
         public string Username { get; set; }
 
         [Required]
