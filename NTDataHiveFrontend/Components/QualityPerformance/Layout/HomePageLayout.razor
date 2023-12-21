@@ -1,9 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using NTDataHiveFrontend.Components.QualityPerformance.Pages
 
 @attribute [Authorize]
+@rendermode InteractiveServer
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
 @inject DialogService DialogService
+
 
 <style>
     .shadows div {
@@ -27,6 +30,17 @@
                 </p>
                 <RadzenButton Style="background-color: #e81f4b;" Click="@(()=>MyNavigation.NavigateTo("/dashboard"))" Text="Go To Dashboard" />
             </div>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow class="rz-text-align-center" Gap="1rem">
+        <RadzenColumn Size="7" class="rz-p-md-5">
+            <EmployeeList />
+        </RadzenColumn>
+        <RadzenColumn Size="5" class="rz-p-2 rz-p-md-5">
+            This is the update version of Quality Evaluation and Acknowledgement Form
+            Some of the function are already in the Web App
+            <img src="/images/acknowledgement.png" style="width: 700px;" />
         </RadzenColumn>
     </RadzenRow>
 

@@ -40,12 +40,13 @@
             @* <hr /> *@
             <StatusMessage Message="@Message" />
             <div class="form-floating mb-3">
-                <InputSelect @bind-Value="Input.Type">
+                <InputSelect class="form-control" @bind-Value="Input.Type">
                     @foreach (var types in Enum.GetValues(typeof(PersonType)))
                     {
                         <option value="@types">@types</option>
                     }
                 </InputSelect>
+                <label for="type">Type of Account</label>
                 <ValidationMessage For="() => Input.Type" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
