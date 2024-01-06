@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using NTDataHiveFrontend.Components.QualityPerformance.Pages
+
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigation
+@inject DialogService DialogService
+
+
+<style>
+    .shadows div {
+        padding: 1rem;
+        width: 10rem;
+        text-align: center;
+    }
+</style>
+
+<div class="jumbotron" style="text-align:center;">
+    <img src="/images/greatplacetowork.png" style="width: 650px;" />
+    <h3 style="margin-top:30px;">QUALITY EVALUATION AND ACKNOWLEDGEMENT</h3>
+    <hr class="my-3">
+
+    <RadzenRow class="rz-text-align-center" Gap="1rem">
+        <RadzenColumn Size="6" Offset="3" class="rz-p-5">
+            <div class="rz-text-align-center rz-p-9 rz-shadow-7 rz-border-radius-3">
+                <p class="lead">
+                    "This dashboard is updated in real-time, so you can be confident that you’re
+                    always looking at the most up-to-date information. We hope you find this dashboard useful and informative!”
+                </p>
+                <RadzenButton Style="background-color: #e81f4b;" Click="@(()=>MyNavigation.NavigateTo("/dashboard"))" Text="Go To Dashboard" />
+            </div>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow class="rz-text-align-center" Gap="1rem">
+        <RadzenColumn Size="7" class="rz-p-md-5">
+            <EmployeeList />
+        </RadzenColumn>
+        <RadzenColumn Size="5" class="rz-p-2 rz-p-md-5">
+            <h5>
+                This is the update version of Quality Evaluation and Acknowledgement Form,
+                some of the function are already in the Web App
+            </h5>
+            <img src="/images/acknowledgement.png" style="width: 700px;" />
+        </RadzenColumn>
+    </RadzenRow>
+</div>

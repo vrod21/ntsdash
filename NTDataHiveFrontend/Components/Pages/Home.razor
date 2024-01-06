@@ -3,14 +3,14 @@
 @using Microsoft.AspNetCore.Authorization
 @using NTDataHiveFrontend.Components.Home
 @using NTDataHiveFrontend.Components.QualityPerformance.Pages
+@using NTDataHiveFrontend.Components.QualityPerformance.Layout
 @attribute [Authorize]
 @attribute [StreamRendering]
 @* @rendermode @(new InteractiveServerRenderMode(prerender: false)) *@
 
 <PageTitle>Home Page</PageTitle>
 
-<HomeJumbotron @rendermode="InteractiveServer" />
+<HomePageLayout />
 
-<EmployeeList @rendermode="InteractiveServer" />
 
 

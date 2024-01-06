@@ -55,6 +55,40 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             }
         }
         #endregion
+        internal void UpdatePerson(PersonRequest recordRequest)
+        {
+            try
+            {
+                using var dbContext = new NTDataHiveContext(_contextOptions);
+
+                var persons = from per in dbContext.Person
+                             where per.WebId == recordRequest.WebId
+                             select per;
+
+                var person = persons.Single();
+
+                person.Username = recordRequest.Username.Trim();
+                person.FirstName = recordRequest.FirstName.Trim();
+                person.LastName = recordRequest.LastName.Trim();
+                person.Birthday = recordRequest.Birthday.ToDateTime();
+                person.Position = recordRequest.Position.Trim();
+                person.CompanyId = recordRequest.CompanyId.Trim();
+                person.AccountName = recordRequest.AccountName.Trim();
+                person.ReportingManager = recordRequest.ReportingManager.Trim();
+                person.Department = recordRequest.Department.Trim();
+
+                dbContext.Person.Update(person);
+                _ = dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal(ex);
+                throw;
+            }
+        }
+        #region UpdatePerson
+
+        #endregion
 
         #region GetAllPersonRecord
         internal List<PersonRequest> GetAllPersonRecord()
@@ -82,7 +116,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
-        #region SelectRevision
+        #region SelectPersonPart
         internal bool SelectPersonPart(PersonRequest recordRequest)
         {
             try
@@ -112,7 +146,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     recordRequest.ReportingManager = personList.ReportingManager?.Trim() ?? "";
                     recordRequest.Department = personList.Department?.Trim() ?? "";
                     recordRequest.Type = personList.Type?.Trim() ?? "";
-
                     return true;
                 }
                 else

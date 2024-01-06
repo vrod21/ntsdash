@@ -1,15 +1,14 @@
-﻿@page "/Account/Manage/TwoFactorAuthentication"
-
-@using Microsoft.AspNetCore.Authorization
+﻿@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Http.Features
 @using Microsoft.AspNetCore.Identity
 @using NTDataHiveFrontend.Data
 
+@attribute [Authorize]
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
-@attribute [Authorize]
+@page "/Account/Manage/TwoFactorAuthentication"
 
 <PageTitle>Two-factor authentication (2FA)</PageTitle>
 

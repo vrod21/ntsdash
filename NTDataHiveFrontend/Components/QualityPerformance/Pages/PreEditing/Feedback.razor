@@ -4,8 +4,6 @@
 
 @attribute [Authorize]
 @rendermode InteractiveServer
-@inject UseCases.Dropdown.UseCaseInterfaces.IViewPublisherUseCase MyViewPublisherUseCase
-@inject UseCases.Dropdown.UseCaseInterfaces.IViewJournalUseCase MyViewJournalUseCase
 @inject NTDataHiveFrontend.ServiceAccess.FeedbackBackendService MyBackendService
 @inject NTDataHiveFrontend.ServiceAccess.DropdownBackendService MyDropdownService
 @inject IConfiguration Configuration
@@ -205,17 +203,12 @@ else
 
 @code {
     private NTDataHiveFrontend.Model.Feedback addPreEditFeedback = new Model.Feedback();
-
-    private List<CoreBusiness.Dropdown.Publisher> publishers;
-    private List<CoreBusiness.Dropdown.Journal> journals;
     private List<NTDataHiveFrontend.Model.Publisher> publisher = new List<Model.Publisher>();
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        publishers = MyViewPublisherUseCase.Execute().ToList();
-        journals = MyViewJournalUseCase.Execute().ToList();
         // publisher = await MyDropdownService.GetAllPublisher();
     }
 

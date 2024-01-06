@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLibrary.Dropdown
+namespace CoreBusiness.Dropdown
 {
-    public class Publisher
+    public class Department
     {
         public int Id { get; set; }
-        public string PublisherName { get; set; }
+        public string Name { get; set; }
     }
 }

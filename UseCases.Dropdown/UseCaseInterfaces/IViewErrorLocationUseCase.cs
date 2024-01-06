@@ -2,8 +2,8 @@
 
 namespace UseCases.Dropdown.UseCaseInterfaces
 {
-    public interface IViewJournalUseCase
+    public interface IViewErrorLocationUseCase
     {
-        List<Journal> Execute();
+        List<ErrorLocation> Execute();
     }
 }

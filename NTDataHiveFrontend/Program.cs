@@ -6,7 +6,7 @@ using NTDataHiveFrontend.Components.Account;
 using NTDataHiveFrontend.Data;
 using NTDataHiveFrontend.ServiceAccess;
 using Plugins.DataStore.InMemory.Dropdown;
-using UseCases.Dropdown.DataStorePluginInterfaces;
+using UseCases.Dropdown;
 using UseCases.Dropdown.DropdownUseCase;
 using UseCases.Dropdown.UseCaseInterfaces;
 
@@ -48,17 +48,19 @@ builder.Services.AddTransient<FeedbackBackendService>();
 builder.Services.AddTransient<PersonBackendService>();
 builder.Services.AddTransient<EvaluationBackendService>();
 
-
-
-builder.Services.AddScoped<IPublisherRepository, PublisherInMemoryRepository>();
+builder.Services.AddScoped<IPublisherRepository, PubisherInMemoryRepository>();
 builder.Services.AddScoped<IJournalRepository, JournalInMemoryRepository>();
+builder.Services.AddScoped<IErrorTypeRepository, ErrorTypeInMemoryRepository>();
+builder.Services.AddScoped<IErrorLocationRepository, ErrorLocationInMemoryRepository>();
+builder.Services.AddScoped<IQualityAssuranceRepository, QualityAssuranceInMemoryRepository>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentInMemoryRepository>();
 
-
-
-builder.Services.AddTransient<IViewPublisherUseCase, ViewPublisherUseCase>();
-builder.Services.AddTransient<IViewJournalUseCase, ViewJournalUseCase>();
-
-
+builder.Services.AddScoped<IViewJournalIdByPublisherNameUseCase, ViewJournalIdByPublisherNameUseCase>();
+builder.Services.AddScoped<IViewPublisherUseCase, ViewPublisherUseCase>();
+builder.Services.AddScoped<IViewErrorTypeByErrorCodeNameUseCase, ViewErrorTypeByErrorCodeNameUseCase>();
+builder.Services.AddScoped<IViewErrorLocationUseCase, ViewErrorLocationUseCase>();
+builder.Services.AddScoped<IViewQualityAssuranceUseCase, ViewQualityAssuranceUseCase>();
+builder.Services.AddScoped<IViewDepartmentUseCase, ViewDepartmentUseCase>();
 
 builder.Services.AddScoped<Radzen.DialogService>();
 

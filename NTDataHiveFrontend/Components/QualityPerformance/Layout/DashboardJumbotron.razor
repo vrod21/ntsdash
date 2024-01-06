@@ -16,6 +16,8 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IdentityUserAccessor UserAccessor
 @inject UserManager<ApplicationUser> UserManager
+@inject IConfiguration Configuration
+@inject DialogService DialogService
 
 @if (personRecord == null)
 {
@@ -35,14 +37,13 @@ else
                             <h4><b>Your Credentials</b></h4>
                             <RadzenText class="rz-color-black" Text="@($"Email: {personRecord.EmailAddress}")" />
                             <RadzenText class="rz-color-black" Text="@($"Usename: {personRecord.Username}")" />
-
-                            @if (personRecord.FirstName != "" && personRecord.LastName != "" && personRecord.Position != "" && personRecord.CompanyId != "")
+                            @if (personRecord.FirstName != "" && personRecord.LastName != "" && 
+                                personRecord.Position != "" && personRecord.CompanyId != "")
                             {
-                                <h1>John</h1>
-                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.FirstName}")" />
-                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.LastName}")" />
-                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.Position}")" />
-                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-black" Text="@($"Usename: {personRecord.CompanyId}")" />
+                                <RadzenText class="rz-color-black" Text="@($"First Name: {personRecord.FirstName}")" />
+                                <RadzenText class="rz-color-black" Text="@($"Last Name: {personRecord.LastName}")" />
+                                <RadzenText class="rz-color-black" Text="@($"Position: {personRecord.Position}")" />
+                                <RadzenText class="rz-color-black" Text="@($"Company Id: {personRecord.CompanyId}")" />
                             }  
                         </div>
                     </div>

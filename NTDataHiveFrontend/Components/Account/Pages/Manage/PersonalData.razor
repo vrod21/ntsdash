@@ -1,8 +1,8 @@
-﻿@page "/Account/Manage/PersonalData"
+﻿@using Microsoft.AspNetCore.Authorization
 
-@using Microsoft.AspNetCore.Authorization
-@inject IdentityUserAccessor UserAccessor
 @attribute [Authorize]
+@inject IdentityUserAccessor UserAccessor
+@page "/Account/Manage/PersonalData"
 
 <PageTitle>Personal Data</PageTitle>
 
@@ -16,7 +16,7 @@
             <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
         </p>
         <p>
-            <a href="Account/Manage/DeletePersonalData" class="create-feedback-button btn btn-danger">Delete</a>
+            <a style="float:right;" href="Account/Manage/DeletePersonalData" class="btn btn-primary">Delete</a>
         </p>
         <form action="Account/Manage/DownloadPersonalData" method="post">
             <AntiforgeryToken />

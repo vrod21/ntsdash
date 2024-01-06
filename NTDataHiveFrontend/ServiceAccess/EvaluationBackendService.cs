@@ -164,16 +164,15 @@ namespace NTDataHiveFrontend.ServiceAccess
             if (feedback?.CreatedAt != null)
                 grpcFeedbackRecord.CreatedAt = feedback.CreatedAt.Value.ToUniversalTime().ToTimestamp();
 
-            if (feedback?.TargetDateOfCompletionCA != null && feedback?.TargetDateOfCompletionPM != null)
+            if (feedback?.TargetDateOfCompletionCA != null)
             {
-                grpcFeedbackRecord.TargetDateOfCompletionCA = feedback.TargetDateOfCompletionCA.Value.ToUniversalTime().ToTimestamp();
+                grpcFeedbackRecord.TargetDateOfCompletionCA = feedback.TargetDateOfCompletionCA.Value.ToUniversalTime().ToTimestamp();                
+            }
+            if (feedback?.TargetDateOfCompletionPM != null)
+            {
                 grpcFeedbackRecord.TargetDateOfCompletionPM = feedback.TargetDateOfCompletionPM.Value.ToUniversalTime().ToTimestamp();
             }
-            else
-            {
-                grpcFeedbackRecord.TargetDateOfCompletionCA = null;
-                grpcFeedbackRecord.TargetDateOfCompletionPM = null;
-            }
+
 
             return grpcFeedbackRecord;
         }

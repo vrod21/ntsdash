@@ -89,8 +89,5 @@ namespace NTDataHiveGrpcService.Services
         }
         #endregion
 
-        #region UpdateFeedback
-
-        #endregion
     }
 }

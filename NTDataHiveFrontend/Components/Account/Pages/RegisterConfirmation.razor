@@ -1,6 +1,10 @@
-﻿@page "/Account/RegisterConfirmation"
-
+﻿@using Microsoft.AspNetCore.Http.Extensions;
+@using NTDataHiveFrontend.Components.Account
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.ComponentModel.DataAnnotations
 @using System.Text
+@using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
@@ -11,6 +15,12 @@
 @inject IEmailSender<ApplicationUser> EmailSender
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyBackendService
+@inject NavigationManager MyNavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IdentityUserAccessor UserAccessor
+@inject UserManager<ApplicationUser> UserManager
+@page "/Account/RegisterConfirmation"
 
 <PageTitle>Register confirmation</PageTitle>
 
@@ -33,6 +43,8 @@ else
 @code {
     private string? emailConfirmationLink;
     private string? statusMessage;
+    private string? userId;
+    private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
@@ -45,6 +57,19 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+        var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var nameIdentifier = auth.User;
+
+        userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        personRecord = await MyBackendService.GetPersonRecord(userId);
+
+        if (personRecord.Type != "Admin")
+        {
+            MyNavigationManager.NavigateTo("/");
+        }
+
         if (Email is null)
         {
             RedirectManager.RedirectTo("");
@@ -67,4 +92,5 @@ else
                 new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
         }
     }
+
 }

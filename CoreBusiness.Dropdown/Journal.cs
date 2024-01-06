@@ -8,7 +8,7 @@ namespace CoreBusiness.Dropdown
 {
     public class Journal
     {
-        public int Id { get; set; }
-        public string JournalName { get; set; }
+        public string Name { get; set; }
+        public string JournalId { get; set; }
     }
 }

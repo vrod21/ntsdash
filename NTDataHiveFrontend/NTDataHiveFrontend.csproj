@@ -35,6 +35,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NTDataHiveEnum.DataPlugins\NTDataHiveEnum.DataPlugins.csproj" />
+    <ProjectReference Include="..\Plugins.DataStore.InMemory.Dropdown\Plugins.DataStore.InMemory.Dropdown.csproj" />
+    <ProjectReference Include="..\UseCases.Dropdown\UseCases.Dropdown.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Protobuf Include="Protos\Dropdown.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\Employee.proto">
       <GrpcServices>Client</GrpcServices>
@@ -55,11 +61,6 @@
     <None Update="Protos\greet.proto">
       <GrpcServices>Server</GrpcServices>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Plugins.DataStore.InMemory.Dropdown\Plugins.DataStore.InMemory.Dropdown.csproj" />
-    <ProjectReference Include="..\UseCases.Dropdown\UseCases.Dropdown.csproj" />
   </ItemGroup>
 
 </Project>

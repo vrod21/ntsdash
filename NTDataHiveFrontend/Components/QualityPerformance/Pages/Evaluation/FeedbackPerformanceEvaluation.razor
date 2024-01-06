@@ -1,65 +1,80 @@
-﻿@using Microsoft.AspNetCore.Authorization
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Http.Extensions;
+@using Microsoft.AspNetCore.Identity
+@using NTDataHiveFrontend.Components.Account
+@using NTDataHiveFrontend.Data
+@using NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
 @rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyBackendService
+@inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
 @inject IConfiguration Configuration
-@inject NavigationManager MyNavigationManager
+@inject NavigationManager MyNavigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IdentityUserAccessor UserAccessor
+@inject UserManager<ApplicationUser> UserManager
 @page "/feedback-performance"
 
 <PageTitle>Feedback Performance</PageTitle>
 
-@if (feedbackRecord == null)
+@if (personRecord.Type == null)
 {
-    <p><em>Loading...</em></p>
+    <p>Please Remove your connection now...</p>
 }
-else
+
+@if (personRecord.Type == "Manager" || personRecord.Type == "Employee")
 {
+    <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@feedbackRecord"
+                    TItem="NTDataHiveFrontend.Model.Feedback" AllowColumnResize="false" AllowAlternatingRows="false"
+                    FilterMode="FilterMode.Advanced" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                    ColumnWidth="500px" LogicalFilterOperator="LogicalFilterOperator.Or"
+                    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive">
+        <Template Context="data">
+            <RadzenCard class="rz-p-12" Style="margin-bottom:20px">
+                Description of Error :
 
-        <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="7" AllowSorting="true" Data="@feedbackRecord"
-                        TItem="NTDataHiveFrontend.Model.Feedback" AllowColumnResize="false" AllowAlternatingRows="false"
-                        FilterMode="FilterMode.Advanced" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                        ColumnWidth="500px" LogicalFilterOperator="LogicalFilterOperator.Or" 
-                        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive">
-            <Template Context="data">
-                <RadzenCard class="rz-p-12" Style="margin-bottom:20px">
-                    Description of Error :
-
-                    <div class="rz-text-align-center rz-p-12 rz-shadow-7 rz-border-radius-3">
-                        <p class="lead" style="text-align:center; white-space:pre-line;">
-                            @data.DescriptionOfError
-                        </p>
-                    </div>
-                </RadzenCard>
-            </Template>
-            <Columns>
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="SupplierName" Title="Suppler Name"
-                                      Width="200px" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="QualityAssurance" Title="Quality Assurance"
-                                      Width="200px" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="PublisherName" Title="Publisher Name"
-                                      Width="200px" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="JournalId" Title="Journal ID"
-                                      Width="200px" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="ArticleId" Title="Article ID"
-                                      Width="200px" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="CopyEditedBy" Title="Copy Edited By"
-                                      Width="200px" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="EmployeeName" Title="Employee Name"
-                                      Width="200px" />
-                <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="Department" Title="Department Name"
-                                      Width="200px" />
-                <RadzenDataGridColumn TItem="Model.Feedback" Property="WebId" Title="Select Report" Width="200px">
-                    <Template Context="data">
-                        <RadzenButton Style="background-color:#e81f4b" Text="Specific Detail" Click="@(() => OnSpecificDetail(data))" />
-                    </Template>
-                </RadzenDataGridColumn>
-            </Columns>
-        </RadzenDataGrid>
+                <div class="rz-text-align-center rz-p-12 rz-shadow-7 rz-border-radius-3">
+                    <p class="lead" style="text-align:center; white-space:pre-line;">
+                        @data.DescriptionOfError
+                    </p>
+                </div>
+            </RadzenCard>
+        </Template>
+        <Columns>
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="SupplierName" Title="Suppler Name"
+                                  Width="200px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="QualityAssurance" Title="Quality Assurance"
+                                  Width="200px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="PublisherName" Title="Publisher Name"
+                                  Width="200px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="JournalId" Title="Journal ID"
+                                  Width="200px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="ArticleId" Title="Article ID"
+                                  Width="200px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="CopyEditedBy" Title="Copy Edited By"
+                                  Width="200px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="EmployeeName" Title="Employee Name"
+                                  Width="200px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="Department" Title="Department Name"
+                                  Width="200px" />
+            <RadzenDataGridColumn TItem="Model.Feedback" Property="WebId" Title="Select Report" Width="200px">
+                <Template Context="data">
+                    <RadzenButton Style="background-color:#e81f4b" Text="Specific Detail" Click="@(() => OnSpecificDetail(data))" />
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
 }
 
 
 @code {
+    private string? userId;
+    private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
     private List<NTDataHiveFrontend.Model.Feedback> feedbackRecord = new List<Model.Feedback>();
 
     protected override async Task OnInitializedAsync()
@@ -67,11 +82,22 @@ else
         await base.OnInitializedAsync();
 
         feedbackRecord = await MyBackendService.GetAllFeedback();
+        var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var nameIdentifier = auth.User;
+
+        userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        personRecord = await MyPersonBackendService.GetPersonRecord(userId);
+
+        if (personRecord.Type == "Admin")
+        {
+            MyNavigation.NavigateTo("/");
+        }
     }
 
     private void OnSpecificDetail(NTDataHiveFrontend.Model.Feedback feedback)
     {
-        MyNavigationManager.NavigateTo($"/feedback-specific-detail-page/{feedback.WebId}/random");
+        MyNavigation.NavigateTo($"/feedback-specific-detail-page/{feedback.WebId}/random");
         // @* <RadzenButton Style="background-color: #e81f4b" Text="Create FeedBack" Click="@(()=>MyNavigationManager.NavigateTo("/pre-editing-feedback"))" /> *@
     }
 }
