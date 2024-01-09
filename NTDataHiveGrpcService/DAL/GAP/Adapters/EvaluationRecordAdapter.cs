@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NLog;
 using NTDataHiveGrpcService.DAL.Data;
 using NTDataHiveGrpcService.DAL.Model;
+using System.Security.Cryptography;
 
 namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 {
@@ -182,6 +183,87 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         }
         #endregion
 
+        #region SelectFeedbackByPublisherName
+        internal bool SelectFeedbackByPublisherName(FeedbackRecordRequest request)
+        {
+            try
+            {
+                var record = new FeedbackRecordArray();
+                using var dbContext = new NTDataHiveContext(_contextOptions);
+
+                var evals = (from eval in dbContext.Evaluation
+                           join appro in dbContext.Approval on eval.Id equals appro.ApprovalIdExt
+                           where appro.EvaluationNavigation.PublisherName == request.PublisherName
+                           orderby appro.EvaluationNavigation.CreatedAt descending
+                           select CreateNewMapper(eval, appro)).ToList();
+
+                if (evals.Count >= 1)
+                {
+                    evals.ToList();
+                    return true;
+                }
+
+                //if (evals.Count == 0)
+                //{
+                //    _nlog.Error($"No data found");
+                //    return false;
+                //}
+                //else if (evals.Count >= 1)
+                //{
+                //    var eval = evals[0];
+                //    request.SupplierName = eval.SupplierName?.Trim() ?? "";
+                //    request.QualityAssurance = eval.QualityAssurance?.Trim() ?? "";
+                //    request.PublisherName = eval.PublisherName?.Trim() ?? "";
+                //    request.JournalId = eval.JournalId?.Trim() ?? "";
+                //    request.ArticleId = eval.ArticleId?.Trim() ?? "";
+                //    request.CopyEditedBy = eval.CopyEditedBy?.Trim() ?? "";
+                //    request.PageCount = eval.PageCount;
+                //    request.ErrorCount = eval.ErrorCount;
+                //    request.DescriptionOfError = eval.DescriptionOfError?.Trim() ?? "";
+                //    request.Matter = eval.Matter?.Trim() ?? "";
+                //    request.ErrorLocation = eval.ErrorLocation?.Trim() ?? "";
+                //    request.ErrorCode = eval.ErrorCode?.Trim() ?? "";
+                //    request.ErrorType = eval.ErrorType?.Trim() ?? "";
+                //    request.ErrorSubtype = eval.ErrorSubtype?.Trim() ?? "";
+                //    request.ErrorCategory = eval.ErrorCategory?.Trim() ?? "";
+                //    request.IntroducedOrMissed = eval.IntroducedOrMissed?.Trim() ?? "";
+                //    request.Department = eval.Department?.Trim() ?? "";
+                //    request.EmployeeName = eval.EmployeeName?.Trim() ?? "";
+                //    request.CopyEditingLevel = eval.CopyEditingLevel?.Trim() ?? "";
+                //    request.CreatedAt = eval.CreatedAt.ToUniversalTime().ToTimestamp();
+
+                //var appExt = (from approval in dbContext.Approval
+                //              where approval.EvaluationNavigation.PublisherName == request.PublisherName
+                //              select approval).ToList();
+
+                //request.RootCause = appExt.RootCause?.Trim() ?? "";
+                //request.CorrectiveAction = appExt.CorrectiveAction?.Trim() ?? "";
+                //request.NatureOfCA = appExt.NatureOfCA?.Trim() ?? "";
+                //request.OwnerOfCA = appExt.OwnerOfCA?.Trim() ?? "";
+                //request.TargetDateOfCompletionCA = appExt.TargetDateOfCompletionCA.ToUniversalTime().ToTimestamp();
+                //request.PreventiveMeasure = appExt.PreventiveMeasure?.Trim() ?? "";
+                //request.NatureOfPM = appExt.NatureOfPM?.Trim() ?? "";
+                //request.OwnerOfPM = appExt.OwnerOfPM?.Trim() ?? "";
+                //request.TargetDateOfCompletionPM = appExt.TargetDateOfCompletionPM.ToUniversalTime().ToTimestamp();
+                //request.StatusOfCA = appExt.StatusOfCA?.Trim() ?? "";
+                //request.StatusOfPM = appExt.StatusOfPM?.Trim() ?? "";
+
+                return true;
+                //}
+                //else
+                //{
+                //    _nlog.Error($"No data in feedback");
+                //    return false;
+                //}
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal(ex.Message );
+                throw;
+            }
+        }
+        #endregion
+
         #region SelectFeedbackPart
         internal bool SelectFeedbackPart(FeedbackRecordRequest recordRequest)
         {
@@ -232,12 +314,12 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     recordRequest.NatureOfCA = appExt.NatureOfCA?.Trim() ?? "";
                     recordRequest.OwnerOfCA = appExt.OwnerOfCA?.Trim() ?? "";
                     recordRequest.TargetDateOfCompletionCA = appExt.TargetDateOfCompletionCA.ToUniversalTime().ToTimestamp();
-                    recordRequest.PreventiveMeasure = appExt.PreventiveMeasure.Trim() ?? "";
-                    recordRequest.NatureOfPM = appExt.NatureOfPM.Trim() ?? "";
+                    recordRequest.PreventiveMeasure = appExt.PreventiveMeasure?.Trim() ?? "";
+                    recordRequest.NatureOfPM = appExt.NatureOfPM?.Trim() ?? "";
                     recordRequest.OwnerOfPM = appExt.OwnerOfPM?.Trim() ?? "";
                     recordRequest.TargetDateOfCompletionPM = appExt.TargetDateOfCompletionPM.ToUniversalTime().ToTimestamp();
-                    recordRequest.StatusOfCA = appExt.StatusOfCA.Trim() ?? "";
-                    recordRequest.StatusOfPM = appExt.StatusOfPM.Trim() ?? "";
+                    recordRequest.StatusOfCA = appExt.StatusOfCA?.Trim() ?? "";
+                    recordRequest.StatusOfPM = appExt.StatusOfPM?.Trim() ?? "";
 
                     return true;
                 }

@@ -100,4 +100,9 @@
         MyNavigation.NavigateTo($"/feedback-specific-detail-page/{feedback.WebId}/random");
         // @* <RadzenButton Style="background-color: #e81f4b" Text="Create FeedBack" Click="@(()=>MyNavigationManager.NavigateTo("/pre-editing-feedback"))" /> *@
     }
+
+    private void OnChange(NTDataHiveFrontend.Model.Feedback feedback)
+    {
+        MyPersonBackendService.GetFilterFor(feedback.PublisherName);
+    }
 }

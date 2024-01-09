@@ -2,6 +2,7 @@
 using NLog;
 using NLog.Fluent;
 using System.Reflection;
+using Status = Google.Rpc.Status;
 
 namespace NTDataHiveGrpcService.Services
 {
@@ -22,17 +23,17 @@ namespace NTDataHiveGrpcService.Services
             try
             {
                 if (string.IsNullOrWhiteSpace(request.WebId))
-                    return Task.FromResult(new Google.Rpc.Status { Code = 3, Message = "WebId is missed" });
+                    return Task.FromResult(new Status { Code = 3, Message = "WebId is missed" });
                 var feedbackRecord = new BLL.RecordContents.EvaluationFilter(request);
 
                 _feedbackRecordRepository.SaveEvaluationFeedbackRecord(feedbackRecord);
 
-                return Task.FromResult(new Google.Rpc.Status { Code = 0 });
+                return Task.FromResult(new Status { Code = 0 });
             }
             catch (Exception ex)
             {
                 _nlog.Fatal(ex);
-                return Task.FromResult(new Google.Rpc.Status { Code = 2, Message = ex.Message });
+                return Task.FromResult(new Status { Code = 2, Message = ex.Message });
             }
             
         }
@@ -44,7 +45,7 @@ namespace NTDataHiveGrpcService.Services
             try
             {
                 var record = new FeedbackRecordArray();
-                record.Status = new Google.Rpc.Status { Code = 0, Message = "Feedback is queryable" };
+                record.Status = new Status { Code = 0, Message = "Feedback is queryable" };
 
                 var feedback = _feedbackRecordRepository.GetAllRecord();
 
@@ -55,13 +56,15 @@ namespace NTDataHiveGrpcService.Services
             catch (Exception ex)
             {
                 _nlog.Fatal(ex);
-                return Task.FromResult(new FeedbackRecordArray { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
+                return Task.FromResult(new FeedbackRecordArray { Status = new Status { Code = 2, Message = ex.Message } });
             }
         }
         #endregion
 
+
+
         #region GetFeedbackRecord
-        public override Task<FeedbackRecordRequest> GetFeedbackRecord(FeebackRecordFilter request, ServerCallContext context)
+        public override Task<FeedbackRecordRequest> GetFeedbackRecord(FeedbackRecordFilter request, ServerCallContext context)
         {
             try
             {
@@ -85,6 +88,34 @@ namespace NTDataHiveGrpcService.Services
             {
                 _nlog.Fatal(ex);
                 return Task.FromResult(new FeedbackRecordRequest { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message } });
+            }
+        }
+        #endregion
+
+        #region GetFeedbackByPublisherName
+        public override Task<FeedbackRecordArray> GetFeedbackByPublisherName(FeedbackRecordFilter request, ServerCallContext context)
+        {
+            try
+            {
+                var record = new FeedbackRecordArray();
+
+                if (string.IsNullOrWhiteSpace(request.WebId))
+                    return Task.FromResult(new FeedbackRecordArray { Status = new Status { Code = 3, Message = "WebId Missed" } });
+
+                if (_feedbackRecordRepository.GetRecord(request.WebId, out BLL.RecordContents.EvaluationFilter evaluationFilter) ) 
+                {
+                    var feedbackList = evaluationFilter.feedbackRecordRequest;
+
+                    record.Items.Add(feedbackList);
+
+                    return Task.FromResult(record);
+                }
+                return Task.FromResult(new FeedbackRecordArray { Status = new Status { Code = 5, Message = "Feedback Record Not Found" } });
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal(ex);
+                return Task.FromResult(new FeedbackRecordArray { Status = new Status { Code = 2, Message = ex.Message } });
             }
         }
         #endregion

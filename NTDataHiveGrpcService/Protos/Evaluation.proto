@@ -13,8 +13,9 @@ service EvaluationBackend {
 
     rpc GetAllFeedback (FeedbackEmpty) returns (FeedbackRecordArray);
 
-    rpc GetFeedbackRecord (FeebackRecordFilter) returns (FeedbackRecordRequest);
+    rpc GetFeedbackRecord (FeedbackRecordFilter) returns (FeedbackRecordRequest);
 
+    rpc GetFeedbackByPublisherName (FeedbackRecordFilter) returns (FeedbackRecordArray);
 }
 
 message	FeedbackEmpty {
@@ -58,8 +59,9 @@ message FeedbackRecordRequest {
 	google.rpc.Status status = 99;
 }
 
-message FeebackRecordFilter {
+message FeedbackRecordFilter {
     string webId = 1;
+    string publisherName = 2;
 }
 
 message FeedbackRecordArray {

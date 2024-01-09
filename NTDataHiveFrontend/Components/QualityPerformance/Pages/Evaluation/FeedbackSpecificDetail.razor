@@ -1,9 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @using NTDataHiveEnum.DataPlugins.Utilities
+@using OfficeOpenXml
 
 @attribute [Authorize]
 @rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyBackendService
+@inject Microsoft.JSInterop.IJSRuntime JS
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigationManager
 @page "/feedback-specific-detail-page/{id:guid}/random"
@@ -293,6 +295,7 @@ else
     [Parameter]
     public Guid id { get; set; }
     private NTDataHiveFrontend.Model.Feedback feedbackDetail = new Model.Feedback();
+    private NTDataHiveFrontend.Model.Feedback[] listFeedback;
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> natureOfCA = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.NatureOfCA>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> natureOfPM = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.NatureOfPM>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> status = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.Status>();
@@ -311,4 +314,21 @@ else
         MyNavigationManager.NavigateTo("/feedback-performance");
     }
 
+
+    private async Task DownloadExcelFile()
+    {
+        // listFeedback = await MyBackendService.GetFeedbackRecord(id);
+        var stream = new MemoryStream();
+        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+        using (var package = new ExcelPackage(stream))
+        {
+            var workSheet = package.Workbook.Worksheets.Add("Sheet1");
+
+            workSheet.Cells.LoadFromCollection(listFeedback);
+
+            package.GetAsByteArray();
+        }
+        // JS.InvokeVoidAsync("saveAsFile", $"test_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx", Convert.ToBase64String(excelBytes));
+
+    }
 }

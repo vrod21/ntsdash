@@ -106,6 +106,43 @@ namespace NTDataHiveFrontend.ServiceAccess
                 WebId = id.ToString(),
             };
         }
+
+        public NTDataHiveGrpcService.FeedbackRecordFilter GetFilterFor(Model.Feedback feedback)
+        {
+            return new NTDataHiveGrpcService.FeedbackRecordFilter()
+            {
+                WebId = feedback.WebId.ToString(),
+                PublisherName = feedback.PublisherName,
+            };
+        }
+        #endregion
+
+        #region GetFeedbackByPublisherName
+        public async Task<List<Model.Feedback>> GetFeedbackRecordByPublisherName(Model.Feedback feedback)
+        {
+            if (_client == null)
+                Connect();
+
+            try
+            {
+                var feedbackList = await _client.GetFeedbackByPublisherNameAsync(GetFilterFor(feedback));
+
+                List<Model.Feedback> feedbacks = new List<Model.Feedback>();
+
+                foreach (var feedbackRecord in feedbackList.Items)
+                {
+                    feedbacks.Add(ToFrontendFormat(feedbackRecord));
+                }
+                return feedbacks;
+            }
+            catch (Exception ex)
+            {
+                _nlog.Error($"Publisher name is null" + ex.Message);
+                return null;
+            }
+          
+        }
+
         #endregion
 
         #region

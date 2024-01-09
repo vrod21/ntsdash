@@ -76,9 +76,14 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
             var feedbackAdapter = new EvaluationRecordAdapter(_config);
 
             if (!feedbackAdapter.SelectFeedbackPart(feedbackRecord.feedbackRecordRequest))
+            {
                 return false;
-
-            return true;
+            }
+            else
+            {
+                feedbackAdapter.SelectFeedbackByPublisherName(feedbackRecord.feedbackRecordRequest);
+                return true;
+            }            
         }
         #endregion
     }
