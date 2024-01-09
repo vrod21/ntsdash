@@ -54,6 +54,7 @@ builder.Services.AddScoped<IErrorTypeRepository, ErrorTypeInMemoryRepository>();
 builder.Services.AddScoped<IErrorLocationRepository, ErrorLocationInMemoryRepository>();
 builder.Services.AddScoped<IQualityAssuranceRepository, QualityAssuranceInMemoryRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentInMemoryRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountInMemoryRepository>();
 
 builder.Services.AddScoped<IViewJournalIdByPublisherNameUseCase, ViewJournalIdByPublisherNameUseCase>();
 builder.Services.AddScoped<IViewPublisherUseCase, ViewPublisherUseCase>();
@@ -61,6 +62,7 @@ builder.Services.AddScoped<IViewErrorTypeByErrorCodeNameUseCase, ViewErrorTypeBy
 builder.Services.AddScoped<IViewErrorLocationUseCase, ViewErrorLocationUseCase>();
 builder.Services.AddScoped<IViewQualityAssuranceUseCase, ViewQualityAssuranceUseCase>();
 builder.Services.AddScoped<IViewDepartmentUseCase, ViewDepartmentUseCase>();
+builder.Services.AddScoped<IViewAccountUseCase, ViewAccountUseCase>();
 
 builder.Services.AddScoped<Radzen.DialogService>();
 

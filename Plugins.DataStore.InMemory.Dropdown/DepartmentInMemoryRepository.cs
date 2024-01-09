@@ -14,15 +14,16 @@ namespace Plugins.DataStore.InMemory.Dropdown
         {
             _department = new List<Department>()
             {
-                new Department { Id = 1, Name = "PE"},
-                new Department { Id = 2, Name = "CE" },
-                new Department { Id = 3, Name = "XML" },
-                new Department { Id = 4, Name = "TS" },
-                new Department { Id = 5, Name = "QC" },
-                new Department { Id = 6, Name = "MC" },
-                new Department { Id = 7, Name = "PE/CE" },
-                new Department { Id = 8, Name = "TS/QC" },
-                new Department { Id = 9, Name = "Others" },
+                new Department { Id = 1, Name = "QMS"},
+                new Department { Id = 2, Name = "PE"},
+                new Department { Id = 3, Name = "CE" },
+                new Department { Id = 4, Name = "XML" },
+                new Department { Id = 5, Name = "TS" },
+                new Department { Id = 6, Name = "QC" },
+                new Department { Id = 7, Name = "MC" },
+                new Department { Id = 8, Name = "PE/CE" },
+                new Department { Id = 9, Name = "TS/QC" },
+                new Department { Id = 10, Name = "Others" },
             };
         }
 

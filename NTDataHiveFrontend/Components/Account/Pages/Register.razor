@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http.Extensions;
+@using NTDataHiveEnum.DataPlugins.Enums
+@using NTDataHiveEnum.DataPlugins.Utilities
 @using NTDataHiveFrontend.Components.Account
 
 @using System.Security.Claims
@@ -41,9 +43,9 @@
             <StatusMessage Message="@Message" />
             <div class="form-floating mb-3">
                 <InputSelect class="form-control" @bind-Value="Input.Type">
-                    @foreach (var types in Enum.GetValues(typeof(PersonType)))
+                    @foreach (var types in personType)
                     {
-                        <option value="@types">@types</option>
+                        <option value="@types.Value">@types.Text</option>
                     }
                 </InputSelect>
                 <label for="type">Type of Account</label>
@@ -93,13 +95,14 @@
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
     private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
+    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> personType = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.PersonType>();
 
-    private enum PersonType
-    {
-        Admin,
-        Manager,
-        Employee
-    }
+    // private enum PersonType
+    // {
+    //     Admin,
+    //     Manager,
+    //     Employee
+    // }
 
     protected override async Task OnInitializedAsync()
     {

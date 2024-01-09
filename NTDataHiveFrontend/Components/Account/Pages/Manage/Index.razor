@@ -4,9 +4,12 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
 @using NTDataHiveFrontend.Data
+@using UseCases.Dropdown.UseCaseInterfaces
 
 @attribute [Authorize]
 @inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyBackendService
+@inject IViewDepartmentUseCase ViewDepartmentUseCase
+@inject IViewAccountUseCase ViewAccountUseCase
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
@@ -53,8 +56,13 @@
                 <ValidationMessage For="() => Input.CompanyId" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.AccountName" class="form-control" placeholder="Please enter your account name." />
-                <label for="account-name" class="form-label">Account Name</label>
+                <InputSelect class="form-control" @bind-Value="Input.AccountName">
+                    @foreach (var acc in account)
+                    {
+                        <option value="@acc.Name">@acc.Name</option>
+                    }
+                </InputSelect>
+                <label for="type">Account Name</label>
                 <ValidationMessage For="() => Input.AccountName" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
@@ -63,8 +71,13 @@
                 <ValidationMessage For="() => Input.ReportingManager" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.Department" class="form-control" placeholder="Please enter your department." />
-                <label for="department" class="form-label">Department</label>
+                <InputSelect class="form-control" @bind-Value="Input.Department">
+                    @foreach (var dep in department)
+                    {
+                        <option value="@dep.Name">@dep.Name</option>
+                    }
+                </InputSelect>
+                <label for="type">Select Department</label>
                 <ValidationMessage For="() => Input.Department" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
@@ -83,6 +96,8 @@
     private string? phoneNumber;
     private string? personId;
     private NTDataHiveFrontend.Model.Person addPerson = new Model.Person();
+    private List<CoreBusiness.Dropdown.Department> department = new List<CoreBusiness.Dropdown.Department>();
+    private List<CoreBusiness.Dropdown.Account> account = new List<CoreBusiness.Dropdown.Account>();
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
@@ -97,6 +112,9 @@
         phoneNumber = await UserManager.GetPhoneNumberAsync(user);
 
         Input.PhoneNumber ??= phoneNumber;
+
+        department = ViewDepartmentUseCase.Execute().ToList();
+        account = ViewAccountUseCase.Execute().ToList();
     }
 
     private async Task OnValidSubmitAsync()
