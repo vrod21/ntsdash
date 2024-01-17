@@ -3,7 +3,6 @@
 @using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Http.Extensions;
 @using Microsoft.AspNetCore.Identity
-@using NTDataHiveEnum.DataPlugins.Utilities
 @using NTDataHiveFrontend.Components.Account
 @using NTDataHiveFrontend.Data
 @using NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage
@@ -13,14 +12,7 @@
 
 @attribute [Authorize]
 @rendermode InteractiveServer
-@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyBackendService
 @inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
-@inject IViewPublisherUseCase ViewPublisherUseCase
-@inject IViewJournalIdByPublisherNameUseCase ViewJournalIdByPublisherNameUseCase
-@inject IViewErrorTypeByErrorCodeNameUseCase ViewErrorTypeByErrorCodeNameUseCase
-@inject IViewErrorLocationUseCase ViewErrorLocationUseCase
-@inject IViewQualityAssuranceUseCase ViewQualityAssuranceUseCase
-@inject IViewDepartmentUseCase ViewDepartmentUseCase
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -30,263 +22,29 @@
 
 <PageTitle>Evaluation Feedback</PageTitle>
 
-<style>
-    form .row {
-        margin-bottom: 16px;
-    }
-</style>
-
-<div class="create-feedback-button">
-    <RadzenButton Style="background-color: #e81f4b;" Click="@Save" Text="Create Feedback" />
-</div>
-
-@if (personRecord.Type == "Employee" && personRecord.Department == "QMS")
+@if (personRecord.Type == "Employee" && personRecord.Position == "QMS Executive - Revision")
 {
-    <h3>Create - Feedback Revision - Description can upload image. </h3>
+    <h3>QMS For Revision - Description can upload image. </h3>
 }
 
-@if (personRecord.Type == "Employee" && personRecord.Department == "QMS")
+@if (personRecord.Type == "Employee" && personRecord.Position == "QMS Executive - Pre-Editing")
 {
-    <h3>Create - Feedback Pre-Editing - Description can upload image. </h3>
+    <h3>QMS For Pre-Editing - Description can upload image. </h3>
 }
 
 @if (personRecord.Type == "")
 {
     <p><em>Please update your profile...! Click your email in top right corner...</em></p>
 }
-@if (personRecord.Type == "Manager" || personRecord.Type == "Employee")
+@if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing")
 {
-    <EditForm Model="addFeedback">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6">
-                    <RadzenFieldset Text="Feedback">
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Supplier Name" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.SupplierName" AllowClear="true" TValue="string" Placeholder="Supplier Name"
-                                                Data="@supplierName" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="QA Name" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.QualityAssurance" AllowClear="true" TValue="string" Placeholder="Quality Assurance"
-                                                Data="@qualityAssuranceRecord" style="width: 100%;" TextProperty="Name" ValueProperty="Name" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Publisher Name" />
-
-                            </div>
-                            <div class="col-md-8">
-
-                                <RadzenDropDown @bind-Value="addFeedback.PublisherName" AllowClear="true" TValue="string" Placeholder="Publisher Name"
-                                                Data="@publisherRecord" style="width: 100%;" TextProperty="Name" ValueProperty="Name"
-                                                Change="@(args => PublisherNameChangeValue(args))" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Journal ID" />
-                            </div>
-                            <div class="col-md-8">
-                                    <RadzenDropDown @bind-Value="addFeedback.JournalId" AllowClear="true" TValue="string" Placeholder="Journal Id"
-                                                Data="@journalRecord" style="width: 100%;" TextProperty="JournalId" ValueProperty="JournalId"
-                                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Article ID" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-value="addFeedback.ArticleId" Placeholder="Article ID" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Copy Edited By" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.CopyEditedBy" AllowClear="true" TValue="string" Placeholder="Copy Edited By"
-                                                Data="@copyEditedBy" style="width: 100%;"
-                                                TextProperty="Text" ValueProperty="Value" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Page Count" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenNumeric Style="width: 100%;" @bind-Value="addFeedback.PageCount" TValue="double" Placeholder="Page Count" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Error Count" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenNumeric Style="width: 100%;" @bind-value="addFeedback.ErrorCount" TValue="double" Placeholder="Error Count" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Description of Error" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenTextArea Style="width: 100%;" @bind-value="addFeedback.DescriptionOfError" Placeholder="Description of Error" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Matter" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.Matter" AllowClear="true" TValue="string" Placeholder="FM/Non-FM"
-                                                Data="@matter" style="width: 100%;"
-                                                TextProperty="Text" ValueProperty="Value" />
-                            </div>
-                        </div>
-                    </RadzenFieldset>
-                </div>
-                <div class="col-md-6">
-                    <RadzenFieldset Text="Feedback">
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Error Location" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.ErrorLocation" AllowClear="true" TValue="string" Placeholder="Error Location"
-                                                Data="@errorLocationRecord" style="width: 100%;"
-                                                TextProperty="Name" ValueProperty="Name" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                                FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Error Code" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.ErrorCode" AllowClear="true" TValue="string" Placeholder="Error Code"
-                                                Data="@errorCode" style="width: 100%;" TextProperty="Text" ValueProperty="Value"
-                                                Change="@(args => ErrorCodeNameChangeValue(args))" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                                                FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Error Type" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.ErrorType" AllowClear="true" TValue="string" Placeholder="Error Type"
-                                                Data="@errorTypeRecord" style="width: 100%;"
-                                                TextProperty="Type" ValueProperty="Type" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                                                FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Error SubType" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.ErrorSubtype" AllowClear="true" TValue="string" Placeholder="Error Subtype"
-                                                Data="@errorSubtype" style="width: 100%;"
-                                                TextProperty="Text" ValueProperty="Value" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Error Category" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.ErrorCategory" AllowClear="true" TValue="string" Placeholder="Error Category"
-                                                Data="@errorCategory" style="width: 100%;"
-                                                TextProperty="Text" ValueProperty="Value" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Introduced/Missed" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.IntroducedOrMissed" AllowClear="true" TValue="string" Placeholder="Introduced/Missed"
-                                                Data="@introducedOrMissed" style="width: 100%;"
-                                                TextProperty="Text" ValueProperty="Value" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Department" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.Department" AllowClear="true" TValue="string" Placeholder="Department"
-                                                Data="@departmentRecord" style="width: 100%;"
-                                                TextProperty="Name" ValueProperty="Name" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Employee Name" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="addFeedback.EmployeeName" Placeholder="Employee Name" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="CE Level" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.CopyEditingLevel" AllowClear="true" TValue="string" Placeholder="Copy Editing Level"
-                                                Data="@copyEditingLevel" style="width: 100%;"
-                                                TextProperty="Text" ValueProperty="Value" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Time Created" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="addFeedback.CreatedAt" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                  DateFormat="MM/dd/yyyy h:mm:ss tt" Placeholder="@($"{@DateTime.Now.ToLocalTime()}")" Change="@(args => PickDateOfTime())" />
-                            </div>
-                        </div>
-                    </RadzenFieldset>
-                </div>
-            </div>
-        </div>
-    </EditForm>
+    <NTDataHiveFrontend.Components.QualityPerformance.Shared.Feedback />
 }
 
 @code {
     private string? userId;
     private string selectedJournalName;
-    private NTDataHiveFrontend.Model.Feedback addFeedback = new Model.Feedback();
     private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
-    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> copyEditedBy = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.CopyEditedBy>();
-    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> matter = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.Matter>();
-    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> errorSubtype = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.ErrorSubtype>();
-    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> errorCategory = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.ErrorCategory>();
-    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> introducedOrMissed = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.IntroducedOrMissed>();
-    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> supplierName = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.SupplierName>();
-    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> copyEditingLevel = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.CopyEditingLevel>();
-    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> errorCode = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.ErrorCode>();
-
-    private List<CoreBusiness.Dropdown.Publisher> publisherRecord;
-    private List<CoreBusiness.Dropdown.Journal> journalRecord;
-    private List<CoreBusiness.Dropdown.ErrorType> errorTypeRecord;
-    private List<CoreBusiness.Dropdown.ErrorLocation> errorLocationRecord;
-    private List<CoreBusiness.Dropdown.QualityAssurance> qualityAssuranceRecord;
-    private List<CoreBusiness.Dropdown.Department> departmentRecord;
-
-    [Parameter]
-    public EventCallback<CoreBusiness.Dropdown.Journal> OnJournalSelected { get; set; }
 
     protected override async Task OnInitializedAsync()
     {    
@@ -298,40 +56,10 @@
 
         personRecord = await MyPersonBackendService.GetPersonRecord(userId);
 
-        publisherRecord = ViewPublisherUseCase.Execute().ToList();
-        errorLocationRecord = ViewErrorLocationUseCase.Execute().ToList();
-        qualityAssuranceRecord = ViewQualityAssuranceUseCase.Execute().ToList();
-        departmentRecord = ViewDepartmentUseCase.Execute().ToList();
-
-        if (personRecord.Type == "Admin")
+        if (personRecord.Type == "Admin" || personRecord.Type == "Manager" || 
+            personRecord.Type == "Employee" && personRecord.Position == "Others")
         {
             MyNavigation.NavigateTo("/");
         }
-    }
-
-    private async Task Save()
-    {
-        await MyBackendService.SaveFeedback(addFeedback);
-
-        MyNavigation.NavigateTo("/feedback-performance");
-    }
-
-    private void PickDateOfTime()
-    {
-        var value = DateTime.Now;
-        addFeedback.CreatedAt = value;
-        StateHasChanged();
-    }
-
-    private void PublisherNameChangeValue(Object value)
-    {
-        var publisherName = value.ToString();
-        journalRecord = ViewJournalIdByPublisherNameUseCase.Execute(publisherName);
-    }
-
-    private void ErrorCodeNameChangeValue(Object value)
-    {
-        var errorCode = value.ToString();
-        errorTypeRecord = ViewErrorTypeByErrorCodeNameUseCase.Execute(errorCode);
     }
 }

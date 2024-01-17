@@ -24,19 +24,21 @@
 
 <PageTitle>Feedback Performance</PageTitle>
 
-<h3>Feedback </h3>
-
 <div class="create-feedback-button">
-    <RadzenButton Style="background-color: #e81f4b;" Click="@DownloadExcelFile" Text="Download File" />
+    <RadzenButton Style="background-color: #e81f4b;" Click="@DownloadExcelFile" Text="Download An Excel File" />
 </div>
+
+<h3>Feedback </h3>
 
 @if (personRecord.Type == null)
 {
     <p>Please Remove your connection now...</p>
 }
 
-@if (personRecord.Type == "Manager" || personRecord.Type == "Employee")
+@if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing" ||
+   personRecord.Position == "Operations Manager")
 {
+    <div class="container-fluid">
     <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@feedbackRecord"
                     TItem="NTDataHiveFrontend.Model.Feedback" AllowColumnResize="false" AllowAlternatingRows="false"
                     FilterMode="FilterMode.Advanced" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
@@ -77,6 +79,12 @@
             </RadzenDataGridColumn>
         </Columns>
     </RadzenDataGrid>
+    </div>
+}
+
+@if (personRecord.Position == "Others")
+{
+    <h1>This is for the Individual Employee</h1>
 }
 
 

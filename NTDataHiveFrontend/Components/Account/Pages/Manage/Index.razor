@@ -9,6 +9,7 @@
 @attribute [Authorize]
 @inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyBackendService
 @inject IViewDepartmentUseCase ViewDepartmentUseCase
+@inject IViewPositionUseCase ViewPositionUseCase
 @inject IViewAccountUseCase ViewAccountUseCase
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
@@ -46,8 +47,13 @@
                 <ValidationMessage For="() => Input.LastName" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.Position" class="form-control" placeholder="Please enter your position." />
-                <label for="position" class="form-label">Position</label>
+                <InputSelect class="form-control" @bind-Value="Input.Position">
+                    @foreach (var position in positions)
+                    {
+                        <option value="@position.Name">@position.Name</option>
+                    }
+                </InputSelect>
+                <label for="type">Select Position</label>
                 <ValidationMessage For="() => Input.Position" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
@@ -98,6 +104,7 @@
     private NTDataHiveFrontend.Model.Person addPerson = new Model.Person();
     private List<CoreBusiness.Dropdown.Department> department = new List<CoreBusiness.Dropdown.Department>();
     private List<CoreBusiness.Dropdown.Account> account = new List<CoreBusiness.Dropdown.Account>();
+    private List<CoreBusiness.Dropdown.Position> positions = new List<CoreBusiness.Dropdown.Position>();
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
@@ -115,6 +122,7 @@
 
         department = ViewDepartmentUseCase.Execute().ToList();
         account = ViewAccountUseCase.Execute().ToList();
+        positions = ViewPositionUseCase.Execute().ToList();
     }
 
     private async Task OnValidSubmitAsync()
