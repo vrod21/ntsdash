@@ -40,19 +40,19 @@
     <RadzenButton Style="background-color: #e81f4b;" Click="@Save" Text="Create Feedback" />
 </div>
 
-@if (personRecord.Type == "Manager")
+@if (personRecord.Type == "Employee" && personRecord.Department == "QMS")
 {
-    <h3>Create - Feedback Revision </h3>
+    <h3>Create - Feedback Revision - Description can upload image. </h3>
 }
 
-@if (personRecord.Type == "Employee")
+@if (personRecord.Type == "Employee" && personRecord.Department == "QMS")
 {
-    <h3>Create - Feedback Pre-Editing </h3>
+    <h3>Create - Feedback Pre-Editing - Description can upload image. </h3>
 }
 
-@if (personRecord == null)
+@if (personRecord.Type == "")
 {
-    <p><em>Please update your profile...! Click you email in right top below...</em></p>
+    <p><em>Please update your profile...! Click your email in top right corner...</em></p>
 }
 @if (personRecord.Type == "Manager" || personRecord.Type == "Employee")
 {

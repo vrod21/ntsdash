@@ -8,6 +8,7 @@
 @using NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Authorization
+@using OfficeOpenXml
 
 @attribute [Authorize]
 @rendermode InteractiveServer
@@ -18,9 +19,16 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IdentityUserAccessor UserAccessor
 @inject UserManager<ApplicationUser> UserManager
+@inject Microsoft.JSInterop.IJSRuntime JS
 @page "/feedback-performance"
 
 <PageTitle>Feedback Performance</PageTitle>
+
+<h3>Feedback </h3>
+
+<div class="create-feedback-button">
+    <RadzenButton Style="background-color: #e81f4b;" Click="@DownloadExcelFile" Text="Download File" />
+</div>
 
 @if (personRecord.Type == null)
 {
@@ -104,5 +112,26 @@
     private void OnChange(NTDataHiveFrontend.Model.Feedback feedback)
     {
         MyPersonBackendService.GetFilterFor(feedback.PublisherName);
+    }
+
+    private void DownloadExcelFile()
+    {
+        var excelBytes = GenerateExcelWorkbook();
+        JS.InvokeVoidAsync("saveAsFile", $"DownloadFile_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx", Convert.ToBase64String(excelBytes));
+    }
+
+    private byte[] GenerateExcelWorkbook()
+    {
+        var stream = new MemoryStream();
+
+        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+        using (var package = new ExcelPackage(stream))
+        {
+            var workSheet = package.Workbook.Worksheets.Add("Sheet1");
+            workSheet.Cells.LoadFromCollection(feedbackRecord, true);
+
+            return package.GetAsByteArray();
+        }
     }
 }
