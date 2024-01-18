@@ -19,14 +19,13 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IdentityUserAccessor UserAccessor
 @inject UserManager<ApplicationUser> UserManager
-@inject Microsoft.JSInterop.IJSRuntime JS
 @page "/feedback-performance"
 
 <PageTitle>Feedback Performance</PageTitle>
 
-<div class="create-feedback-button">
+@* <div class="create-feedback-button">
     <RadzenButton Style="background-color: #e81f4b;" Click="@DownloadExcelFile" Text="Download An Excel File" />
-</div>
+</div> *@
 
 <h3>Feedback </h3>
 
@@ -35,9 +34,9 @@
     <p>Please Remove your connection now...</p>
 }
 
-@if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing" ||
+@* @if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing" ||
    personRecord.Position == "Operations Manager")
-{
+{ *@
     <div class="container-fluid">
     <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@feedbackRecord"
                     TItem="NTDataHiveFrontend.Model.Feedback" AllowColumnResize="false" AllowAlternatingRows="false"
@@ -80,12 +79,12 @@
         </Columns>
     </RadzenDataGrid>
     </div>
-}
+@* } *@
 
-@if (personRecord.Position == "Others")
+@* @if (personRecord.Position == "Others")
 {
     <h1>This is for the Individual Employee</h1>
-}
+} *@
 
 
 @code {
@@ -120,12 +119,6 @@
     private void OnChange(NTDataHiveFrontend.Model.Feedback feedback)
     {
         MyPersonBackendService.GetFilterFor(feedback.PublisherName);
-    }
-
-    private void DownloadExcelFile()
-    {
-        var excelBytes = GenerateExcelWorkbook();
-        JS.InvokeVoidAsync("saveAsFile", $"DownloadFile_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx", Convert.ToBase64String(excelBytes));
     }
 
     private byte[] GenerateExcelWorkbook()

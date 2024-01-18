@@ -40,7 +40,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
-builder.Services.AddSingleton<ExcelService>();
+
 builder.Services.AddTransient<EmployeeBackendService>();
 builder.Services.AddTransient<PreEditingFeedbackBackendService>();
 builder.Services.AddTransient<RevisionBackendService>();
