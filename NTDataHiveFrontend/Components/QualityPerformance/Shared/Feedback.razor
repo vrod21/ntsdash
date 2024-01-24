@@ -6,6 +6,7 @@
 @using UseCases.Dropdown.UseCaseInterfaces
 
 @attribute [Authorize]
+@rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyBackendService
 @inject IViewPublisherUseCase ViewPublisherUseCase
 @inject IViewJournalIdByPublisherNameUseCase ViewJournalIdByPublisherNameUseCase

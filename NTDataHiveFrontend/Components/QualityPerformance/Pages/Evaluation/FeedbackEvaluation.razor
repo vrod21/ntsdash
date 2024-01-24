@@ -5,13 +5,11 @@
 @using Microsoft.AspNetCore.Identity
 @using NTDataHiveFrontend.Components.Account
 @using NTDataHiveFrontend.Data
-@using NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Authorization
 @using UseCases.Dropdown.UseCaseInterfaces
 
 @attribute [Authorize]
-@rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation

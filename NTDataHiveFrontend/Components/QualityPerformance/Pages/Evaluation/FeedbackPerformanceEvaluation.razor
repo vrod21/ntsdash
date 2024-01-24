@@ -3,6 +3,7 @@
 @using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Http.Extensions;
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.JSInterop
 @using NTDataHiveFrontend.Components.Account
 @using NTDataHiveFrontend.Data
 @using NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage
@@ -11,92 +12,41 @@
 @using OfficeOpenXml
 
 @attribute [Authorize]
-@rendermode InteractiveServer
-@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyBackendService
 @inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IdentityUserAccessor UserAccessor
 @inject UserManager<ApplicationUser> UserManager
+@inject Microsoft.JSInterop.IJSRuntime JS
 @page "/feedback-performance"
 
 <PageTitle>Feedback Performance</PageTitle>
-
-@* <div class="create-feedback-button">
-    <RadzenButton Style="background-color: #e81f4b;" Click="@DownloadExcelFile" Text="Download An Excel File" />
-</div> *@
-
-<h3>Feedback </h3>
 
 @if (personRecord.Type == null)
 {
     <p>Please Remove your connection now...</p>
 }
 
-@* @if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing" ||
+@if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing" ||
    personRecord.Position == "Operations Manager")
-{ *@
-    <div class="container-fluid">
-    <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@feedbackRecord"
-                    TItem="NTDataHiveFrontend.Model.Feedback" AllowColumnResize="false" AllowAlternatingRows="false"
-                    FilterMode="FilterMode.Advanced" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                    ColumnWidth="500px" LogicalFilterOperator="LogicalFilterOperator.Or"
-                    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive">
-        <Template Context="data">
-            <RadzenCard class="rz-p-12" Style="margin-bottom:20px">
-                Description of Error :
+{
+    <NTDataHiveFrontend.Components.QualityPerformance.Shared.FeedbackPerformance />
+}
 
-                <div class="rz-text-align-center rz-p-12 rz-shadow-7 rz-border-radius-3">
-                    <p class="lead" style="text-align:center; white-space:pre-line;">
-                        @data.DescriptionOfError
-                    </p>
-                </div>
-            </RadzenCard>
-        </Template>
-        <Columns>
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="SupplierName" Title="Suppler Name"
-                                  Width="200px" />
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="QualityAssurance" Title="Quality Assurance"
-                                  Width="200px" />
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="PublisherName" Title="Publisher Name"
-                                  Width="200px" />
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="JournalId" Title="Journal ID"
-                                  Width="200px" />
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="ArticleId" Title="Article ID"
-                                  Width="200px" />
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="CopyEditedBy" Title="Copy Edited By"
-                                  Width="200px" />
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="EmployeeName" Title="Employee Name"
-                                  Width="200px" />
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="Department" Title="Department Name"
-                                  Width="200px" />
-            <RadzenDataGridColumn TItem="Model.Feedback" Property="WebId" Title="Select Report" Width="200px">
-                <Template Context="data">
-                    <RadzenButton Style="background-color:#e81f4b" Text="Specific Detail" Click="@(() => OnSpecificDetail(data))" />
-                </Template>
-            </RadzenDataGridColumn>
-        </Columns>
-    </RadzenDataGrid>
-    </div>
-@* } *@
-
-@* @if (personRecord.Position == "Others")
+@if (personRecord.Position == "Others")
 {
     <h1>This is for the Individual Employee</h1>
-} *@
-
+}
 
 @code {
-    private string? userId;
+    private string userId;
     private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
-    private List<NTDataHiveFrontend.Model.Feedback> feedbackRecord = new List<Model.Feedback>();
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        feedbackRecord = await MyBackendService.GetAllFeedback();
         var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var nameIdentifier = auth.User;
 
@@ -110,29 +60,9 @@
         }
     }
 
-    private void OnSpecificDetail(NTDataHiveFrontend.Model.Feedback feedback)
-    {
-        MyNavigation.NavigateTo($"/feedback-specific-detail-page/{feedback.WebId}/random");
-        // @* <RadzenButton Style="background-color: #e81f4b" Text="Create FeedBack" Click="@(()=>MyNavigationManager.NavigateTo("/pre-editing-feedback"))" /> *@
-    }
-
     private void OnChange(NTDataHiveFrontend.Model.Feedback feedback)
     {
         MyPersonBackendService.GetFilterFor(feedback.PublisherName);
     }
 
-    private byte[] GenerateExcelWorkbook()
-    {
-        var stream = new MemoryStream();
-
-        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-        using (var package = new ExcelPackage(stream))
-        {
-            var workSheet = package.Workbook.Worksheets.Add("Sheet1");
-            workSheet.Cells.LoadFromCollection(feedbackRecord, true);
-
-            return package.GetAsByteArray();
-        }
-    }
 }
