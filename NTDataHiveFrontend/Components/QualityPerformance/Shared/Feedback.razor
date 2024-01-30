@@ -40,15 +40,6 @@
                     <RadzenFieldset Text="Feedback">
                         <div class="row">
                             <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Supplier Name" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="addFeedback.SupplierName" AllowClear="true" TValue="string" Placeholder="Supplier Name"
-                                                Data="@supplierName" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
                                 <RadzenLabel Text="QA Name" />
                             </div>
                             <div class="col-md-8">
@@ -247,7 +238,6 @@
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> errorSubtype = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.ErrorSubtype>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> errorCategory = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.ErrorCategory>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> introducedOrMissed = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.IntroducedOrMissed>();
-    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> supplierName = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.SupplierName>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> copyEditingLevel = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.CopyEditingLevel>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> errorCode = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.ErrorCode>();
 

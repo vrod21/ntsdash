@@ -11,6 +11,9 @@
 @inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IdentityUserAccessor UserAccessor
+@inject UserManager<ApplicationUser> UserManager
 @inject Microsoft.JSInterop.IJSRuntime JS
 
 <div class="create-feedback-button">
@@ -71,7 +74,7 @@
     {
         await base.OnInitializedAsync();
 
-        feedbackRecord = await MyEvaluationBackendService.GetAllFeedback();        
+        feedbackRecord = await MyEvaluationBackendService.GetAllFeedback();
     }
 
     private void OnSpecificDetail(NTDataHiveFrontend.Model.Feedback feedback)

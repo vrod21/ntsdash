@@ -6,7 +6,6 @@
 @using Microsoft.JSInterop
 @using NTDataHiveFrontend.Components.Account
 @using NTDataHiveFrontend.Data
-@using NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Authorization
 @using OfficeOpenXml
@@ -31,7 +30,7 @@
 @if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing" ||
    personRecord.Position == "Operations Manager")
 {
-    <NTDataHiveFrontend.Components.QualityPerformance.Shared.FeedbackPerformance />
+    <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.FeedbackPerformance />
 }
 
 @if (personRecord.Position == "Others")
