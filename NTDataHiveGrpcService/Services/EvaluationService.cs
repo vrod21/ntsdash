@@ -61,8 +61,6 @@ namespace NTDataHiveGrpcService.Services
         }
         #endregion
 
-
-
         #region GetFeedbackRecord
         public override Task<FeedbackRecordRequest> GetFeedbackRecord(FeedbackRecordFilter request, ServerCallContext context)
         {

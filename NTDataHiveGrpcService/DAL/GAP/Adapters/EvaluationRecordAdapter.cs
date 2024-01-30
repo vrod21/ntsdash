@@ -41,7 +41,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     var feedback = new Model.Evaluation()
                     {
                         WebId = recordRequest.WebId,
-                        SupplierName = recordRequest.SupplierName,
                         QualityAssurance = recordRequest.QualityAssurance,
                         PublisherName = recordRequest.PublisherName,
                         JournalId = recordRequest.JournalId,
@@ -284,7 +283,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 else if (evals.Count == 1)
                 {
                     var eval = evals[0];
-                    recordRequest.SupplierName = eval.SupplierName?.Trim() ?? "";
                     recordRequest.QualityAssurance = eval.QualityAssurance?.Trim() ?? "";
                     recordRequest.PublisherName = eval.PublisherName?.Trim() ?? "";
                     recordRequest.JournalId = eval.JournalId?.Trim() ?? "";
@@ -366,7 +364,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             return new FeedbackRecordRequest()
             {
                 WebId = evaluation.WebId,
-                SupplierName = evaluation.SupplierName,
                 QualityAssurance = evaluation.QualityAssurance,
                 PublisherName = evaluation.PublisherName,
                 JournalId = evaluation.JournalId,

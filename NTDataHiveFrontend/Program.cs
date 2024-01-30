@@ -40,12 +40,6 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
-builder.Services.AddSingleton<ExcelService>();
-builder.Services.AddTransient<EmployeeBackendService>();
-builder.Services.AddTransient<PreEditingFeedbackBackendService>();
-builder.Services.AddTransient<RevisionBackendService>();
-builder.Services.AddTransient<DropdownBackendService>();
-builder.Services.AddTransient<FeedbackBackendService>();
 builder.Services.AddTransient<PersonBackendService>();
 builder.Services.AddTransient<EvaluationBackendService>();
 
@@ -56,6 +50,7 @@ builder.Services.AddScoped<IErrorLocationRepository, ErrorLocationInMemoryReposi
 builder.Services.AddScoped<IQualityAssuranceRepository, QualityAssuranceInMemoryRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentInMemoryRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountInMemoryRepository>();
+builder.Services.AddScoped<IPositionRepository, PositionInMemoryRepository>();
 
 builder.Services.AddScoped<IViewJournalIdByPublisherNameUseCase, ViewJournalIdByPublisherNameUseCase>();
 builder.Services.AddScoped<IViewPublisherUseCase, ViewPublisherUseCase>();
@@ -64,6 +59,7 @@ builder.Services.AddScoped<IViewErrorLocationUseCase, ViewErrorLocationUseCase>(
 builder.Services.AddScoped<IViewQualityAssuranceUseCase, ViewQualityAssuranceUseCase>();
 builder.Services.AddScoped<IViewDepartmentUseCase, ViewDepartmentUseCase>();
 builder.Services.AddScoped<IViewAccountUseCase, ViewAccountUseCase>();
+builder.Services.AddScoped<IViewPositionUseCase, ViewPositionUseCase>();
 
 builder.Services.AddScoped<Radzen.DialogService>();
 

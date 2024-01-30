@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NTDataHiveEnum.DataPlugins.Enums
+namespace CoreBusiness.Dropdown
 {
-    public enum SupplierName
+    public class Position
     {
-        Novatechset,
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }
