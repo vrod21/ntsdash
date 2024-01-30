@@ -55,6 +55,8 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             }
         }
         #endregion
+
+        #region UpdatePerson
         internal void UpdatePerson(PersonRequest recordRequest)
         {
             try
@@ -86,8 +88,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 throw;
             }
         }
-        #region UpdatePerson
-
         #endregion
 
         #region GetAllPersonRecord

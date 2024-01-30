@@ -24,7 +24,7 @@ message	FeedbackEmpty {
 
 message FeedbackRecordRequest {
     string webId = 1;
-    string supplierName = 2; 
+    string stage = 2; 
     string qualityAssurance = 3;
     string publisherName = 4;
     string journalId = 5;
@@ -55,6 +55,7 @@ message FeedbackRecordRequest {
     string statusOfPM = 30;
     string copyEditingLevel = 31; 
 	google.protobuf.Timestamp createdAt = 32;
+    google.protobuf.Timestamp yearMonth = 33;
 
 	google.rpc.Status status = 99;
 }

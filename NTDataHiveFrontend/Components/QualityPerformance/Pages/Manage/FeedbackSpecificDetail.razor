@@ -1,0 +1,50 @@
+﻿@* @using Microsoft.AspNetCore.Authorization
+@using NTDataHiveEnum.DataPlugins.Utilities
+
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyEvaluationBackendService
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigation
+
+<style>
+    form .row{
+        margin-bottom: 16px;
+    }
+</style>
+
+<div class="rz-shadow-7 rz-mb-12 feedback-container">
+    <div class="create-feedback-button">
+        <RadzenButton Style="background-color: #e81f4b;" Click="@Save" Text="Save Feedback" />
+    </div>
+
+    <h3>Feedback Specific Detail</h3>
+
+    
+
+</div> *@
+
+@code {
+    // [Parameter]
+    // public Guid id { get; set; }
+    // private NTDataHiveFrontend.Model.Feedback feedbackDetail = new Model.Feedback();
+    // private List<NTDataHiveEnum.DataPlugins.DropDownListItem> natureOfCA = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.NatureOfCA>();
+
+    // private List<NTDataHiveEnum.DataPlugins.DropDownListItem> natureOfPM = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.NatureOfPM>();
+
+    // private List<NTDataHiveEnum.DataPlugins.DropDownListItem> status = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.Status>();
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     await base.OnInitializedAsync();
+
+    //     feedbackDetail = await MyEvaluationBackendService.GetFeedbackRecord(id);
+    // }
+
+    // private async Task Save()
+    // {
+    //     await MyEvaluationBackendService.SaveFeedback(feedbackDetail);
+
+    //     MyNavigation.NavigateTo("/feedback-performance");
+    // }
+}

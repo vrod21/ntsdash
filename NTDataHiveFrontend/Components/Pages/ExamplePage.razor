@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+@inject IConfiguration Configuration
+
+@page "/test"
+
+<h3>ExamplePage</h3>
+
+<div class="rz-shadow-7 rz-color-base-200">
+    <p style="text-align:center">John <span> .rz-shadow-7 </span> Description of the suggested Web App
+    <br />
+    "This dashboard is updated in real-time, so you can be confident that you’re
+    always looking at the most up-to-date information. We hope you find this dashboard useful and informative!”    
+    </p>
+</div>
+
+@code {
+
+}

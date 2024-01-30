@@ -1,0 +1,10 @@
+﻿body {
+
+}
+
+.feedback-container {
+    margin-top: 20px;
+    padding: 30px 30px 30px 30px;
+    border-radius: var(--rz-border-radius-7);
+}
+

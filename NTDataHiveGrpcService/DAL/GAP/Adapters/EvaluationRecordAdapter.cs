@@ -41,6 +41,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     var feedback = new Model.Evaluation()
                     {
                         WebId = recordRequest.WebId,
+                        Stage = recordRequest.Stage,
                         QualityAssurance = recordRequest.QualityAssurance,
                         PublisherName = recordRequest.PublisherName,
                         JournalId = recordRequest.JournalId,
@@ -78,7 +79,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         NatureOfPM = recordRequest.NatureOfPM,
                         OwnerOfPM = recordRequest.OwnerOfPM,
                         StatusOfCA = recordRequest.StatusOfCA,
-                        StatusOfPM = recordRequest.StatusOfPM,       
+                        StatusOfPM = recordRequest.StatusOfPM,                        
                     };
                     dbContext.Approval.Add(approval);
                     _ = dbContext.SaveChanges();
@@ -105,8 +106,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                                     select evaluation;
 
                 var eval = evals.Single();
-
-                eval.SupplierName = recordRequest.SupplierName.Trim();
+                eval.Stage = recordRequest.Stage.Trim();
                 eval.QualityAssurance = recordRequest.QualityAssurance.Trim();
                 eval.PublisherName = recordRequest.PublisherName.Trim();
                 eval.JournalId = recordRequest.JournalId.Trim();
@@ -283,6 +283,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 else if (evals.Count == 1)
                 {
                     var eval = evals[0];
+                    recordRequest.Stage = eval.Stage?.Trim() ?? "";
                     recordRequest.QualityAssurance = eval.QualityAssurance?.Trim() ?? "";
                     recordRequest.PublisherName = eval.PublisherName?.Trim() ?? "";
                     recordRequest.JournalId = eval.JournalId?.Trim() ?? "";
@@ -302,6 +303,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     recordRequest.EmployeeName = eval.EmployeeName?.Trim() ?? "";
                     recordRequest.CopyEditingLevel = eval.CopyEditingLevel?.Trim() ?? "";
                     recordRequest.CreatedAt = eval.CreatedAt.ToUniversalTime().ToTimestamp();
+                    recordRequest.YearMonth = eval.YearMonth.ToUniversalTime().ToTimestamp();
 
                     var appExt = (from approval in dbContext.Approval
                                   where approval.EvaluationNavigation.WebId == recordRequest.WebId
@@ -364,6 +366,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             return new FeedbackRecordRequest()
             {
                 WebId = evaluation.WebId,
+                Stage = evaluation.Stage,
                 QualityAssurance = evaluation.QualityAssurance,
                 PublisherName = evaluation.PublisherName,
                 JournalId = evaluation.JournalId,
@@ -394,6 +397,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 StatusOfPM = approval.StatusOfPM,
                 CopyEditingLevel = evaluation.CopyEditingLevel,
                 CreatedAt = evaluation.CreatedAt.ToUniversalTime().ToTimestamp(),
+                YearMonth = evaluation.YearMonth.ToUniversalTime().ToTimestamp(),
             };        
         }
         #endregion

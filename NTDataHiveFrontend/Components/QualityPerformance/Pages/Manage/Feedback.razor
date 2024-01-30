@@ -1,8 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Identity
 @using NTDataHiveEnum.DataPlugins.Utilities
 @using NTDataHiveFrontend.Components.Account
-@using NTDataHiveFrontend.Data
 @using UseCases.Dropdown.UseCaseInterfaces
 
 @attribute [Authorize]
@@ -16,9 +14,6 @@
 @inject IViewDepartmentUseCase ViewDepartmentUseCase
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject IdentityUserAccessor UserAccessor
-@inject UserManager<ApplicationUser> UserManager
 
 <style>
     form .row {
@@ -34,10 +29,18 @@
 
 <div class="container-fluid">
     <EditForm Model="addFeedback">
-
         <div class="row">
             <div class="col-md-6">
                 <RadzenFieldset Text="Feedback">
+                    <div class="row">
+                        <div class="col-md-3 align-items-center d-flex">
+                            <RadzenLabel Text="Stage" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDropDown @bind-Value="addFeedback.Stage" AllowClear="true" TValue="string" Placeholder="Stage"
+                                            Data="@stage" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-3 align-items-center d-flex">
                             <RadzenLabel Text="QA Name" />
@@ -50,10 +53,8 @@
                     <div class="row">
                         <div class="col-md-3 align-items-center d-flex">
                             <RadzenLabel Text="Publisher Name" />
-
                         </div>
                         <div class="col-md-8">
-
                             <RadzenDropDown @bind-Value="addFeedback.PublisherName" AllowClear="true" TValue="string" Placeholder="Publisher Name"
                                             Data="@publisherRecord" style="width: 100%;" TextProperty="Name" ValueProperty="Name"
                                             Change="@(args => PublisherNameChangeValue(args))" />
@@ -231,6 +232,10 @@
     </EditForm>
 </div>
 
+<div class="container">
+    <div class="rz-shadow-7" style="text-align:center; color:white;"><span>Date & Time: </span> @DateTime.Now.ToString()</div>
+</div>
+
 @code {
     private NTDataHiveFrontend.Model.Feedback addFeedback = new Model.Feedback();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> copyEditedBy = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.CopyEditedBy>();
@@ -240,6 +245,7 @@
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> introducedOrMissed = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.IntroducedOrMissed>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> copyEditingLevel = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.CopyEditingLevel>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> errorCode = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.ErrorCode>();
+    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> stage = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.Stage>();
 
     private List<CoreBusiness.Dropdown.Publisher> publisherRecord;
     private List<CoreBusiness.Dropdown.Journal> journalRecord;
@@ -286,5 +292,4 @@
         var errorCode = value.ToString();
         errorTypeRecord = ViewErrorTypeByErrorCodeNameUseCase.Execute(errorCode);
     }
-
 }

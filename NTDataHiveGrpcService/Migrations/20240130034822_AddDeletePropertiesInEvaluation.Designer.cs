@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NTDataHiveGrpcService.DAL.Data;
 
@@ -11,9 +12,11 @@ using NTDataHiveGrpcService.DAL.Data;
 namespace NTDataHiveGrpcService.Migrations
 {
     [DbContext(typeof(NTDataHiveContext))]
-    partial class NTDataHiveContextModelSnapshot : ModelSnapshot
+    [Migration("20240130034822_AddDeletePropertiesInEvaluation")]
+    partial class AddDeletePropertiesInEvaluation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,9 +142,6 @@ namespace NTDataHiveGrpcService.Migrations
 
                     b.Property<string>("WebId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("YearMonth")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

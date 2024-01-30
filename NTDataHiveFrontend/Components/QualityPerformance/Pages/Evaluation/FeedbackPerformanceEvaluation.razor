@@ -22,15 +22,24 @@
 
 <PageTitle>Feedback Performance</PageTitle>
 
+<h3>First Proof Page Example</h3>
+
 @if (personRecord.Type == null)
 {
     <p>Please Remove your connection now...</p>
 }
 
+@if (personRecord.Type == "")
+{
+    <h3>Please update your Credentials.</h3>
+}
+
 @if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing" ||
    personRecord.Position == "Operations Manager")
 {
+    <div class="rz-shadow-7 feedback-container">
     <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.FeedbackPerformance />
+    </div>
 }
 
 @if (personRecord.Position == "Others")

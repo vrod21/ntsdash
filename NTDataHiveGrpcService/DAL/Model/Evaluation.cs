@@ -7,8 +7,8 @@
             InverseMegaEvaluationNavigation = new HashSet<Evaluation>();
         }
         public int Id { get; set; }
-        public string WebId { get; set; }
-        public string SupplierName { get; set; }
+        public string WebId { get; set; }        
+        public string Stage { get; set; }
         public string QualityAssurance { get; set; }
         public string PublisherName { get; set; }
         public string JournalId { get; set; }
@@ -28,6 +28,7 @@
         public string EmployeeName { get; set; }
         public string CopyEditingLevel { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime YearMonth { get; set; }
         public int? MegaEvaluation { get; set; }
 
         public virtual Evaluation MegaEvaluationNavigation { get; set; }

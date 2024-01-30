@@ -22,12 +22,12 @@
 
 @if (personRecord.Type == "Employee" && personRecord.Position == "QMS Executive - Revision")
 {
-    <h3>QMS For Revision </h3>
+    <h3>QMS Revision </h3>
 }
 
 @if (personRecord.Type == "Employee" && personRecord.Position == "QMS Executive - Pre-Editing")
 {
-    <h3>QMS For Pre-Editing </h3>
+    <h3>QMS Pre-Editing </h3>
 }
 
 @if (personRecord.Type == "")
@@ -36,7 +36,9 @@
 }
 @if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing")
 {
+    <div class="rz-shadow-7 feedback-container">
     <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.Feedback />
+    </div>
 }
 
 @code {

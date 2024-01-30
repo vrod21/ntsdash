@@ -106,7 +106,7 @@ namespace NTDataHiveFrontend.ServiceAccess
                 WebId = id.ToString(),
             };
         }
-
+        
         public NTDataHiveGrpcService.FeedbackRecordFilter GetFilterFor(Model.Feedback feedback)
         {
             return new NTDataHiveGrpcService.FeedbackRecordFilter()
@@ -117,7 +117,7 @@ namespace NTDataHiveFrontend.ServiceAccess
         }
         #endregion
 
-        #region GetFeedbackByPublisherName
+        #region GetFeedbackRecordByPublisherName
         public async Task<List<Model.Feedback>> GetFeedbackRecordByPublisherName(Model.Feedback feedback)
         {
             if (_client == null)
@@ -145,7 +145,7 @@ namespace NTDataHiveFrontend.ServiceAccess
 
         #endregion
 
-        #region
+        #region GetAllFeedback
         public async Task<List<Model.Feedback>> GetAllFeedback()
         {
             if (_client == null)
@@ -169,7 +169,7 @@ namespace NTDataHiveFrontend.ServiceAccess
             var grpcFeedbackRecord = new NTDataHiveGrpcService.FeedbackRecordRequest()
             {
                 WebId = feedback.id.ToString(),
-                SupplierName = feedback.SupplierName,
+                Stage = feedback.Stage,
                 QualityAssurance = feedback.QualityAssurance,
                 PublisherName = feedback.PublisherName,
                 JournalId = feedback.JournalId,
@@ -215,13 +215,13 @@ namespace NTDataHiveFrontend.ServiceAccess
         }
         #endregion
 
-        #region
+        #region ToFrontendFormat
         public Model.Feedback ToFrontendFormat(NTDataHiveGrpcService.FeedbackRecordRequest feedbackRequest)
         {
             Model.Feedback frontendFeedbackRecord = new Model.Feedback()
             {
                 WebId = feedbackRequest.WebId,
-                SupplierName = feedbackRequest.SupplierName,
+                Stage = feedbackRequest.Stage,
                 QualityAssurance = feedbackRequest.QualityAssurance,
                 PublisherName = feedbackRequest.PublisherName,
                 JournalId = feedbackRequest.JournalId,
