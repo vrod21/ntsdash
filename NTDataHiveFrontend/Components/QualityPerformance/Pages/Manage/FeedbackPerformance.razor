@@ -12,6 +12,7 @@
 @inject Microsoft.JSInterop.IJSRuntime JS
 
 <div class="create-feedback-button">
+    <span><RadzenButton Style="background-color: #e81f4b;" Click="@DownloadExcelFile" Text="Download An Excel File Via Publisher Name" /></span>
     <RadzenButton Style="background-color: #e81f4b;" Click="@DownloadExcelFile" Text="Download An Excel File" />
 </div>
 
@@ -44,8 +45,6 @@
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="JournalId" Title="Journal ID"
                                   Width="200px" />
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="ArticleId" Title="Article ID"
-                                  Width="200px" />
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="CopyEditedBy" Title="Copy Edited By"
                                   Width="200px" />
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="EmployeeName" Title="Employee Name"
                                   Width="200px" />

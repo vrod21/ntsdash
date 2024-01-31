@@ -210,7 +210,6 @@ namespace NTDataHiveFrontend.ServiceAccess
                 grpcFeedbackRecord.TargetDateOfCompletionPM = feedback.TargetDateOfCompletionPM.Value.ToUniversalTime().ToTimestamp();
             }
 
-
             return grpcFeedbackRecord;
         }
         #endregion
