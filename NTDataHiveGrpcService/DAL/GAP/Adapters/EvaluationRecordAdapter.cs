@@ -61,7 +61,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         EmployeeName = recordRequest.EmployeeName,
                         CopyEditingLevel = recordRequest.CopyEditingLevel,
                         CreatedAt = recordRequest.CreatedAt.ToDateTime(),
-                        MegaEvaluation =  feedbackId,
+                        MegaEvaluation = feedbackId,
                     };
                     dbContext.Evaluation.Add(feedback);
                     _ = dbContext.SaveChanges();
@@ -153,25 +153,29 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 
                 dbContext.Evaluation.Update(eval);
 
-                var appExts = from approval in dbContext.Approval
-                              where approval.EvaluationNavigation.WebId == recordRequest.WebId
-                              select approval;
+                var qualExts = from quality in dbContext.Quality
+                              where quality.EvaluationNavigation.WebId == recordRequest.WebId
+                              select quality;
 
-                var appExt = appExts.Single();
+                var qualExt = qualExts.Single();
 
-                appExt.RootCause = recordRequest.RootCause.Trim();
-                appExt.CorrectiveAction = recordRequest.CorrectiveAction.Trim();
-                appExt.NatureOfCA = recordRequest.NatureOfCA.Trim();
-                appExt.OwnerOfCA = recordRequest.OwnerOfCA.Trim();
-                appExt.TargetDateOfCompletionCA = recordRequest.TargetDateOfCompletionCA.ToDateTime();
-                appExt.PreventiveMeasure = recordRequest.PreventiveMeasure.Trim();
-                appExt.NatureOfPM = recordRequest.NatureOfPM.Trim();
-                appExt.OwnerOfPM = recordRequest.OwnerOfPM.Trim();
-                appExt.TargetDateOfCompletionPM = recordRequest.TargetDateOfCompletionPM.ToDateTime();
-                appExt.StatusOfCA = recordRequest.StatusOfCA.Trim();
-                appExt.StatusOfPM = recordRequest.StatusOfPM.Trim();
+                qualExt.Component = recordRequest.Component.Trim();
+                qualExt.PageType = recordRequest.PageType.Trim();
+                qualExt.FinalErrorPoints = recordRequest.FinalErrorPoints;
+                qualExt.TotalErrorPoints = recordRequest.TotalErrorPoints;
+                qualExt.TotalTSPages = recordRequest.TotalTSPages;
+                qualExt.ErrorPerPages = recordRequest.ErrorPerPages;
+                qualExt.AccuracyRating = recordRequest.AccuracyRating;
+                qualExt.AccuracyRatingFC = recordRequest.AccuracyRatingFC;
+                qualExt.WeightPercentFC = recordRequest.WeightPercentFC;
+                qualExt.WeightedRatingFC = recordRequest.WeightedRatingFC;
+                qualExt.AccuracyRatingIPF = recordRequest.AccuracyRatingIPF;
+                qualExt.WeightPercentIPF = recordRequest.WeightPercentIPF;
+                qualExt.WeightedRatingIPF = recordRequest.WeightedRatingIPF;
+                qualExt.DCF = recordRequest.DCF.Trim();
+                qualExt.OverallAccuracyRating = recordRequest.OverallAccuracyRating;
 
-                dbContext.Approval.Update(appExt);
+                dbContext.Quality.Update(qualExt);
 
                 _ = dbContext.SaveChanges();
             }
