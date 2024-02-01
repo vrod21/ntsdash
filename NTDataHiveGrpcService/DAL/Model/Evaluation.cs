@@ -33,6 +33,7 @@
 
         public virtual Evaluation MegaEvaluationNavigation { get; set; }
         public virtual Approval Approval { get; set; }
+        public virtual Quality Quality { get; set; }
 
         public virtual ICollection<Evaluation> InverseMegaEvaluationNavigation { get; set; }
     }

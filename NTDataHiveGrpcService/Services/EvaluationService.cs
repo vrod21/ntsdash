@@ -18,7 +18,7 @@ namespace NTDataHiveGrpcService.Services
         }
 
         #region SaveFeedback
-        public override Task<Google.Rpc.Status> SaveFeedback(FeedbackRecordRequest request, ServerCallContext context)
+        public override Task<Status> SaveFeedback(FeedbackRecordRequest request, ServerCallContext context)
         {
             try
             {

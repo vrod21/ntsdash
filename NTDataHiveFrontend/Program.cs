@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NTDataHiveFrontend.Components;
 using NTDataHiveFrontend.Components.Account;
@@ -51,6 +52,7 @@ builder.Services.AddScoped<IQualityAssuranceRepository, QualityAssuranceInMemory
 builder.Services.AddScoped<IDepartmentRepository, DepartmentInMemoryRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountInMemoryRepository>();
 builder.Services.AddScoped<IPositionRepository, PositionInMemoryRepository>();
+builder.Services.AddScoped<IComponentRepository, ComponentInMemoryRepository>();
 
 builder.Services.AddScoped<IViewJournalIdByPublisherNameUseCase, ViewJournalIdByPublisherNameUseCase>();
 builder.Services.AddScoped<IViewPublisherUseCase, ViewPublisherUseCase>();
@@ -60,6 +62,7 @@ builder.Services.AddScoped<IViewQualityAssuranceUseCase, ViewQualityAssuranceUse
 builder.Services.AddScoped<IViewDepartmentUseCase, ViewDepartmentUseCase>();
 builder.Services.AddScoped<IViewAccountUseCase, ViewAccountUseCase>();
 builder.Services.AddScoped<IViewPositionUseCase, ViewPositionUseCase>();
+builder.Services.AddScoped<IViewComponentUseCase, ViewComponentUseCase>();
 
 builder.Services.AddScoped<Radzen.DialogService>();
 

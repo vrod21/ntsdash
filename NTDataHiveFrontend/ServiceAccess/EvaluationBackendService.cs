@@ -196,7 +196,24 @@ namespace NTDataHiveFrontend.ServiceAccess
                 OwnerOfPM = feedback.OwnerOfPM,
                 StatusOfCA = feedback.StatusOfCA,
                 StatusOfPM = feedback.StatusOfPM,
-                CopyEditingLevel = feedback.CopyEditingLevel,                
+                CopyEditingLevel = feedback.CopyEditingLevel,
+                Component = feedback.Component,
+                PageType = feedback.PageType,
+                FinalErrorPoints = feedback.FinalErrorPoints,
+                TotalErrorPoints = feedback.TotalErrorPoints,
+                TotalTSPages = feedback.TotalTSPages,
+                ErrorPerPages = feedback.ErrorPerPages,
+                AccuracyRating = feedback.AccuracyRating,
+                AccuracyRatingFC = feedback.AccuracyRatingFC,
+                WeghtPercentFC = feedback.WeightPercentFC,
+                WeightedRatingFC = feedback.WeightedRatingFC,
+                AccuracyRatingIPF = feedback.AccuracyRatingIPF,
+                WeightPercentIPF = feedback.WeightPercentIPF,
+                WeightedRatingIPF = feedback.WeightedRatingIPF,
+                DCF = feedback.DCF,
+                OverallAccuracyRating = feedback.OverallAccuracyRating,
+                
+                
             };
             if (feedback?.CreatedAt != null)
                 grpcFeedbackRecord.CreatedAt = feedback.CreatedAt.Value.ToUniversalTime().ToTimestamp();
@@ -208,6 +225,14 @@ namespace NTDataHiveFrontend.ServiceAccess
             if (feedback?.TargetDateOfCompletionPM != null)
             {
                 grpcFeedbackRecord.TargetDateOfCompletionPM = feedback.TargetDateOfCompletionPM.Value.ToUniversalTime().ToTimestamp();
+            }
+            if (feedback?.DateProcessed != null)
+            {
+                grpcFeedbackRecord.DateProcessed = feedback.DateProcessed.Value.ToUniversalTime().ToTimestamp();
+            }
+            if (feedback?.DateChecked != null)
+            {
+                grpcFeedbackRecord.DateChecked = feedback.DateChecked.Value.ToUniversalTime().ToTimestamp();
             }
 
             return grpcFeedbackRecord;
