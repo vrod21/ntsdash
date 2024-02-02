@@ -20,9 +20,9 @@
 <h3>Quality Evaluation And Acknowledgement</h3>
 
 <div class="rz-shadow-7 rz-mb-12 feedback-container">
-@*     <div class="create-feedback-button">
+    <div class="create-feedback-button">
         <RadzenButton Style="background-color: #e81f4b" Click="@Save" Text="Save Feedback" />
-    </div> *@
+    </div>
 
     <h3>Quality Details</h3>
 
@@ -39,10 +39,39 @@
                         <RadzenFieldset Style="color:white" Text="Credit To">
                             <div class="row">
                                 <div class="col-md-3 align-items-center d-flex">
+                                    <RadzenLabel Text="Employee Name" />
+                                </div>
+                                <div class="col-md-9">
+                                    <RadzenTextBox @bind-Value="addFeedback.EmployeeName" Placeholder="Component" Style="width: 100%;" />
+                                </div>
+                            </div>
+@*                             <div class="row">
+                                <div class="col-md-3 align-items-center d-flex">
+                                    <RadzenLabel Text="Publisher Name" />
+                                </div>
+                                <div class="col-md-9">
+                                    <RadzenDropDown @bind-Value="addFeedback.Department" AllowClear="true" TValue="string" Placeholder="Component" Data="@" style="width: 100%;" TextProperty="Name" ValueProperty="Name" />
+                                </div>
+                            </div> *@
+                        </RadzenFieldset>
+                    </div>
+
+                    <div class="col-md-4">
+                        <RadzenFieldset Style="color:white" Text="Feedback">
+                            <div class="row">
+                                <div class="col-md-3 align-items-center d-flex">
                                     <RadzenLabel Text="Component" />
                                 </div>
                                 <div class="col-md-9">
-                                    <RadzenDropDown @bind-Value="addFeedback.IntroducedOrMissed" AllowClear="true" TValue="string" Placeholder="Stage" Data="@componentRecord" style="width: 100%;" TextProperty="Name" ValueProperty="Name" />
+                                    <RadzenDropDown @bind-Value="addFeedback.Component" AllowClear="true" TValue="string" Placeholder="Component" Data="@componentRecord" style="width: 100%;" TextProperty="Name" ValueProperty="Name" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 align-items-center d-flex">
+                                    <RadzenLabel Text="Publisher Name" />
+                                </div>
+                                <div class="col-md-9">
+                                    <RadzenDropDown @bind-Value="addFeedback.PublisherName" AllowClear="true" TValue="string" Placeholder="Component" Data="@publisherRecord" style="width: 100%;" TextProperty="Name" ValueProperty="Name" />
                                 </div>
                             </div>
                         </RadzenFieldset>
@@ -53,12 +82,14 @@
     }
 </div>
 
-
-
 @code {
     private NTDataHiveFrontend.Model.Quality qualityDetail = new Model.Quality();
     private NTDataHiveFrontend.Model.Feedback addFeedback = new Model.Feedback();
+
     private List<CoreBusiness.Dropdown.Component> componentRecord;
+    private List<CoreBusiness.Dropdown.Publisher> publisherRecord;
+    private List<CoreBusiness.Dropdown.Department> departmentRecord;
+
 
     protected override async Task OnInitializedAsync()
     {

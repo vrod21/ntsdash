@@ -1,14 +1,8 @@
-﻿@using System.ComponentModel.DataAnnotations
-@using System.Text
-@using System.Text.Encodings.Web
-@using Microsoft.AspNetCore.Http.Extensions;
+﻿@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
-@using Microsoft.JSInterop
 @using NTDataHiveFrontend.Components.Account
 @using NTDataHiveFrontend.Data
 @using System.Security.Claims
-@using Microsoft.AspNetCore.Authorization
-@using OfficeOpenXml
 
 @attribute [Authorize]
 @inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
@@ -17,31 +11,26 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IdentityUserAccessor UserAccessor
 @inject UserManager<ApplicationUser> UserManager
-@inject Microsoft.JSInterop.IJSRuntime JS
-@page "/feedback-performance"
+@page "/employees-performance"
 
-<PageTitle>Feedback Performance</PageTitle>
+<PageTitle>Employees Performance</PageTitle>
 
-<h3>First Proof Page Example</h3>
+<h3>Employees Performance Feedback</h3>
 
 @if (personRecord.Type == null)
 {
     <p>Please Remove your connection now...</p>
 }
-
 @if (personRecord.Type == "")
 {
     <h3>Please update your Credentials.</h3>
 }
-
-@if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing" ||
-   personRecord.Position == "Operations Manager")
+@if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing" || personRecord.Position == "Operations Manager")
 {
     <div class="rz-shadow-7 feedback-container">
-    <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.FeedbackPerformance />
+        <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.EmployeesPerformance />
     </div>
 }
-
 @if (personRecord.Position == "Others")
 {
     <h1>This is for the Individual Employee</h1>
@@ -66,5 +55,5 @@
         {
             MyNavigation.NavigateTo("/");
         }
-    }
+    }    
 }

@@ -21,7 +21,6 @@ namespace Plugins.DataStore.InMemory.Dropdown
                 new Component { Id = 4, Name = "DCF (+)" },
             };
         }
-
         public List<Component> GetComponent()
         {
             return _components;
