@@ -5,6 +5,7 @@
 
 @attribute [Authorize]
 @rendermode InteractiveServer
+@* @rendermode @(new InteractiveServerRenderMode(prerender: false)) *@
 @inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyBackendService
 @inject IViewPublisherUseCase ViewPublisherUseCase
 @inject IViewJournalIdByPublisherNameUseCase ViewJournalIdByPublisherNameUseCase

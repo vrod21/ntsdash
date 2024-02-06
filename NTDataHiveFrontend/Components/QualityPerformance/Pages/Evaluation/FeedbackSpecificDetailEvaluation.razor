@@ -33,7 +33,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <RadzenFieldset Style="color:white" Text="Article Identity">
+                        <RadzenFieldset Text="Article Identity">
                             <div class="row">
                                 <div class="col-md-3 align-items-center d-flex">
                                     <RadzenLabel Text="Stage" />
@@ -302,6 +302,7 @@
 <div class="container">
     <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.FeedbackSpecificDetail />
 </div>
+
 @code {
     [Parameter]
     public Guid id { get; set; }
@@ -323,5 +324,4 @@
 
         MyNavigationManager.NavigateTo("/feedback-performance");
     }
-
 }
