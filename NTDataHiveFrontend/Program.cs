@@ -63,7 +63,6 @@ builder.Services.AddScoped<IViewDepartmentUseCase, ViewDepartmentUseCase>();
 builder.Services.AddScoped<IViewAccountUseCase, ViewAccountUseCase>();
 builder.Services.AddScoped<IViewPositionUseCase, ViewPositionUseCase>();
 builder.Services.AddScoped<IViewComponentUseCase, ViewComponentUseCase>();
-
 builder.Services.AddScoped<Radzen.DialogService>();
 
 builder.Services.AddSingleton<HttpClient>();

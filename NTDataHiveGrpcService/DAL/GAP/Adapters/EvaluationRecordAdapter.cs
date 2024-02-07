@@ -484,6 +484,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             return new FeedbackRecordRequest()
             {
                 WebId = evaluation.WebId,
+
                 Stage = evaluation.Stage,
                 QualityAssurance = evaluation.QualityAssurance,
                 PublisherName = evaluation.PublisherName,
