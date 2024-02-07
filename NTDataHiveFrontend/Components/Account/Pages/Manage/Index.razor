@@ -32,11 +32,6 @@
                 <ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.Username" class="form-control" placeholder="Please enter your username." />
-                <label for="username" class="form-label">Username</label>
-                <ValidationMessage For="() => Input.Username" class="text-danger" />
-            </div>
-            <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.FirstName" class="form-control" placeholder="Please enter your first name." />
                 <label for="first-name" class="form-label">First Name</label>
                 <ValidationMessage For="() => Input.FirstName" class="text-danger" />
@@ -130,7 +125,6 @@
         personId = await UserManager.GetUserIdAsync(user);
 
         addPerson.WebId = personId;
-        addPerson.Username = Input.Username;
         addPerson.FirstName = Input.FirstName;
         addPerson.LastName = Input.LastName;
         addPerson.Birthday = Input.Birthday;
@@ -158,12 +152,6 @@
         [Phone]
         [Display(Name = "Phone number")]
         public string? PhoneNumber { get; set; }
-
-        [Required]
-        [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
-        [Display(Name = "Username")]
-        public string Username { get; set; }
-
         [Required]
         public string? FirstName { get; set; }
 

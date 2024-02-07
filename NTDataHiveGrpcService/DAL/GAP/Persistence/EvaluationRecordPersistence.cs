@@ -52,6 +52,35 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         }
         #endregion
 
+        #region GetAllFeedbackByEmployeeName
+        public bool GetFeedBackByEmployeeName(string employeeName, out BLL.RecordContents.EvaluationFilter evaluationRecord)
+        {
+            if (CreateFeedbackRecordByEmployeeName(employeeName, out BLL.RecordContents.EvaluationFilter evaluationRecordLocal))
+            {
+                evaluationRecord = evaluationRecordLocal;
+                return true;
+            }
+            else
+            {
+                evaluationRecord = new BLL.RecordContents.EvaluationFilter(employeeName);
+                return false;
+            }
+            
+        }
+        #endregion
+
+        private bool CreateFeedbackRecordByEmployeeName(string employeeName, out BLL.RecordContents.EvaluationFilter evaluationRecord)
+        {
+            evaluationRecord = new BLL.RecordContents.EvaluationFilter(employeeName);
+
+            var feedbackAdapter = new EvaluationRecordAdapter(_config);
+
+            if (!feedbackAdapter.GetFeedbackByEmployeeNameRecord(evaluationRecord.feedbackRecordRequest))
+                return false;
+            return true;
+
+        }
+
         #region SelectById
         public bool SelectById(string webId, out BLL.RecordContents.EvaluationFilter evaluationRecord)
         {

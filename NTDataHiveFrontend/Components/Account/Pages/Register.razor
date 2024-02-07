@@ -52,11 +52,6 @@
                 <ValidationMessage For="() => Input.Type" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.User" class="form-control" autocomplete="user" aria-required="true" />
-                <label for="user">Username</label>
-                <ValidationMessage For="() => Input.User" class="text-danger" />
-            </div>
-            <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.Email" class="form-control" autocomplete="email" aria-required="true" />
                 <label for="email">Email</label>
                 <ValidationMessage For="() => Input.Email" class="text-danger" />
@@ -124,8 +119,6 @@
     {
         var user = CreateUser();
 
-        user.User = Input.User;
-        addPerson.Username = Input.User;
         addPerson.WebId = user.Id;
         addPerson.EmailAddress = Input.Email;
         addPerson.Type = Input.Type;
@@ -190,11 +183,6 @@
 
     private sealed class InputModel
     {
-        [Required]
-        [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
-        [Display(Name = "Username")]
-        public string User { get; set; } = "";
-
         [Required]
         [Display(Name = "Type")]
         public string Type { get; set; } = "";

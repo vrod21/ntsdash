@@ -269,9 +269,34 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             }
             catch (Exception ex)
             {
-                _nlog.Fatal($"ex.Message");
+                _nlog.Fatal($"{ex.Message}");
             }
             return feedback;
+        }
+        #endregion
+
+        #region GetFeedbackByEmployeeNameRecord
+        internal bool GetFeedbackByEmployeeNameRecord(FeedbackRecordRequest feedbackRecord)
+        {
+            try
+            {
+                using var dbContext = new NTDataHiveContext(_contextOptions);
+                var employeeFeedback = (from evaluation in dbContext.Evaluation
+                                        join appExt in dbContext.Approval on evaluation.Id equals appExt.ApprovalIdExt
+                                        where appExt.EvaluationNavigation.EmployeeName == feedbackRecord.EmployeeName
+                                        orderby appExt.EvaluationNavigation.CreatedAt descending
+                                        select CreateNewMapper(evaluation, appExt)).ToList();
+                if (employeeFeedback.Count > 0)
+                {
+                    employeeFeedback.ToList();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal($"{ex.Message}");
+            }
+            return true;
         }
         #endregion
 

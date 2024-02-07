@@ -6,6 +6,7 @@ namespace NTDataHiveGrpcService.BLL.RecordInterfaces
     {
         List<FeedbackRecordRequest> GetAllRecord();
         bool GetRecord(string webId, out EvaluationFilter evaluationFilter);
+        bool GetRecordByEmployeeName(string employeeName, out EvaluationFilter evaluationFilter);
         void SaveEvaluationFeedbackRecord(EvaluationFilter evaluationRecord);
     }
 }

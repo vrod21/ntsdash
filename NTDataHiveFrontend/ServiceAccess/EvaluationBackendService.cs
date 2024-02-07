@@ -113,9 +113,45 @@ namespace NTDataHiveFrontend.ServiceAccess
             {
                 WebId = feedback.WebId.ToString(),
                 PublisherName = feedback.PublisherName,
+                EmployeeName = feedback.EmployeeName,
+            };
+        }
+
+        public NTDataHiveGrpcService.FeedbackRecordFilter GetFilterFor(string name)
+        {
+            return new NTDataHiveGrpcService.FeedbackRecordFilter()
+            {
+                EmployeeName = name,
             };
         }
         #endregion
+
+        #region GetRecordByEmployeeName
+        public async Task<List<Model.Feedback>> GetRecordByEmployeeName(Model.Person feedback)
+        {
+            if (_client == null)
+                Connect();
+
+            try
+            {
+                var feedbackList = await _client.GetFeedbackByEmployeeNameAsync(GetFilterFor(feedback.FullName));
+
+                List<Model.Feedback> feedbacks = new List<Model.Feedback>();
+
+                foreach (var feedbackRecord in feedbackList.Items)
+                {
+                    feedbacks.Add(ToFrontendFormat(feedbackRecord));
+                }
+                return feedbacks;
+            }
+            catch (Exception ex)
+            {
+                _nlog.Error($"Employee name is null" + ex.Message);
+                throw;
+            }
+        }
+        #endregion
+
 
         #region GetFeedbackRecordByPublisherName
         public async Task<List<Model.Feedback>> GetFeedbackRecordByPublisherName(Model.Feedback feedback)

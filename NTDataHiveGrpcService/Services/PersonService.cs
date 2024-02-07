@@ -41,24 +41,17 @@ namespace NTDataHiveGrpcService.Services
         #endregion
 
         #region GetAll
-        public override Task<PersonArray> GetAll(PersonEmpty request, ServerCallContext context)
+        public override Task<PersonArray> GetAllPerson(PersonEmpty request, ServerCallContext context)
         {
             try
             {
                 var record = new PersonArray();
-                record.Status = new Google.Rpc.Status { Code = 0, Message = "Rule is queryable." };
+                record.Status = new Google.Rpc.Status { Code = 0, Message = "Person is queryable." };
 
                 var list = _personRecordRepository.GetAllRecord();
 
-                foreach (var item in list)
-                {
-                    record.Items.Add(new PersonRequest
-                    {
-                        WebId = item.WebId,
-                        Username = item.Username,
-                        EmailAddress = item.EmailAddress,
-                    });
-                }
+                record.Items.Add(list);
+
                 return Task.FromResult(record);
             }
             catch (Exception ex)
@@ -80,13 +73,13 @@ namespace NTDataHiveGrpcService.Services
                 if (_personRecordRepository.GetRecord(request.WebId, out BLL.RecordContents.PersonFilter personFilter))
                 {
                     var personList = personFilter.personRequest;
-                    personList.Status = new Google.Rpc.Status() { Code = 0, Message = "Revision Record found" };
+                    personList.Status = new Google.Rpc.Status() { Code = 0, Message = "Person Record found" };
                     return Task.FromResult(personList);
                 }
                 else
                 {
                     var personList = new PersonRequest();
-                    personList.Status = new Google.Rpc.Status { Code = 5, Message = "Revision Record not found" };
+                    personList.Status = new Google.Rpc.Status { Code = 5, Message = "Person Record not found" };
                     return Task.FromResult(personList);
                 }
             }

@@ -11,7 +11,7 @@ service PersonBackend {
 
     rpc SavePerson (PersonRequest) returns (google.rpc.Status);
 
-    rpc GetAll (PersonEmpty) returns (PersonArray);
+    rpc GetAllPerson (PersonEmpty) returns (PersonArray);
 
     rpc GetPersonRecord (PersonRecordFilter) returns (PersonRequest);
 }
@@ -31,6 +31,7 @@ message PersonRequest {
     string department = 10;
     string type = 11;
     google.protobuf.Timestamp birthday = 12;
+    string fullName = 13;
 
     google.rpc.Status status = 99;
 }

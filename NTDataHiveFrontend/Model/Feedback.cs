@@ -1,9 +1,12 @@
-﻿namespace NTDataHiveFrontend.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace NTDataHiveFrontend.Model
 {
     public class Feedback
     {
         public Guid id { get; set; } = Guid.NewGuid();
         public string WebId { get; set; } = "";
+        [Required(ErrorMessage = "Please choose a Stage")]
         public string Stage { get; set; } = "";
         public string QualityAssurance { get; set; } = "";
         public string PublisherName { get; set; } = "";

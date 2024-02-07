@@ -46,9 +46,30 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
         {
             List<NTDataHiveGrpcService.FeedbackRecordRequest> feedbackList = _evaluationRecordPersistence.GetFeedbackRecords();
 
-            _nlog.Trace("Pre-Edited is order by name");
+            _nlog.Trace("Feedback is order by name");
 
             return feedbackList;
+        }
+        #endregion
+
+        #region GetFeedbackByEmployeeName
+        public bool GetRecordByEmployeeName(string employeeName, out RecordContents.EvaluationFilter evaluationFilter)
+        {
+            if (_feedbackRecordCache.TryGetValue(employeeName, out RecordContents.EvaluationFilter feedbackFromCache))
+            {
+                evaluationFilter = feedbackFromCache;
+                return true;
+            }
+
+            if (_evaluationRecordPersistence.GetFeedBackByEmployeeName(employeeName, out RecordContents.EvaluationFilter feedbackFromDB))
+            {
+                _feedbackRecordCache.TryAdd(employeeName, feedbackFromDB);
+                evaluationFilter = feedbackFromDB;
+                return true;
+            }
+
+            evaluationFilter = new RecordContents.EvaluationFilter(employeeName);
+            return false;
         }
         #endregion
 

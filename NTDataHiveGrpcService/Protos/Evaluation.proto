@@ -16,6 +16,8 @@ service EvaluationBackend {
     rpc GetFeedbackRecord (FeedbackRecordFilter) returns (FeedbackRecordRequest);
 
     rpc GetFeedbackByPublisherName (FeedbackRecordFilter) returns (FeedbackRecordArray);
+
+    rpc GetFeedbackByEmployeeName (FeedbackRecordFilter) returns (FeedbackRecordArray);
 }
 
 message	FeedbackEmpty {
@@ -81,6 +83,7 @@ message FeedbackRecordRequest {
 message FeedbackRecordFilter {
     string webId = 1;
     string publisherName = 2;
+    string employeeName = 3;
 }
 
 message FeedbackRecordArray {

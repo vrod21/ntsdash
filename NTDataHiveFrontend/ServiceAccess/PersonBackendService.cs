@@ -64,6 +64,24 @@ namespace NTDataHiveFrontend.ServiceAccess
         }
         #endregion
 
+        #region GetAllPerson
+        public async Task<List<Model.Person>> GetAllPerson()
+        {
+            if (_client == null)
+                Connect();
+
+            var getAllPerson = await _client.GetAllPersonAsync(new NTDataHiveGrpcService.PersonEmpty());
+
+            List<Model.Person> people = new List<Model.Person>();
+
+            foreach (var personRecord in getAllPerson.Items)
+            {
+                people.Add(ToFrontendFormat(personRecord));
+            }
+            return people;
+        }
+        #endregion
+
         #region GetRevisionRecord
         public async Task<Model.Person> GetPersonRecord(string id)
         {
@@ -148,6 +166,7 @@ namespace NTDataHiveFrontend.ServiceAccess
                 Username = personRecord.Username,
                 FirstName = personRecord.FirstName,
                 LastName = personRecord.LastName,
+                FullName = personRecord.FullName,
                 Birthday = personRecord.Birthday.ToDateTime(),
                 Position = personRecord.Position,
                 CompanyId = personRecord.CompanyId,

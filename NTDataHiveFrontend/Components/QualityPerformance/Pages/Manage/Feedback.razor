@@ -6,7 +6,8 @@
 @attribute [Authorize]
 @rendermode InteractiveServer
 @* @rendermode @(new InteractiveServerRenderMode(prerender: false)) *@
-@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyBackendService
+@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyEvaluationBackendService
+@inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
 @inject IViewPublisherUseCase ViewPublisherUseCase
 @inject IViewJournalIdByPublisherNameUseCase ViewJournalIdByPublisherNameUseCase
 @inject IViewErrorTypeByErrorCodeNameUseCase ViewErrorTypeByErrorCodeNameUseCase
@@ -32,14 +33,13 @@
     <EditForm Model="addFeedback">
         <div class="row">
             <div class="col-md-6">
-                <RadzenFieldset Text="Feedback">
+                <RadzenFieldset Text="QMS Feedback">
                     <div class="row">
                         <div class="col-md-3 align-items-center d-flex">
                             <RadzenLabel Text="Stage" />
                         </div>
                         <div class="col-md-8">
-                            <RadzenDropDown @bind-Value="addFeedback.Stage" AllowClear="true" TValue="string" Placeholder="Stage"
-                                            Data="@stage" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                            <RadzenDropDown @bind-Value="addFeedback.Stage" AllowClear="true" TValue="string" Placeholder="Stage" Data="@stage" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
                         </div>
                     </div>
                     <div class="row">
@@ -126,7 +126,7 @@
                 </RadzenFieldset>
             </div>
             <div class="col-md-6">
-                <RadzenFieldset Text="Feedback">
+                <RadzenFieldset Text="QMS Feedback">
                     <div class="row">
                         <div class="col-md-3 align-items-center d-flex">
                             <RadzenLabel Text="Error Location" />
@@ -205,7 +205,9 @@
                             <RadzenLabel Text="Employee Name" />
                         </div>
                         <div class="col-md-8">
-                            <RadzenTextBox Style="width: 100%;" @bind-Value="addFeedback.EmployeeName" Placeholder="Employee Name" />
+                            <RadzenDropDown @bind-Value="addFeedback.EmployeeName" AllowClear="true" TValue="string" Placeholder="Employee Name"
+                                            Data="@personRecord" style="width: 100%;"
+                                            TextProperty="FullName" ValueProperty="FullName" />
                         </div>
                     </div>
                     <div class="row">
@@ -233,9 +235,9 @@
     </EditForm>
 </div>
 
-<div class="container">
+@* <div class="container">
     <div class="rz-shadow-7" style="text-align:center; color:white; margin-top: 10px;"><span>Date & Time: </span> @DateTime.Now.ToString("MMMM dd, yyyy / HH:mm:ss tt")</div>
-</div>
+</div> *@
 
 @code {
     private NTDataHiveFrontend.Model.Feedback addFeedback = new Model.Feedback();
@@ -255,6 +257,8 @@
     private List<CoreBusiness.Dropdown.QualityAssurance> qualityAssuranceRecord;
     private List<CoreBusiness.Dropdown.Department> departmentRecord;
 
+    private List<NTDataHiveFrontend.Model.Person> personRecord = new List<Model.Person>();
+
     [Parameter]
     public EventCallback<NTDataHiveFrontend.Model.Feedback> CallToAddFeedback { get; set; }
 
@@ -266,11 +270,13 @@
         errorLocationRecord = ViewErrorLocationUseCase.Execute().ToList();
         qualityAssuranceRecord = ViewQualityAssuranceUseCase.Execute().ToList();
         departmentRecord = ViewDepartmentUseCase.Execute().ToList();
+
+        personRecord = await MyPersonBackendService.GetAllPerson();
     }
 
     private async Task Save()
     {
-        await MyBackendService.SaveFeedback(addFeedback);
+        await MyEvaluationBackendService.SaveFeedback(addFeedback);
 
         MyNavigation.NavigateTo("/feedback-performance");
     }
