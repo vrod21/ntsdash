@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@using NTDataHiveFrontend.Components.Account
+@using NTDataHiveFrontend.Data
+@using System.Security.Claims
+
+@attribute [Authorize]
+@inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IdentityUserAccessor UserAccessor
+@inject UserManager<ApplicationUser> UserManager
+@page "/employees-performance"
+
+<PageTitle>Employees Performance</PageTitle>
+
+<h3>Employees Performance Feedback</h3>
+
+@if (personRecord.Type == null)
+{
+    <p>Please Remove your connection now...</p>
+}
+@if (personRecord.Type == "")
+{
+    <h3>Please update your Credentials.</h3>
+}
+@if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing" || personRecord.Position == "Operations Manager")
+{
+    <div class="rz-shadow-7 feedback-container">
+        <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.EmployeesPerformance />
+    </div>
+}
+@if (personRecord.Position == "Others")
+{
+    <h1>This is for the Individual Employee</h1>
+}
+
+@code {
+    private string userId;
+    private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var nameIdentifier = auth.User;
+
+        userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        personRecord = await MyPersonBackendService.GetPersonRecord(userId);
+
+        if (personRecord.Type == "Admin")
+        {
+            MyNavigation.NavigateTo("/");
+        }
+    }    
+}

@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using Azure.Core;
+using Grpc.Core;
 using NLog;
 using NLog.Fluent;
 using System.Reflection;
@@ -18,7 +19,7 @@ namespace NTDataHiveGrpcService.Services
         }
 
         #region SaveFeedback
-        public override Task<Google.Rpc.Status> SaveFeedback(FeedbackRecordRequest request, ServerCallContext context)
+        public override Task<Status> SaveFeedback(FeedbackRecordRequest request, ServerCallContext context)
         {
             try
             {
@@ -57,6 +58,35 @@ namespace NTDataHiveGrpcService.Services
             {
                 _nlog.Fatal(ex);
                 return Task.FromResult(new FeedbackRecordArray { Status = new Status { Code = 2, Message = ex.Message } });
+            }
+        }
+        #endregion
+
+        #region GetFeedbackByEmployeeName
+        public override Task<FeedbackRecordArray> GetFeedbackByEmployeeName(FeedbackRecordFilter request, ServerCallContext context)
+        {
+            try
+            {
+                var record = new FeedbackRecordArray();
+                var feedbackRecord = new BLL.RecordContents.EvaluationFilter(request.EmployeeName);
+
+                if (string.IsNullOrWhiteSpace(request.EmployeeName))
+                    return Task.FromResult(new FeedbackRecordArray { Status = new Status { Code = 3, Message = "WebId Missed" } });
+
+                if (_feedbackRecordRepository.GetRecordByEmployeeName(request.EmployeeName, out BLL.RecordContents.EvaluationFilter evaluationFilter))
+                {
+                    var feedbackList = evaluationFilter.feedbackRecordRequest;
+
+                    record.Items.Add(feedbackList);
+
+                    return Task.FromResult(record);
+                }
+                return Task.FromResult(new FeedbackRecordArray { Status = new Status { Code = 5, Message = "Feedback Record not Found" } });
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal(ex);
+                return Task.FromResult(new FeedbackRecordArray { Status = new Status { Code = 2, Message = ex.Message }, });
             }
         }
         #endregion

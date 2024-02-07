@@ -45,14 +45,14 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
             {
                 return selectPerson;
             }
-            throw new Exception("There is no value");
+            throw new Exception("There is no data found.");
         }
         #endregion
 
         #region SelectById
         public bool SelectById(string webid, out BLL.RecordContents.PersonFilter personRecord)
         {
-            if (CreateRevisionRecordByWebId(webid, out BLL.RecordContents.PersonFilter personRecordLocal))
+            if (CreatePersonRecordByWebId(webid, out BLL.RecordContents.PersonFilter personRecordLocal))
             {
                 personRecord = personRecordLocal;
                 return true;
@@ -66,7 +66,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         #endregion
 
         #region CreatePersonRecordByWebId
-        private bool CreateRevisionRecordByWebId(string webid, out BLL.RecordContents.PersonFilter personRecord)
+        private bool CreatePersonRecordByWebId(string webid, out BLL.RecordContents.PersonFilter personRecord)
         {
             personRecord = new BLL.RecordContents.PersonFilter(webid);
 

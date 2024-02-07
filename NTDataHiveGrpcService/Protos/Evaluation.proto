@@ -16,6 +16,8 @@ service EvaluationBackend {
     rpc GetFeedbackRecord (FeedbackRecordFilter) returns (FeedbackRecordRequest);
 
     rpc GetFeedbackByPublisherName (FeedbackRecordFilter) returns (FeedbackRecordArray);
+
+    rpc GetFeedbackByEmployeeName (FeedbackRecordFilter) returns (FeedbackRecordArray);
 }
 
 message	FeedbackEmpty {
@@ -24,7 +26,7 @@ message	FeedbackEmpty {
 
 message FeedbackRecordRequest {
     string webId = 1;
-    string supplierName = 2; 
+    string stage = 2; 
     string qualityAssurance = 3;
     string publisherName = 4;
     string journalId = 5;
@@ -54,7 +56,26 @@ message FeedbackRecordRequest {
     string statusOfCA = 29;
     string statusOfPM = 30;
     string copyEditingLevel = 31; 
-	google.protobuf.Timestamp createdAt = 32;
+    string component = 32;
+    string pageType = 33;
+    double finalErrorPoints = 34;
+    double totalErrorPoints = 35;
+    double totalTSPages = 36;
+    double errorPerPages = 37;
+    double accuracyRating = 38;
+    double accuracyRatingFC = 39;
+    double weightPercentFC = 40;
+    double weghtPercentFC = 41;
+    double weightedRatingFC = 42;
+    double accuracyRatingIPF = 43;
+    double weightPercentIPF = 44;
+    double weightedRatingIPF = 45;
+    string DCF = 46;
+    double overallAccuracyRating = 47;
+    google.protobuf.Timestamp dateProcessed = 48;
+    google.protobuf.Timestamp dateChecked = 49;
+	google.protobuf.Timestamp createdAt = 50;
+    google.protobuf.Timestamp yearMonth = 51;
 
 	google.rpc.Status status = 99;
 }
@@ -62,6 +83,7 @@ message FeedbackRecordRequest {
 message FeedbackRecordFilter {
     string webId = 1;
     string publisherName = 2;
+    string employeeName = 3;
 }
 
 message FeedbackRecordArray {
@@ -69,4 +91,3 @@ message FeedbackRecordArray {
 
     google.rpc.Status status = 99;
 }
-

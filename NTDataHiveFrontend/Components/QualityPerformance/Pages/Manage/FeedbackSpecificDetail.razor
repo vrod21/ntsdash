@@ -1,0 +1,158 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using NTDataHiveEnum.DataPlugins.Utilities
+
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyEvaluationBackendService
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigation
+
+<style>
+    form .row{
+        margin-bottom: 16px;
+    }
+</style>
+
+<div class="rz-shadow-7 rz-mb-12 feedback-container">
+    <div class="create-feedback-button">
+        <RadzenButton Style="background-color: #e81f4b;"  Text="Save Feedback" />
+    </div>
+
+    <h3>Feedback Specific Detail </h3>
+
+    @if (feedbackDetail == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <EditForm Model="feedbackDetail">
+            <div class="container-fluid">
+                <div class="row">
+                <div class="col-md-6">
+                <RadzenFieldset class="rz-color-white" Text="Feedback">
+                <div class="row">
+                <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Root Cause" />
+                </div>
+                <div class="col-md-8">
+                <RadzenTextBox Style="width: 100%;" @bind-Value="feedbackDetail.RootCause" Placeholder="Root Cause" />
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Corrective Action" />
+                </div>
+                <div class="col-md-8">
+                <RadzenTextBox Style="width: 100%;" @bind-Value="feedbackDetail.CorrectiveAction" Placeholder="Corrective Action" />
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Nature of CA" />
+                </div>
+                <div class="col-md-8">
+                <RadzenDropDown @bind-Value="feedbackDetail.NatureOfCA" AllowClear="true" TValue="string" Placeholder="Nature of CA"
+                Data="@natureOfCA" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Owner of CA" />
+                </div>
+                <div class="col-md-8">
+                <RadzenTextBox Style="width: 100%;" @bind-Value="feedbackDetail.OwnerOfCA" Placeholder="Owner of CA" />
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Target Date (CA)" />
+                </div>
+                <div class="col-md-8">
+                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionCA" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
+                DateFormat="MM/dd/yyyy" Placeholder="MM/DD/YYYY" />
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Preventive Measure" />
+                </div>
+                <div class="col-md-8">
+                <RadzenTextBox Style="width: 100%;" @bind-Value="feedbackDetail.PreventiveMeasure" Placeholder="Preventive Measure" />
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Nature of PM" />
+                </div>
+                <div class="col-md-8">
+                <RadzenDropDown @bind-Value="feedbackDetail.NatureOfPM" AllowClear="true" TValue="string" Placeholder="Nature of PM"
+                Data="@natureOfPM" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Owner of PM" />
+                </div>
+                <div class="col-md-8">
+                <RadzenTextBox Style="width: 100%;" @bind-Value="feedbackDetail.OwnerOfPM" Placeholder="Owner of PM" />
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Target Date (PM)" />
+                </div>
+                <div class="col-md-8">
+                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionPM" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
+                DateFormat="MM/dd/yyyy" Placeholder="MM/DD/YYYY" />
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Status of CA" />
+                </div>
+                <div class="col-md-8">
+                <RadzenDropDown @bind-Value="feedbackDetail.StatusOfCA" AllowClear="true" TValue="string" Placeholder="Status of CA"
+                Data="@status" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Status of PM" />
+                </div>
+                <div class="col-md-8">
+                <RadzenDropDown @bind-Value="feedbackDetail.StatusOfPM" AllowClear="true" TValue="string" Placeholder="Status of PM"
+                Data="@status" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                </div>
+                </div>
+                </RadzenFieldset>
+                </div>
+                 </div>
+             </div>
+         </EditForm>
+    }
+</div>
+
+
+@code {
+    [Parameter]
+    public Guid id { get; set; }
+    private NTDataHiveFrontend.Model.Feedback feedbackDetail = new Model.Feedback();
+    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> natureOfCA = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.NatureOfCA>();
+    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> natureOfPM = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.NatureOfPM>();
+    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> status = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.Status>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        feedbackDetail = await MyEvaluationBackendService.GetFeedbackRecord(id);
+    }
+
+    // private async Task Save()
+    // {
+    //     await MyEvaluationBackendService.SaveFeedback(feedbackDetail);
+
+    //     MyNavigation.NavigateTo("/feedback-performance");
+    // }
+}

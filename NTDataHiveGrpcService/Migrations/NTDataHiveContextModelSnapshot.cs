@@ -65,120 +65,6 @@ namespace NTDataHiveGrpcService.Migrations
                     b.ToTable("Approval");
                 });
 
-            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Credit", b =>
-                {
-                    b.Property<int>("CreditId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CreditId"));
-
-                    b.Property<string>("ArticleId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CopyEditedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CopyEditingLevel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Department")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmployeeName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("JournalId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PublisherName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("QualityAssurance")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SupplierName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CreditId");
-
-                    b.ToTable("Credit");
-                });
-
-            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Create_at")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PublisherIdentity")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ScoreCard")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WebId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Employee");
-                });
-
-            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Error", b =>
-                {
-                    b.Property<int>("ErrorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ErrorId"));
-
-                    b.Property<string>("DescriptionOfError")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ErrorCategory")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ErrorCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("ErrorCount")
-                        .HasColumnType("float");
-
-                    b.Property<string>("ErrorLocation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ErrorSubtype")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ErrorType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IntroducedOrMissed")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Matter")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WebId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ErrorId");
-
-                    b.ToTable("Error");
-                });
-
             modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Evaluation", b =>
                 {
                     b.Property<int>("Id")
@@ -248,11 +134,14 @@ namespace NTDataHiveGrpcService.Migrations
                     b.Property<string>("QualityAssurance")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SupplierName")
+                    b.Property<string>("Stage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WebId")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("YearMonth")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -310,234 +199,65 @@ namespace NTDataHiveGrpcService.Migrations
                     b.ToTable("Person");
                 });
 
-            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.PersonTypes", b =>
+            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Quality", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("QualityIdExt")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PersonType");
-                });
-
-            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Position", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Position");
-                });
-
-            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.PreEditing", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ArticleId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CopyEditedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CopyEditingLevel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CorrectiveAction")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Department")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DescriptionOfError")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmployeeName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ErrorCategory")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ErrorCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ErrorCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ErrorLocation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ErrorSubtype")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ErrorType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IntroducedOrMissed")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("JournalId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Matter")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NatureOfCA")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NatureOfPM")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwnerOfCA")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwnerOfPM")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PageCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PreventiveMeasure")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PublisherName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("QualityAssurance")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RootCause")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StatusOfCA")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StatusOfPM")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SupplierName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TargetDateOfCompletionCA")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("TargetDateOfCompletionPM")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("WebId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PreEditing");
-                });
-
-            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Publisher", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("PublisherName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Publisher");
-                });
-
-            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Revision", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ArticleId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CopyEditingLevel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Department")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DescriptionOfError")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmployeeName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ErrorCategory")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ErrorCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("ErrorCount")
+                    b.Property<double>("AccuracyRating")
                         .HasColumnType("float");
 
-                    b.Property<string>("ErrorLocation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ErrorSubtype")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ErrorType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IntroducedOrMissed")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("JournalId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Matter")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("PageCount")
+                    b.Property<double>("AccuracyRatingFC")
                         .HasColumnType("float");
 
-                    b.Property<string>("PublisherName")
+                    b.Property<double>("AccuracyRatingIPF")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Component")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("QualityAssurance")
+                    b.Property<string>("DCF")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SupplierName")
+                    b.Property<DateTime>("DateChecked")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateProcessed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("ErrorPerPages")
+                        .HasColumnType("float");
+
+                    b.Property<double>("FinalErrorPoints")
+                        .HasColumnType("float");
+
+                    b.Property<double>("OverallAccuracyRating")
+                        .HasColumnType("float");
+
+                    b.Property<string>("PageType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("WebId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("TotalErrorPoints")
+                        .HasColumnType("float");
 
-                    b.HasKey("Id");
+                    b.Property<double>("TotalTSPages")
+                        .HasColumnType("float");
 
-                    b.ToTable("Revision");
+                    b.Property<double>("WeightPercentFC")
+                        .HasColumnType("float");
+
+                    b.Property<double>("WeightPercentIPF")
+                        .HasColumnType("float");
+
+                    b.Property<double>("WeightedRatingFC")
+                        .HasColumnType("float");
+
+                    b.Property<double>("WeightedRatingIPF")
+                        .HasColumnType("float");
+
+                    b.HasKey("QualityIdExt");
+
+                    b.ToTable("Quality");
                 });
 
             modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Approval", b =>
@@ -561,11 +281,24 @@ namespace NTDataHiveGrpcService.Migrations
                     b.Navigation("MegaEvaluationNavigation");
                 });
 
+            modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Quality", b =>
+                {
+                    b.HasOne("NTDataHiveGrpcService.DAL.Model.Evaluation", "EvaluationNavigation")
+                        .WithOne("Quality")
+                        .HasForeignKey("NTDataHiveGrpcService.DAL.Model.Quality", "QualityIdExt")
+                        .IsRequired()
+                        .HasConstraintName("FK_Quality_Evaluation");
+
+                    b.Navigation("EvaluationNavigation");
+                });
+
             modelBuilder.Entity("NTDataHiveGrpcService.DAL.Model.Evaluation", b =>
                 {
                     b.Navigation("Approval");
 
                     b.Navigation("InverseMegaEvaluationNavigation");
+
+                    b.Navigation("Quality");
                 });
 #pragma warning restore 612, 618
         }

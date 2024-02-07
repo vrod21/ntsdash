@@ -11,18 +11,10 @@ namespace NTDataHiveGrpcService.DAL.Data
         public NTDataHiveContext(DbContextOptions<NTDataHiveContext> options) : base(options)
         {
         }
-
-        public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Person> Person { get; set; }
-        public virtual DbSet<PersonTypes> PersonType { get; set; }
-        public virtual DbSet<Position> Position { get; set; }
-        public virtual DbSet<PreEditing> PreEditing { get; set; }
-        public virtual DbSet<Revision> Revision { get; set; }
-        public virtual DbSet<Publisher> Publisher { get; set; }
-        public virtual DbSet<Credit> Credit { get; set; }
-        public virtual DbSet<Error> Error { get; set; }
         public virtual DbSet<Evaluation> Evaluation { get; set; }
         public virtual DbSet<Approval> Approval { get; set; }
+        public virtual DbSet<Quality> Quality { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -58,6 +50,19 @@ namespace NTDataHiveGrpcService.DAL.Data
                     .HasForeignKey<Approval>(d => d.ApprovalIdExt)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Approval_Evaluation");
+            });
+
+            modelBuilder.Entity<Quality>(entity =>
+            {
+                entity.HasKey(e => e.QualityIdExt);
+                
+                entity.Property(e => e.QualityIdExt).ValueGeneratedNever();
+
+                entity.HasOne(d => d.EvaluationNavigation)
+                    .WithOne(p => p.Quality)
+                    .HasForeignKey<Quality>(d => d.QualityIdExt)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Quality_Evaluation");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -32,10 +32,10 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     var emp = new Model.Person()
                     {
                         WebId = recordRequest.WebId,
-                        Username = recordRequest.Username,
                         EmailAddress = recordRequest.EmailAddress,
                         FirstName = recordRequest.FirstName,
                         LastName = recordRequest.LastName,
+                        FullName = $"{recordRequest.FirstName} {recordRequest.LastName}",
                         Position = recordRequest.Position,
                         CompanyId = recordRequest.CompanyId,
                         AccountName = recordRequest.AccountName,
@@ -55,6 +55,8 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             }
         }
         #endregion
+
+        #region UpdatePerson
         internal void UpdatePerson(PersonRequest recordRequest)
         {
             try
@@ -67,9 +69,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
 
                 var person = persons.Single();
 
-                person.Username = recordRequest.Username.Trim();
                 person.FirstName = recordRequest.FirstName.Trim();
                 person.LastName = recordRequest.LastName.Trim();
+                person.FullName = $"{recordRequest.FirstName.Trim()} {recordRequest.LastName.Trim()}".Trim();
                 person.Birthday = recordRequest.Birthday.ToDateTime();
                 person.Position = recordRequest.Position.Trim();
                 person.CompanyId = recordRequest.CompanyId.Trim();
@@ -86,8 +88,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 throw;
             }
         }
-        #region UpdatePerson
-
         #endregion
 
         #region GetAllPersonRecord
@@ -135,10 +135,10 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 {
                     var personList = personRecord[0];
 
-                    recordRequest.Username = personList.Username?.Trim() ?? "";
                     recordRequest.EmailAddress = personList.EmailAddress.Trim() ?? "";
                     recordRequest.FirstName = personList.FirstName?.Trim() ?? "";
                     recordRequest.LastName = personList.LastName?.Trim() ?? "";
+                    recordRequest.FullName = $"{personList.FirstName.Trim()} {personList.LastName.Trim()}".Trim();
                     recordRequest.Birthday = personList.Birthday.ToUniversalTime().ToTimestamp();
                     recordRequest.Position = personList.Position?.Trim() ?? "";
                     recordRequest.CompanyId = personList.CompanyId?.Trim() ?? "";
@@ -191,10 +191,10 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             return new PersonRequest()
             {
                 WebId = person.WebId,
-                Username = person.Username,
                 EmailAddress = person.EmailAddress,
                 FirstName = person.FirstName,
                 LastName = person.LastName,
+                FullName = person.FullName,
                 Birthday = person.Birthday.ToUniversalTime().ToTimestamp(),
                 Position = person.Position,
                 CompanyId = person.CompanyId,

@@ -1,10 +1,13 @@
-﻿namespace NTDataHiveFrontend.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace NTDataHiveFrontend.Model
 {
     public class Feedback
     {
         public Guid id { get; set; } = Guid.NewGuid();
         public string WebId { get; set; } = "";
-        public string SupplierName { get; set; } = "";
+        [Required(ErrorMessage = "Please choose a Stage")]
+        public string Stage { get; set; } = "";
         public string QualityAssurance { get; set; } = "";
         public string PublisherName { get; set; } = "";
         public string JournalId { get; set; } = "";
@@ -35,5 +38,23 @@
         public string StatusOfPM { get; set; } = "";
         public string CopyEditingLevel { get; set; } = "";
         public DateTime? CreatedAt { get; set; }
+        public DateTime? YearMonth { get; set; }
+        public string Component { get; set; } = "";
+        public string PageType { get; set; } = "";
+        public double FinalErrorPoints { get; set; } = 0;
+        public DateTime? DateProcessed { get; set; }
+        public DateTime? DateChecked { get; set; }
+        public double TotalErrorPoints { get; set; } = 0;
+        public double TotalTSPages { get; set; } = 0;
+        public double ErrorPerPages { get; set; } = 0;
+        public double AccuracyRating { get; set; } = 0;
+        public double AccuracyRatingFC { get; set; } = 0;
+        public double WeightPercentFC { get; set; } = 0;
+        public double WeightedRatingFC { get; set; } = 0;
+        public double AccuracyRatingIPF { get; set; } = 0;
+        public double WeightPercentIPF { get; set; } = 0;
+        public double WeightedRatingIPF { get; set; } = 0;
+        public string DCF { get; set; } = "";
+        public double OverallAccuracyRating { get; set; } = 0;
     }
 }

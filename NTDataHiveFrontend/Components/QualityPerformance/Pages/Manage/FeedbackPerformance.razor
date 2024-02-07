@@ -1,8 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Identity
 @using Microsoft.JSInterop
 @using NTDataHiveFrontend.Components.Account
-@using NTDataHiveFrontend.Data
 @using OfficeOpenXml
 
 @attribute [Authorize]
@@ -11,16 +9,14 @@
 @inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject IdentityUserAccessor UserAccessor
-@inject UserManager<ApplicationUser> UserManager
 @inject Microsoft.JSInterop.IJSRuntime JS
 
 <div class="create-feedback-button">
+    <span><RadzenButton Style="background-color: #e81f4b;" Click="@DownloadExcelFile" Text="Download An Excel File Via Publisher Name" /></span>
     <RadzenButton Style="background-color: #e81f4b;" Click="@DownloadExcelFile" Text="Download An Excel File" />
 </div>
 
-<h3>Feedback Performance</h3>
+<h3 style="margin-bottom: 40px;">Feedback Performance</h3>
 
 <div class="container-fluid">
     <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@feedbackRecord"
@@ -40,7 +36,7 @@
             </RadzenCard>
         </Template>
         <Columns>
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="SupplierName" Title="Suppler Name"
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="Stage" Title="Stage"
                                   Width="200px" />
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="QualityAssurance" Title="Quality Assurance"
                                   Width="200px" />
@@ -49,8 +45,6 @@
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="JournalId" Title="Journal ID"
                                   Width="200px" />
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="ArticleId" Title="Article ID"
-                                  Width="200px" />
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="CopyEditedBy" Title="Copy Edited By"
                                   Width="200px" />
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="EmployeeName" Title="Employee Name"
                                   Width="200px" />
