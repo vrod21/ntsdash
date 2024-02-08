@@ -1,5 +1,64 @@
-﻿<h3>TLFeedbackPerformanceValidation</h3>
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@using NTDataHiveFrontend.Components.Account
+@using NTDataHiveFrontend.Data
+@using System.Security.Claims
+
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyEvaluationBackendService
+@inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
+@inject IConfiguration Configuration
+@inject NavigationManager MyNavigation
+@inject Microsoft.JSInterop.IJSRuntime JS
+@inject IdentityUserAccessor UserAccessor
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserManager<ApplicationUser> UserManager
+
+<h3 style="margin-bottom: 40px;">Feedback Performance Validation</h3>
+
+<div class="container-fluid">
+    <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@feedbackRecord" TItem="NTDataHiveFrontend.Model.Feedback" AllowColumnResiz="false" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                    ColumnWidth="500px" LogicalFilterOperator="LogicalFilterOperator.Or" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive">
+
+        <Template Context="data">
+            <RadzenCard class="rz-p-12" Style="margin-bottom:20px;">
+                Description of Error :
+
+                <div class="rz-text-align-center rz-p-12 rz-shadow-7 rz-border-radius-3">
+                    <p class="lead" style="text-align: center; white-space:pre-line;">
+                        @data.DescriptionOfError
+                    </p>
+                </div>
+            </RadzenCard>
+        </Template>
+        <Columns>
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="QualityAssurance" Title="Quality Assurance" Width="200px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="PublisherName" Title="Publisher Name" Width="200px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="JournalId" Title="Journal Id" Width="200px" />
+            <RadzenDataGridColumn TItem="Model.Feedback" Property="WebId" Title="Select Report" Width="200px">
+                <Template Context="data">
+                    <RadzenButton Style="background-color:#e81f4b" Text="Specific Detail" Click="@(() => OnSpecificDetail(data))" />
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+</div>
 
 @code {
+    public string? userId;
+    private List<NTDataHiveFrontend.Model.Feedback> feedbackRecord = new List<Model.Feedback>();
+    private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
 
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        feedbackRecord = await MyEvaluationBackendService.GetAllFeedback();
+    }
+
+    private void OnSpecificDetail(NTDataHiveFrontend.Model.Feedback feedback)
+    {
+        MyNavigation.NavigateTo($"/employee-specific-detail-page/{feedback.WebId}/random");
+    }
 }

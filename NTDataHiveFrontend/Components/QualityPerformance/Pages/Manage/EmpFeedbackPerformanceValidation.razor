@@ -15,7 +15,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject UserManager<ApplicationUser> UserManager
 
-<h3 style="margin-bottom: 40px;">EmpFeedbackPerformanceValidation</h3>
+<h3 style="margin-bottom: 40px;">Feedback Performance Validation</h3>
 
 <div class="container-fluid">
     <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@feedbackRecord" TItem="NTDataHiveFrontend.Model.Feedback" AllowColumnResiz="false" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
@@ -34,10 +34,20 @@
         </Template>
         <Columns>
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="QualityAssurance" Title="Quality Assurance" Width="200px" />
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="PublisherName" Title="Publisher Name" Width="200px" />
-            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="JournalId" Title="Journal Id" Width="200px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="PublisherName" Title="Publisher Name" Width="140px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="JournalId" Title="Journal Id" Width="100px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="EmployeeName" Title="Employee Name"
+                                  Width="150px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="Department" Title="Department Name"
+                                  Width="150px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="RootCause" Title="Root Cause"
+                                  Width="150px" />
+            <RadzenDataGridColumn TItem="Model.Feedback" Property="WebId" Title="Select Report" Width="200px">
+                <Template Context="data">
+                    <RadzenButton Style="background-color:#e81f4b" Text="Specific Detail" Click="@(() => OnSpecificDetail(data))" />
+                </Template>
+            </RadzenDataGridColumn>
         </Columns>
-
     </RadzenDataGrid>
 </div>
 
@@ -58,5 +68,10 @@
         personRecord = await MyPersonBackendService.GetPersonRecord(userId);
 
         feedbackRecord = await MyEvaluationBackendService.GetRecordByEmployeeName(personRecord);
+    }
+
+    private void OnSpecificDetail(NTDataHiveFrontend.Model.Feedback feedback)
+    {
+        MyNavigation.NavigateTo($"/employee-specific-detail-page/{feedback.WebId}/random");
     }
 }
