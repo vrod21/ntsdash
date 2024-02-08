@@ -37,19 +37,21 @@
         </Template>
         <Columns>
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="Stage" Title="Stage"
-                                  Width="200px" />
+                                  Width="90px" />
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="QualityAssurance" Title="Quality Assurance"
-                                  Width="200px" />
+                                  Width="140px" />
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="PublisherName" Title="Publisher Name"
-                                  Width="200px" />
+                                  Width="140px" />
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="JournalId" Title="Journal ID"
-                                  Width="200px" />
+                                  Width="100px" />
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="ArticleId" Title="Article ID"
-                                  Width="200px" />
+                                  Width="100px" />
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="EmployeeName" Title="Employee Name"
-                                  Width="200px" />
+                                  Width="150px" />
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="Department" Title="Department Name"
-                                  Width="200px" />
+                                  Width="150px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="RootCause" Title="Root Cause"
+                                  Width="150px" />
             <RadzenDataGridColumn TItem="Model.Feedback" Property="WebId" Title="Select Report" Width="200px">
                 <Template Context="data">
                     <RadzenButton Style="background-color:#e81f4b" Text="Specific Detail" Click="@(() => OnSpecificDetail(data))" />
