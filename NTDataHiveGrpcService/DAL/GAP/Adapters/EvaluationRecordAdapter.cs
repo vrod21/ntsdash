@@ -79,7 +79,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         NatureOfPM = recordRequest.NatureOfPM,
                         OwnerOfPM = recordRequest.OwnerOfPM,
                         StatusOfCA = recordRequest.StatusOfCA,
-                        StatusOfPM = recordRequest.StatusOfPM,                        
+                        StatusOfPM = recordRequest.StatusOfPM,
+                        Validate = recordRequest.Validate,
+                        
                     };
                     dbContext.Approval.Add(approval);
                     _ = dbContext.SaveChanges();
@@ -238,6 +240,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 appExt.TargetDateOfCompletionPM = recordRequest.TargetDateOfCompletionPM.ToDateTime();
                 appExt.StatusOfCA = recordRequest.StatusOfCA.Trim();
                 appExt.StatusOfPM = recordRequest.StatusOfPM.Trim();
+                appExt.Validate = recordRequest.Validate.Trim();
 
                 dbContext.Approval.Update(appExt);
 
@@ -438,6 +441,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     recordRequest.TargetDateOfCompletionPM = appExt.TargetDateOfCompletionPM.ToUniversalTime().ToTimestamp();
                     recordRequest.StatusOfCA = appExt.StatusOfCA?.Trim() ?? "";
                     recordRequest.StatusOfPM = appExt.StatusOfPM?.Trim() ?? "";
+                    recordRequest.Validate = appExt.Validate?.Trim() ?? "";
 
                     return true;
                 }
@@ -514,10 +518,12 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 TargetDateOfCompletionPM = approval.TargetDateOfCompletionPM.ToUniversalTime().ToTimestamp(),
                 StatusOfCA = approval.StatusOfCA,
                 StatusOfPM = approval.StatusOfPM,
+                Validate = approval.Validate,
                 CopyEditingLevel = evaluation.CopyEditingLevel,
                 CreatedAt = evaluation.CreatedAt.ToUniversalTime().ToTimestamp(),
                 YearMonth = evaluation.YearMonth.ToUniversalTime().ToTimestamp(),
             };        
+        
         }
         #endregion
     }

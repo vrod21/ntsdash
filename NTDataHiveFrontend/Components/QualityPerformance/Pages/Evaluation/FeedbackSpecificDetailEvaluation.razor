@@ -116,7 +116,7 @@
                                  <RadzenLabel Text="Page Count" />
                              </div>
                              <div class="col-md-9">
-                                 <RadzenNumeric Style="width: 50%; color: black;" @bind-Value="feedbackDetail.PageCount" TValue="double" Placeholder="Page Count" Disabled />
+                                 <RadzenNumeric Style="width: 50%; color:black;" @bind-Value="feedbackDetail.PageCount" Placeholder="Page count" Disabled />
                              </div>
                          </div>
                          <div class="row">
@@ -124,7 +124,7 @@
                                  <RadzenLabel Text="Error Count" />
                              </div>
                              <div class="col-md-9">
-                                 <RadzenNumeric Style="width: 50%; color: black;" @bind-value="feedbackDetail.ErrorCount" TValue="double" Placeholder="Error Count" Disabled />
+                                 <RadzenNumeric Style="width:50%; color:black;" @bind-Value="feedbackDetail.ErrorCount" Placeholder="Error Count" Disabled />
                              </div>
                          </div>
                          <div class="row">
@@ -296,6 +296,14 @@
                                                     DateFormat="MM/dd/yyyy" Placeholder="MM/DD/YYYY" Disabled />
                             </div>
                         </div>
+                         <div class="row">
+                             <div class="col-md-3 align-items-center d-flex">
+                                 <RadzenLabel Text="Validity" />
+                             </div>
+                             <div class="col-md-8">
+                                 <RadzenTextArea Style="width: 100%;" @bind-Value="feedbackDetail.Validate" Placeholder="Please Validate" Disabled />
+                             </div>
+                         </div>
                     </div>
                 </div>
             </div>
