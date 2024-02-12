@@ -6,7 +6,6 @@ namespace NTDataHiveFrontend.Model
     {
         public Guid id { get; set; } = Guid.NewGuid();
         public string WebId { get; set; } = "";
-        [Required(ErrorMessage = "Please choose a Stage")]
         public string Stage { get; set; } = "";
         public string QualityAssurance { get; set; } = "";
         public string PublisherName { get; set; } = "";
@@ -36,6 +35,7 @@ namespace NTDataHiveFrontend.Model
         public DateTime? TargetDateOfCompletionPM { get; set; }
         public string StatusOfCA { get; set; } = "";
         public string StatusOfPM { get; set; } = "";
+        public string Validate { get; set; } = "";
         public string CopyEditingLevel { get; set; } = "";
         public DateTime? CreatedAt { get; set; }
         public DateTime? YearMonth { get; set; }

@@ -79,7 +79,9 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                         NatureOfPM = recordRequest.NatureOfPM,
                         OwnerOfPM = recordRequest.OwnerOfPM,
                         StatusOfCA = recordRequest.StatusOfCA,
-                        StatusOfPM = recordRequest.StatusOfPM,                        
+                        StatusOfPM = recordRequest.StatusOfPM,
+                        Validate = recordRequest.Validate,
+                        
                     };
                     dbContext.Approval.Add(approval);
                     _ = dbContext.SaveChanges();
@@ -238,6 +240,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 appExt.TargetDateOfCompletionPM = recordRequest.TargetDateOfCompletionPM.ToDateTime();
                 appExt.StatusOfCA = recordRequest.StatusOfCA.Trim();
                 appExt.StatusOfPM = recordRequest.StatusOfPM.Trim();
+                appExt.Validate = recordRequest.Validate.Trim();
 
                 dbContext.Approval.Update(appExt);
 
@@ -276,27 +279,27 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         #endregion
 
         #region GetFeedbackByEmployeeNameRecord
-        internal bool GetFeedbackByEmployeeNameRecord(FeedbackRecordRequest feedbackRecord)
+        internal List<FeedbackRecordRequest> GetFeedbackByEmployeeNameRecord(string feedbackRecord)
         {
+            List<FeedbackRecordRequest> feedback = new List<FeedbackRecordRequest>();
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);
                 var employeeFeedback = (from evaluation in dbContext.Evaluation
                                         join appExt in dbContext.Approval on evaluation.Id equals appExt.ApprovalIdExt
-                                        where appExt.EvaluationNavigation.EmployeeName == feedbackRecord.EmployeeName
+                                        where appExt.EvaluationNavigation.EmployeeName == feedbackRecord
                                         orderby appExt.EvaluationNavigation.CreatedAt descending
                                         select CreateNewMapper(evaluation, appExt)).ToList();
                 if (employeeFeedback.Count > 0)
                 {
-                    employeeFeedback.ToList();
-                    return true;
+                    return employeeFeedback;                    
                 }
             }
             catch (Exception ex)
             {
                 _nlog.Fatal($"{ex.Message}");
             }
-            return true;
+            return feedback;
         }
         #endregion
 
@@ -438,6 +441,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                     recordRequest.TargetDateOfCompletionPM = appExt.TargetDateOfCompletionPM.ToUniversalTime().ToTimestamp();
                     recordRequest.StatusOfCA = appExt.StatusOfCA?.Trim() ?? "";
                     recordRequest.StatusOfPM = appExt.StatusOfPM?.Trim() ?? "";
+                    recordRequest.Validate = appExt.Validate?.Trim() ?? "";
 
                     return true;
                 }
@@ -514,10 +518,12 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 TargetDateOfCompletionPM = approval.TargetDateOfCompletionPM.ToUniversalTime().ToTimestamp(),
                 StatusOfCA = approval.StatusOfCA,
                 StatusOfPM = approval.StatusOfPM,
+                Validate = approval.Validate,
                 CopyEditingLevel = evaluation.CopyEditingLevel,
                 CreatedAt = evaluation.CreatedAt.ToUniversalTime().ToTimestamp(),
                 YearMonth = evaluation.YearMonth.ToUniversalTime().ToTimestamp(),
             };        
+        
         }
         #endregion
     }

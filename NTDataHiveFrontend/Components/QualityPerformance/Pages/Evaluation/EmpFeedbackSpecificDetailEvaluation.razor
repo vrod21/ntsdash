@@ -3,18 +3,16 @@
 
 @attribute [Authorize]
 @rendermode InteractiveServer
-@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyBackendService
+@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyEvaluationBackendService
 @inject IConfiguration Configuration
-@inject NavigationManager MyNavigationManager
-@page "/feedback-specific-detail-page/{id:guid}/random"
+@inject NavigationManager MyNavigation
+@page "/employee-specific-detail-page/{id:guid}/random"
 
 <style>
     form .row {
         margin-bottom: 16px;
     }
 </style>
-
-<h3>Specific File</h3>
 
 <div class="rz-shadow-7 rz-mb-12 feedback-container">
     <div class="create-feedback-button">
@@ -41,32 +39,32 @@
                                 <div class="col-md-9">
                                     <RadzenTextBox Style="width: 50%; color: black;" @bind-value="feedbackDetail.Stage" Placeholder="Stage" Disabled />
                                  </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 align-items-center d-flex">
-                                    <RadzenLabel Text="QA Name" />
-                                </div>
-                                <div class="col-md-9">
-                                    <RadzenTextBox Style="width: 50%; color: black;" @bind-value="feedbackDetail.QualityAssurance" Placeholder="Quality Assurance" Disabled />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 align-items-center d-flex">
-                                    <RadzenLabel Text="Publisher Name" />
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-3 align-items-center d-flex">
+                                     <RadzenLabel Text="QA Name" />
+                                 </div>
+                                 <div class="col-md-9">
+                                     <RadzenTextBox Style="width: 50%; color: black;" @bind-value="feedbackDetail.QualityAssurance" Placeholder="Quality Assurance" Disabled />
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-3 align-items-center d-flex">
+                                     <RadzenLabel Text="Publisher Name" />
 
-                                </div>
-                                <div class="col-md-9">
-                                    <RadzenTextBox Style="width: 50%; color: black;" @bind-value="feedbackDetail.PublisherName" Placeholder="Publisher Name" Disabled />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 align-items-center d-flex">
-                                    <RadzenLabel Text="Journal ID" />
-                                </div>
-                                <div class="col-md-9">
-                                    <RadzenTextBox Style="width: 50%; color: black;" @bind-value="feedbackDetail.JournalId" Placeholder="Journal ID" Disabled />
-                                </div>
-                            </div>
+                                 </div>
+                                 <div class="col-md-9">
+                                     <RadzenTextBox Style="width: 50%; color: black;" @bind-value="feedbackDetail.PublisherName" Placeholder="Publisher Name" Disabled />
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-3 align-items-center d-flex">
+                                     <RadzenLabel Text="Journal ID" />
+                                 </div>
+                                 <div class="col-md-9">
+                                     <RadzenTextBox Style="width: 50%; color: black;" @bind-value="feedbackDetail.JournalId" Placeholder="Journal ID" Disabled />
+                                 </div>
+                             </div>
                              <div class="row">
                                  <div class="col-md-3 align-items-center d-flex">
                                      <RadzenLabel Text="Article ID" />
@@ -75,7 +73,7 @@
                                      <RadzenTextBox Style="width: 50%; color: black;" @bind-value="feedbackDetail.ArticleId" Placeholder="Article ID" Disabled />
                                  </div>
                              </div>
-                      
+
                          </RadzenFieldset>
                      </div>
                      <div class="col-md-4">
@@ -116,7 +114,7 @@
                                  <RadzenLabel Text="Page Count" />
                              </div>
                              <div class="col-md-9">
-                                 <RadzenNumeric Style="width: 50%; color:black;" @bind-Value="feedbackDetail.PageCount" Placeholder="Page count" Disabled />
+                                 <RadzenNumeric Style="width: 50%; color: black;" @bind-Value="feedbackDetail.PageCount" TValue="double" Placeholder="Page Count" Disabled />
                              </div>
                          </div>
                          <div class="row">
@@ -124,7 +122,7 @@
                                  <RadzenLabel Text="Error Count" />
                              </div>
                              <div class="col-md-9">
-                                 <RadzenNumeric Style="width:50%; color:black;" @bind-Value="feedbackDetail.ErrorCount" Placeholder="Error Count" Disabled />
+                                 <RadzenNumeric Style="width: 50%; color: black;" @bind-value="feedbackDetail.ErrorCount" TValue="double" Placeholder="Error Count" Disabled />
                              </div>
                          </div>
                          <div class="row">
@@ -138,22 +136,22 @@
                      </div>
                      <div class="col-md-4">
 
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Front Matter" />
-                            </div>
-                            <div class="col-md-9">
-                                    <RadzenTextBox Style="width: 50%; color:black;" @bind-value="feedbackDetail.Matter" Placeholder="FM/Non-FM" Disabled />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Error Location" />
-                            </div>
-                            <div class="col-md-9">
-                                    <RadzenTextBox Style="width: 50%; color:black;" @bind-value="feedbackDetail.ErrorLocation" Placeholder="Error Location" Disabled />
-                            </div>
-                        </div>
+                         <div class="row">
+                             <div class="col-md-3 align-items-center d-flex">
+                                 <RadzenLabel Text="Front Matter" />
+                             </div>
+                             <div class="col-md-9">
+                                 <RadzenTextBox Style="width: 50%; color:black;" @bind-value="feedbackDetail.Matter" Placeholder="FM/Non-FM" Disabled />
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-3 align-items-center d-flex">
+                                 <RadzenLabel Text="Error Location" />
+                             </div>
+                             <div class="col-md-9">
+                                 <RadzenTextBox Style="width: 50%; color:black;" @bind-value="feedbackDetail.ErrorLocation" Placeholder="Error Location" Disabled />
+                             </div>
+                         </div>
                          <div class="row">
                              <div class="col-md-3 align-items-center d-flex">
                                  <RadzenLabel Text="Error Code" />
@@ -212,108 +210,102 @@
                                                  Data="@status" style="width: 100%; color: black;" TextProperty="Text" ValueProperty="Value" Disabled />
                              </div>
                          </div>
-                    </div>
-                    <br />
-                    <hr />
+                     </div>
+                     <br />
+                     <hr />
                      <h3>Feedback Validity</h3>
-                    <div class="col-md-6">                        
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Root Cause" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.RootCause" Placeholder="Root Cause" Disabled />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Corrective Action" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.CorrectiveAction" Placeholder="Corrective Action" Disabled />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Nature of CA" />
-                            </div>
-                            <div class="col-md-8">
-                                @* <RadzenDropDown @bind-Value="feedbackDetail.NatureOfCA" AllowClear="true" TValue="string" Placeholder="Nature of CA" Data="@natureOfCA" style="width: 100%; color:black;" TextProperty="Text" ValueProperty="Value" Disabled /> *@
-                                 <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.NatureOfCA" Placeholder="Owner of CA" Disabled />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Owner of CA" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.OwnerOfCA" Placeholder="Owner of CA" Disabled />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Target Date (CA)" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDatePicker Style="width: 53%; color: black;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionCA" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                    DateFormat="MM/dd/yyyy" Placeholder="MM/DD/YYYY" Disabled />
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-md-6">
+                     <div class="col-md-6">
+                         <div class="row">
+                             <div class="col-md-3 align-items-center d-flex">
+                                 <RadzenLabel Text="Root Cause" />
+                             </div>
+                             <div class="col-md-8">
+                                 <RadzenTextBox Style="width: 100%;" @bind-Value="feedbackDetail.RootCause" Placeholder="Root Cause" />
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-3 align-items-center d-flex">
+                                 <RadzenLabel Text="Corrective Action" />
+                             </div>
+                             <div class="col-md-8">
+                                 <RadzenTextBox Style="width: 100%;" @bind-Value="feedbackDetail.CorrectiveAction" Placeholder="Corrective Action" />
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-3 align-items-center d-flex">
+                                 <RadzenLabel Text="Nature of CA" />
+                             </div>
+                             <div class="col-md-8">
+                                 <RadzenDropDown @bind-Value="feedbackDetail.NatureOfCA" AllowClear="true" TValue="string" Placeholder="Nature of CA" Data="@natureOfCA" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-3 align-items-center d-flex">
+                                 <RadzenLabel Text="Owner of CA" />
+                             </div>
+                             <div class="col-md-8">
+                                 <RadzenTextBox Style="width: 100%;" @bind-Value="feedbackDetail.OwnerOfCA" Placeholder="Owner of CA" />
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-3 align-items-center d-flex">
+                                 <RadzenLabel Text="Target Date (CA)" />
+                             </div>
+                             <div class="col-md-8">
+                                 <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionCA" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
+                                                   DateFormat="MM/dd/yyyy" Placeholder="MM/DD/YYYY" />
+                             </div>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
                          <div class="row">
                              <div class="col-md-3 align-items-center d-flex">
                                  <RadzenLabel Text="Preventive Measure" />
                              </div>
                              <div class="col-md-8">
-                                 <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.PreventiveMeasure" Placeholder="Preventive Measure" Disabled />
+                                 <RadzenTextBox Style="width: 100%;" @bind-Value="feedbackDetail.PreventiveMeasure" Placeholder="Preventive Measure" />
                              </div>
                          </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Nature of PM" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="feedbackDetail.NatureOfPM" AllowClear="true" TValue="string" Placeholder="Nature of PM"
-                                                Data="@natureOfPM" style="width: 100%; color:black;" TextProperty="Text" ValueProperty="Value" Disabled />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Owner of PM" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.OwnerOfPM" Placeholder="Owner of PM" Disabled />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 align-items-center d-flex">
-                                <RadzenLabel Text="Target Date (PM)" />
-                            </div>
-                            <div class="col-md-8">
-                                <RadzenDatePicker Style="width: 53%; color: black;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionPM" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                    DateFormat="MM/dd/yyyy" Placeholder="MM/DD/YYYY" Disabled />
-                            </div>
-                        </div>
+                         <div class="row">
+                             <div class="col-md-3 align-items-center d-flex">
+                                 <RadzenLabel Text="Nature of PM" />
+                             </div>
+                             <div class="col-md-8">
+                                 <RadzenDropDown @bind-Value="feedbackDetail.NatureOfPM" AllowClear="true" TValue="string" Placeholder="Nature of PM"
+                                                 Data="@natureOfPM" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-3 align-items-center d-flex">
+                                 <RadzenLabel Text="Owner of PM" />
+                             </div>
+                             <div class="col-md-8">
+                                 <RadzenTextBox Style="width: 100%;" @bind-Value="feedbackDetail.OwnerOfPM" Placeholder="Owner of PM" />
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-3 align-items-center d-flex">
+                                 <RadzenLabel Text="Target Date (PM)" />
+                             </div>
+                             <div class="col-md-8">
+                                 <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionPM" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
+                                                   DateFormat="MM/dd/yyyy" Placeholder="MM/DD/YYYY" />
+                             </div>
+                         </div>
                          <div class="row">
                              <div class="col-md-3 align-items-center d-flex">
                                  <RadzenLabel Text="Validity" />
                              </div>
                              <div class="col-md-8">
-                                 <RadzenTextArea Style="width: 100%;" @bind-Value="feedbackDetail.Validate" Placeholder="Please Validate" Disabled />
+                                 <RadzenTextArea Style="width: 100%;" @bind-Value="feedbackDetail.Validate" Placeholder="Please Validate and end it with your position and name. Thank you!!!..." />
                              </div>
                          </div>
-                    </div>
-                </div>
-            </div>
-        </EditForm>
+                     </div>
+                 </div>
+             </div>
+         </EditForm>
     }
 </div>
-
-@* <div class="container">
-    <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.FeedbackSpecificDetail />
-</div> *@
 
 @code {
     [Parameter]
@@ -327,13 +319,13 @@
     {
         await base.OnInitializedAsync();
 
-        feedbackDetail = await MyBackendService.GetFeedbackRecord(id);
+        feedbackDetail = await MyEvaluationBackendService.GetFeedbackRecord(id);
     }
 
     private async Task Save()
     {
-        await MyBackendService.SaveFeedback(feedbackDetail);
+        await MyEvaluationBackendService.SaveFeedback(feedbackDetail);
 
-        MyNavigationManager.NavigateTo("/feedback-performance");
+        MyNavigation.NavigateTo("/feedback-performance");
     }
 }

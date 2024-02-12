@@ -68,19 +68,18 @@ namespace NTDataHiveGrpcService.Services
             try
             {
                 var record = new FeedbackRecordArray();
+                record.Status = new Status { Code = 0, Message = "Feedback is queryable" };
                 var feedbackRecord = new BLL.RecordContents.EvaluationFilter(request.EmployeeName);
 
-                if (string.IsNullOrWhiteSpace(request.EmployeeName))
-                    return Task.FromResult(new FeedbackRecordArray { Status = new Status { Code = 3, Message = "WebId Missed" } });
+                var feedList = _feedbackRecordRepository.GetRecordByEmployeeName(feedbackRecord);
 
-                if (_feedbackRecordRepository.GetRecordByEmployeeName(request.EmployeeName, out BLL.RecordContents.EvaluationFilter evaluationFilter))
+                if (feedList != null) 
                 {
-                    var feedbackList = evaluationFilter.feedbackRecordRequest;
-
-                    record.Items.Add(feedbackList);
+                    record.Items.Add(feedList);
 
                     return Task.FromResult(record);
                 }
+                
                 return Task.FromResult(new FeedbackRecordArray { Status = new Status { Code = 5, Message = "Feedback Record not Found" } });
             }
             catch (Exception ex)

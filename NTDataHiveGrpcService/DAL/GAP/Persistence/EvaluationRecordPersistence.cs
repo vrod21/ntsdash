@@ -52,34 +52,22 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         }
         #endregion
 
-        #region GetAllFeedbackByEmployeeName
-        public bool GetFeedBackByEmployeeName(string employeeName, out BLL.RecordContents.EvaluationFilter evaluationRecord)
+        #region GetFeedBackByEmployeeName
+        public List<FeedbackRecordRequest> GetFeedBackByEmployeeName(BLL.RecordContents.EvaluationFilter evaluationRecord)
         {
-            if (CreateFeedbackRecordByEmployeeName(employeeName, out BLL.RecordContents.EvaluationFilter evaluationRecordLocal))
+            var getRecord = new EvaluationRecordAdapter(_config);
+            var selectFeedback = getRecord.GetFeedbackByEmployeeNameRecord(evaluationRecord.feedbackRecordRequest.WebId);
+
+            if (selectFeedback.Count > 0)
             {
-                evaluationRecord = evaluationRecordLocal;
-                return true;
+                return selectFeedback;
             }
-            else
-            {
-                evaluationRecord = new BLL.RecordContents.EvaluationFilter(employeeName);
-                return false;
-            }
-            
+
+            _nlog.Error($"The selected feedback value {selectFeedback} is null");
+
+            return selectFeedback;
         }
         #endregion
-
-        private bool CreateFeedbackRecordByEmployeeName(string employeeName, out BLL.RecordContents.EvaluationFilter evaluationRecord)
-        {
-            evaluationRecord = new BLL.RecordContents.EvaluationFilter(employeeName);
-
-            var feedbackAdapter = new EvaluationRecordAdapter(_config);
-
-            if (!feedbackAdapter.GetFeedbackByEmployeeNameRecord(evaluationRecord.feedbackRecordRequest))
-                return false;
-            return true;
-
-        }
 
         #region SelectById
         public bool SelectById(string webId, out BLL.RecordContents.EvaluationFilter evaluationRecord)

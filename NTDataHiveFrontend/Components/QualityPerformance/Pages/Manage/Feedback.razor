@@ -229,6 +229,24 @@
                                               DateFormat="MM/dd/yyyy h:mm:ss tt" Placeholder="@($"{@DateTime.Now.ToLocalTime()}")" Change="@(args => PickDateOfTime())" />
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-3 align-items-center d-flex">
+                            <RadzenLabel Text="Status of CA" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDropDown @bind-Value="addFeedback.StatusOfCA" AllowClear="true" TValue="string" Placeholder="Status of CA"
+                                            Data="@status" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 align-items-center d-flex">
+                            <RadzenLabel Text="Status of PM" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDropDown @bind-Value="addFeedback.StatusOfPM" AllowClear="true" TValue="string" Placeholder="Status of PM"
+                                            Data="@status" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                        </div>
+                    </div>
                 </RadzenFieldset>
             </div>
         </div>
@@ -250,6 +268,7 @@
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> errorCode = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.ErrorCode>();
 
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> stage = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.Stage>();
+    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> status = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.Status>();
 
     private List<CoreBusiness.Dropdown.Publisher> publisherRecord;
     private List<CoreBusiness.Dropdown.Journal> journalRecord;

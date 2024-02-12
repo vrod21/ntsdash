@@ -60,6 +60,9 @@ namespace NTDataHiveGrpcService.Migrations
                     b.Property<DateTime>("TargetDateOfCompletionPM")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Validate")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ApprovalIdExt");
 
                     b.ToTable("Approval");
@@ -137,6 +140,9 @@ namespace NTDataHiveGrpcService.Migrations
                     b.Property<string>("Stage")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Test")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("WebId")
                         .HasColumnType("nvarchar(max)");
 
@@ -176,6 +182,9 @@ namespace NTDataHiveGrpcService.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -186,9 +195,6 @@ namespace NTDataHiveGrpcService.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WebId")
