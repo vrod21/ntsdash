@@ -523,7 +523,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 CreatedAt = evaluation.CreatedAt.ToUniversalTime().ToTimestamp(),
                 YearMonth = evaluation.YearMonth.ToUniversalTime().ToTimestamp(),
             };        
-        
         }
         #endregion
     }
