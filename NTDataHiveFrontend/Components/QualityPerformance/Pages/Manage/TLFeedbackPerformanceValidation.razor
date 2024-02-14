@@ -15,7 +15,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject UserManager<ApplicationUser> UserManager
 
-<h3 style="margin-bottom: 40px;">Feedback Performance Validation</h3>
+<h3 style="margin-bottom: 40px;"> Feedback Performance Validation</h3>
 
 <div class="container-fluid">
     <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@feedbackRecord" TItem="NTDataHiveFrontend.Model.Feedback" AllowColumnResiz="false" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
@@ -55,6 +55,14 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
+        var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        var nameIdentifier = auth.User;
+
+        userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        personRecord = await MyPersonBackendService.GetPersonRecord(userId);
 
         feedbackRecord = await MyEvaluationBackendService.GetAllFeedback();
     }

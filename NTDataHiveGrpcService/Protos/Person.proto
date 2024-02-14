@@ -20,7 +20,6 @@ message PersonEmpty {
 }
 message PersonRequest {
     string webId = 1;
-    string username = 2;
     string emailAddress = 3;
     string firstName = 4;
     string lastName = 5;
@@ -44,4 +43,5 @@ message PersonArray {
 
 message PersonRecordFilter {
     string webId = 1;
+    string reportingManager = 2;
 }

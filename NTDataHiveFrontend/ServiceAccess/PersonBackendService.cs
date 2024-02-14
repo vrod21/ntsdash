@@ -137,7 +137,6 @@ namespace NTDataHiveFrontend.ServiceAccess
             var grpcPersonRecord = new NTDataHiveGrpcService.PersonRequest()
             {
                 WebId = personRecord.WebId,
-                Username = personRecord.Username,
                 EmailAddress = personRecord.EmailAddress,
                 FirstName = personRecord.FirstName,
                 LastName = personRecord.LastName,
@@ -163,7 +162,6 @@ namespace NTDataHiveFrontend.ServiceAccess
             {
                 WebId = personRecord.WebId,
                 EmailAddress = personRecord.EmailAddress,
-                Username = personRecord.Username,
                 FirstName = personRecord.FirstName,
                 LastName = personRecord.LastName,
                 FullName = personRecord.FullName,

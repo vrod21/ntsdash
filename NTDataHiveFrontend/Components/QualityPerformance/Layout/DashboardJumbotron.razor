@@ -36,22 +36,20 @@ else
                         <div Class="rz-p-0 rz-p-md-5">
                             <h4><b>Your Credentials</b></h4>
                             <RadzenText class="rz-color-black" Text="@($"Email: {personRecord.EmailAddress}")" />
-                            <RadzenText class="rz-color-black" Text="@($"Usename: {personRecord.Username}")" />
                             @if (personRecord.FirstName != "" && personRecord.LastName != "" && 
                                 personRecord.Position != "" && personRecord.CompanyId != "")
                             {
-                                <RadzenText class="rz-color-black" Text="@($"First Name: {personRecord.FirstName}")" />
-                                <RadzenText class="rz-color-black" Text="@($"Last Name: {personRecord.LastName}")" />
+                                <RadzenText class="rz-color-black" Text="@($"Name: {personRecord.FullName}")" />
                                 <RadzenText class="rz-color-black" Text="@($"Position: {personRecord.Position}")" />
                                 <RadzenText class="rz-color-black" Text="@($"Company Id: {personRecord.CompanyId}")" />
-                            }  
+                            }
                         </div>
                     </div>
                 </RadzenColumn>
                 <RadzenColumn class="rz-p-5">
                     <AccuracyRating />
                 </RadzenColumn>
-                <RadzenColumn class="rz-p-5">                    
+                <RadzenColumn class="rz-p-5">
                     <ClockGauge />
                 </RadzenColumn>
             </RadzenRow>

@@ -49,6 +49,13 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         }
         #endregion
 
+        #region GetPersonByReportingManager
+        public List<PersonRequest> GetPersonByReportingManager(BLL.RecordContents.PersonFilter personRecord)
+        {
+            throw new Exception("Hahaha...");
+        }
+        #endregion
+
         #region SelectById
         public bool SelectById(string webid, out BLL.RecordContents.PersonFilter personRecord)
         {
