@@ -77,6 +77,7 @@ message FeedbackRecordRequest {
     google.protobuf.Timestamp dateChecked = 50;
 	google.protobuf.Timestamp createdAt = 51;
     google.protobuf.Timestamp yearMonth = 52;
+    string state = 53;
 
 	google.rpc.Status status = 99;
 }

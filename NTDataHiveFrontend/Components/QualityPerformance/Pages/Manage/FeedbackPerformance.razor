@@ -12,7 +12,7 @@
 @inject Microsoft.JSInterop.IJSRuntime JS
 
 <div class="create-feedback-button">
-    <span><RadzenButton Style="background-color: #e81f4b;" Click="@DownloadExcelFile" Text="Download An Excel File Via Publisher Name" /></span>
+@*     <span><RadzenButton Style="background-color: #e81f4b;" Click="@DownloadExcelFile" Text="Download An Excel File Via Publisher Name" /></span> *@
     <RadzenButton Style="background-color: #e81f4b;" Click="@DownloadExcelFile" Text="Download An Excel File" />
 </div>
 
@@ -27,7 +27,6 @@
         <Template Context="data">
             <RadzenCard class="rz-p-12" Style="margin-bottom:20px">
                 Description of Error :
-
                 <div class="rz-text-align-center rz-p-12 rz-shadow-7 rz-border-radius-3">
                     <p class="lead" style="text-align:center; white-space:pre-line;">
                         @data.DescriptionOfError
@@ -51,6 +50,8 @@
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="Department" Title="Department Name"
                                   Width="150px" />
             <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="RootCause" Title="Root Cause"
+                                  Width="150px" />
+            <RadzenDataGridColumn TItem="NTDataHiveFrontend.Model.Feedback" Property="State" Title="Article Status"
                                   Width="150px" />
             <RadzenDataGridColumn TItem="Model.Feedback" Property="WebId" Title="Select Report" Width="200px">
                 <Template Context="data">

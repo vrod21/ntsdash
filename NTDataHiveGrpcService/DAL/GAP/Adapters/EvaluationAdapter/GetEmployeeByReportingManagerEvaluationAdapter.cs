@@ -1,18 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NLog;
 using NTDataHiveGrpcService.DAL.Data;
-
+using NTDataHiveGrpcService.DAL.Mapper;
 namespace NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter
 {
-    public class GetEvaluationAdapter
+    public class GetEmployeeByReportingManagerEvaluationAdapter
     {
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         private readonly IConfiguration _config;
         private DbContextOptions<NTDataHiveContext> _contextOptions;
         private TimeZoneInfo _currentTimeZone;
-        private CreateNewEvaluationMapper _mapper;
+        private CreateNewPersonMapper _mapper;
 
-        public GetEvaluationAdapter(IConfiguration config)
+        public GetEmployeeByReportingManagerEvaluationAdapter(IConfiguration config)
         {
             _config = config;
             var optionsBuilder = new DbContextOptionsBuilder<NTDataHiveContext>();
@@ -22,7 +22,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter
 
         internal List<PersonRequest> GetEmployeeByReportingManager(string feedbackRecord)
         {
-            List<PersonRequest> record = new List<PersonRequest>();            ;
+            List<PersonRequest> record = new List<PersonRequest>();
             try
             {
                 using var dbContext = new NTDataHiveContext(_contextOptions);

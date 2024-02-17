@@ -36,6 +36,7 @@ namespace NTDataHiveFrontend.Model
         public string StatusOfCA { get; set; } = "";
         public string StatusOfPM { get; set; } = "";
         public string Validate { get; set; } = "";
+        public string State { get; set; } = "";
         public string CopyEditingLevel { get; set; } = "";
         public DateTime? CreatedAt { get; set; }
         public DateTime? YearMonth { get; set; }

@@ -14,6 +14,8 @@ service PersonBackend {
     rpc GetAllPerson (PersonEmpty) returns (PersonArray);
 
     rpc GetPersonRecord (PersonRecordFilter) returns (PersonRequest);
+
+    rpc GetPersonByReportingManager (PersonRecordFilter) returns (PersonArray);
 }
 message PersonEmpty {
     

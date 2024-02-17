@@ -62,6 +62,10 @@ namespace NTDataHiveGrpcService.Services
         }
         #endregion
 
+        #region GetPerson
+        
+        #endregion
+
         #region GetPersonRecord
         public override Task<PersonRequest> GetPersonRecord(PersonRecordFilter request, ServerCallContext context)
         {

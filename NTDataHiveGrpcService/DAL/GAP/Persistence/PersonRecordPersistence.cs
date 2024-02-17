@@ -1,5 +1,6 @@
 ﻿using NLog;
 using NTDataHiveGrpcService.DAL.GAP.Adapters;
+using NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter;
 using NTDataHiveGrpcService.DAL.GAP.PersistenceInterfaces;
 
 namespace NTDataHiveGrpcService.DAL.GAP.Persistence
@@ -52,7 +53,17 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         #region GetPersonByReportingManager
         public List<PersonRequest> GetPersonByReportingManager(BLL.RecordContents.PersonFilter personRecord)
         {
-            throw new Exception("Hahaha...");
+            var getRecord = new GetEmployeeByReportingManagerEvaluationAdapter(_config);
+            var selectReportingManager = getRecord.GetEmployeeByReportingManager(personRecord.personRequest.WebId);
+
+            if (selectReportingManager.Count > 0)
+            {
+                return selectReportingManager;
+            }
+
+            _nlog.Error($"The selected feedback value {selectReportingManager} is null");
+
+            return selectReportingManager;
         }
         #endregion
 
