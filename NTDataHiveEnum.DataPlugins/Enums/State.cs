@@ -8,6 +8,8 @@ namespace NTDataHiveEnum.DataPlugins.Enums
 {
     public enum State
     {
-
+        PM,
+        Operator,
+        QMS,
     }
 }

@@ -64,6 +64,17 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
 
         #endregion
 
+        #region GetRecordByType
+        public List<PersonRequest> GetRecordByType()
+        {
+            List<PersonRequest> personList = _recordPersistence.GetPersonByType();
+
+            _nlog.Trace("Person is order by Firstname");
+
+            return personList;
+        }
+        #endregion
+
         public bool GetRecord(string WebId, out RecordContents.PersonFilter personFilter)
         {
             if (WebId == null)

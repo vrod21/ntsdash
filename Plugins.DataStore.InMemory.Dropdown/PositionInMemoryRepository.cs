@@ -21,12 +21,10 @@ namespace Plugins.DataStore.InMemory.Dropdown
                 new Position { Id = 5, Name = "Operations Manager" },
                 new Position { Id = 6, Name = "PRE - EDITOR" },
                 new Position { Id = 7, Name = "QUALITY CONTROL" },
-                new Position { Id = 8, Name = "Manager" },
-                new Position { Id = 9, Name = "COPY EDITOR" },
-                //new Position { Id = 10, Name = "Assistant Manager" },
-                //new Position { Id = 11, Name = "Team Lead" },
-                //new Position { Id = 12, Name = "Production Supervisor" },
-                new Position { Id = 13, Name = "Others" },
+                new Position { Id = 8, Name = "COPY EDITOR" },
+                new Position { Id = 9, Name = "IT - Personel (Admin)"},
+                new Position { Id = 10, Name = "Others" },
+                
             };
         }
 

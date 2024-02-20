@@ -67,6 +67,22 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         }
         #endregion
 
+        #region GetPersonByType
+        public List<PersonRequest> GetPersonByType()
+        {
+            var selectPerson = new PersonRecordAdapter(_config).GetPersonByTypeRecord();            
+
+            if (selectPerson.Count > 0)
+            {
+                return selectPerson;
+            }
+
+            _nlog.Error($"The selected feedback value {selectPerson} is null");
+
+            return selectPerson;
+        }
+        #endregion
+
         #region SelectById
         public bool SelectById(string webid, out BLL.RecordContents.PersonFilter personRecord)
         {

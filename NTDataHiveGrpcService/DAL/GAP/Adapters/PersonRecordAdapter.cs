@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NLog;
 using NTDataHiveGrpcService.BLL.RecordContents;
 using NTDataHiveGrpcService.DAL.Data;
+using NTDataHiveGrpcService.DAL.Mapper;
 using NTDataHiveGrpcService.DAL.Model;
 
 namespace NTDataHiveGrpcService.DAL.GAP.Adapters
@@ -12,6 +13,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         private readonly IConfiguration _config;
         private DbContextOptions<NTDataHiveContext> _contextOptions;
+        private readonly CreateNewPersonMapper _mapper;
 
         public PersonRecordAdapter(IConfiguration config)
         {
@@ -19,6 +21,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             var optionsBuilder = new DbContextOptionsBuilder<NTDataHiveContext>();
             optionsBuilder.UseSqlServer(config.GetConnectionString("connectionString"));
             _contextOptions = optionsBuilder.Options;
+            _mapper = new CreateNewPersonMapper();
         }
 
         #region InsertPerson
@@ -99,7 +102,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 using var dbContext = new NTDataHiveContext(_contextOptions);
                 var record = from person in dbContext.Person
                           orderby person.FirstName
-                          select CreateBNewBllPerson(person);
+                          select _mapper.CreateNewPesonMapper(person);
 
                 if (record != null)
                 {
@@ -112,6 +115,31 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 _nlog.Fatal($"{ex.Message}");
             }
 
+            return personRecord;
+        }
+        #endregion
+
+        #region GetPersonByType
+        internal List<PersonRequest> GetPersonByTypeRecord()
+        {
+            List<PersonRequest> personRecord = new List<PersonRequest>();
+            try
+            {
+                using var dbContext = new NTDataHiveContext(_contextOptions);
+                var personType = (from type in dbContext.Person
+                                  where type.Type == "Operator"
+                                  orderby type.FirstName
+                                  select _mapper.CreateNewPesonMapper(type)).ToList();
+
+                if (personType.Count > 0)
+                {
+                    return personType;
+                }
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal($"{ex.Message}");                
+            }
             return personRecord;
         }
         #endregion
@@ -182,27 +210,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
                 _nlog.Fatal(ex);
                 return 0;
             }
-        }
-        #endregion
-
-        #region CreateNewBllPerson
-        private static PersonRequest CreateBNewBllPerson(Person person)
-        {
-            return new PersonRequest()
-            {
-                WebId = person.WebId,
-                EmailAddress = person.EmailAddress,
-                FirstName = person.FirstName,
-                LastName = person.LastName,
-                FullName = person.FullName,
-                Birthday = person.Birthday.ToUniversalTime().ToTimestamp(),
-                Position = person.Position,
-                CompanyId = person.CompanyId,
-                AccountName = person.AccountName,
-                ReportingManager = person.ReportingManager,
-                Department = person.Department,
-                Type = person.Type,
-            };
         }
         #endregion
     }

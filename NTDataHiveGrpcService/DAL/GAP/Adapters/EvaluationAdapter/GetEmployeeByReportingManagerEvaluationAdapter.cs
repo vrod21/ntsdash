@@ -9,8 +9,8 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         private readonly IConfiguration _config;
         private DbContextOptions<NTDataHiveContext> _contextOptions;
+        private readonly CreateNewPersonMapper _mapper;
         private TimeZoneInfo _currentTimeZone;
-        private CreateNewPersonMapper _mapper;
 
         public GetEmployeeByReportingManagerEvaluationAdapter(IConfiguration config)
         {
@@ -18,6 +18,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter
             var optionsBuilder = new DbContextOptionsBuilder<NTDataHiveContext>();
             optionsBuilder.UseSqlServer(config.GetConnectionString("connectionString"));
             _contextOptions = optionsBuilder.Options;
+            _mapper = new CreateNewPersonMapper();
         }
 
         internal List<PersonRequest> GetEmployeeByReportingManager(string feedbackRecord)

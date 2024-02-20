@@ -1,23 +1,27 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
 using NLog;
+using NTDataHiveFrontend.Mapper;
+using NTDataHiveFrontend.Utilities.Filter;
 
 namespace NTDataHiveFrontend.ServiceAccess
 {
     public class EvaluationBackendService
     {
         GrpcChannel _channel;
-
         NTDataHiveGrpcService.EvaluationBackend.EvaluationBackendClient _client;
-
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         private readonly string _url;
-
+        private readonly FeedbackGrpcFormatMapper _frontendFormatMapper;
+        private readonly FeedbackFrontendFormatMapper _grpcFormatMapper;
+        private readonly FeedbackGetFilter _getFilter;
         public EvaluationBackendService(ILogger<EvaluationBackendService> logger, IConfiguration config)
         {
             _url = config.GetValue<string>("ServiceData:BackendService:URL");
+            _frontendFormatMapper = new FeedbackGrpcFormatMapper();
+            _grpcFormatMapper = new FeedbackFrontendFormatMapper();
+            _getFilter = new FeedbackGetFilter();
         }
-
         private void Connect()
         {
             try
@@ -45,7 +49,7 @@ namespace NTDataHiveFrontend.ServiceAccess
             if (_client == null)
                 Connect();
 
-            NTDataHiveGrpcService.FeedbackRecordRequest grpcFeedbackRecord = ToGrpcFormat(feedbackRecord);
+            NTDataHiveGrpcService.FeedbackRecordRequest grpcFeedbackRecord = _frontendFormatMapper.ToGrpcFormat(feedbackRecord);
 
             Google.Rpc.Status result;
             try
@@ -72,7 +76,7 @@ namespace NTDataHiveFrontend.ServiceAccess
                 NTDataHiveGrpcService.FeedbackRecordRequest result;
                 try
                 {
-                    result = await _client.GetFeedbackRecordAsync(GetFilterFor(id));
+                    result = await _client.GetFeedbackRecordAsync(_getFilter.GetFilterFor(id));
                 }
                 catch (Exception ex)
                 {
@@ -82,7 +86,7 @@ namespace NTDataHiveFrontend.ServiceAccess
 
                 if (result.Status.Code == 0)
                 {
-                    Model.Feedback revision = ToFrontendFormat(result);
+                    Model.Feedback revision = _grpcFormatMapper.ToFrontendFormat(result);
 
                     if (result.WebId != "")
                         return revision;
@@ -98,34 +102,6 @@ namespace NTDataHiveFrontend.ServiceAccess
         }
         #endregion
 
-        #region GetFilterFor
-        public NTDataHiveGrpcService.FeedbackRecordFilter GetFilterFor(Guid id)
-        {
-            return new NTDataHiveGrpcService.FeedbackRecordFilter()
-            {
-                WebId = id.ToString(),
-            };
-        }
-        
-        public NTDataHiveGrpcService.FeedbackRecordFilter GetFilterFor(Model.Feedback feedback)
-        {
-            return new NTDataHiveGrpcService.FeedbackRecordFilter()
-            {
-                WebId = feedback.WebId.ToString(),
-                PublisherName = feedback.PublisherName,
-                EmployeeName = feedback.EmployeeName,
-            };
-        }
-
-        public NTDataHiveGrpcService.FeedbackRecordFilter GetFilterFor(string name)
-        {
-            return new NTDataHiveGrpcService.FeedbackRecordFilter()
-            {
-                EmployeeName = name,
-            };
-        }
-        #endregion
-
         #region GetRecordByEmployeeName
         public async Task<List<Model.Feedback>> GetRecordByEmployeeName(Model.Person feedback)
         {
@@ -134,13 +110,13 @@ namespace NTDataHiveFrontend.ServiceAccess
 
             try
             {
-                var feedbackList = await _client.GetFeedbackByEmployeeNameAsync(GetFilterFor(feedback.FullName));
+                var feedbackList = await _client.GetFeedbackByEmployeeNameAsync(_getFilter.GetFilterFor(feedback.FullName));
 
                 List<Model.Feedback> feedbacks = new List<Model.Feedback>();
 
                 foreach (var feedbackRecord in feedbackList.Items)
                 {
-                    feedbacks.Add(ToFrontendFormat(feedbackRecord));
+                    feedbacks.Add(_grpcFormatMapper.ToFrontendFormat(feedbackRecord));
                 }
                 return feedbacks;
             }
@@ -152,7 +128,6 @@ namespace NTDataHiveFrontend.ServiceAccess
         }
         #endregion
 
-
         #region GetFeedbackRecordByPublisherName
         public async Task<List<Model.Feedback>> GetFeedbackRecordByPublisherName(Model.Feedback feedback)
         {
@@ -161,24 +136,22 @@ namespace NTDataHiveFrontend.ServiceAccess
 
             try
             {
-                var feedbackList = await _client.GetFeedbackByPublisherNameAsync(GetFilterFor(feedback));
+                var feedbackList = await _client.GetFeedbackByPublisherNameAsync(_getFilter.GetFilterFor(feedback));
 
                 List<Model.Feedback> feedbacks = new List<Model.Feedback>();
 
                 foreach (var feedbackRecord in feedbackList.Items)
                 {
-                    feedbacks.Add(ToFrontendFormat(feedbackRecord));
+                    feedbacks.Add(_grpcFormatMapper.ToFrontendFormat(feedbackRecord));
                 }
                 return feedbacks;
             }
             catch (Exception ex)
             {
                 _nlog.Error($"Publisher name is null" + ex.Message);
-                return null;
-            }
-          
+                throw;
+            } 
         }
-
         #endregion
 
         #region GetAllFeedback
@@ -193,141 +166,9 @@ namespace NTDataHiveFrontend.ServiceAccess
 
             foreach (var feedbackRecord in feedback.Items)
             {
-                evaluationFeedback.Add(ToFrontendFormat(feedbackRecord));
+                evaluationFeedback.Add(_grpcFormatMapper.ToFrontendFormat(feedbackRecord));
             }
             return evaluationFeedback;
-        }
-        #endregion
-
-        #region ToGrpcFormat
-        public NTDataHiveGrpcService.FeedbackRecordRequest ToGrpcFormat(Model.Feedback feedback)
-        {
-            var grpcFeedbackRecord = new NTDataHiveGrpcService.FeedbackRecordRequest()
-            {
-                WebId = feedback.id.ToString(),
-                Stage = feedback.Stage,
-                QualityAssurance = feedback.QualityAssurance,
-                PublisherName = feedback.PublisherName,
-                JournalId = feedback.JournalId,
-                ArticleId = feedback.ArticleId,
-                CopyEditedBy = feedback.CopyEditedBy,
-                PageCount = feedback.PageCount,
-                ErrorCount = feedback.ErrorCount,
-                DescriptionOfError = feedback.DescriptionOfError,
-                Matter = feedback.Matter,
-                ErrorLocation = feedback.ErrorLocation,
-                ErrorCode = feedback.ErrorCode,
-                ErrorType = feedback.ErrorType,
-                ErrorSubtype = feedback.ErrorSubtype,
-                ErrorCategory = feedback.ErrorCategory,
-                IntroducedOrMissed = feedback.IntroducedOrMissed,
-                Department = feedback.Department,
-                EmployeeName = feedback.EmployeeName,
-                RootCause = feedback.RootCause,
-                CorrectiveAction = feedback.CorrectiveAction,
-                NatureOfCA = feedback.NatureOfCA,
-                OwnerOfCA = feedback.OwnerOfCA,
-                PreventiveMeasure = feedback.PreventiveMeasure,
-                NatureOfPM = feedback.NatureOfPM,
-                OwnerOfPM = feedback.OwnerOfPM,
-                StatusOfCA = feedback.StatusOfCA,
-                StatusOfPM = feedback.StatusOfPM,
-                Validate = feedback.Validate,
-                State = feedback.State,
-                CopyEditingLevel = feedback.CopyEditingLevel,
-                Component = feedback.Component,
-                PageType = feedback.PageType,
-                FinalErrorPoints = feedback.FinalErrorPoints,
-                TotalErrorPoints = feedback.TotalErrorPoints,
-                TotalTSPages = feedback.TotalTSPages,
-                ErrorPerPages = feedback.ErrorPerPages,
-                AccuracyRating = feedback.AccuracyRating,
-                AccuracyRatingFC = feedback.AccuracyRatingFC,
-                WeghtPercentFC = feedback.WeightPercentFC,
-                WeightedRatingFC = feedback.WeightedRatingFC,
-                AccuracyRatingIPF = feedback.AccuracyRatingIPF,
-                WeightPercentIPF = feedback.WeightPercentIPF,
-                WeightedRatingIPF = feedback.WeightedRatingIPF,
-                DCF = feedback.DCF,
-                OverallAccuracyRating = feedback.OverallAccuracyRating,
-                
-                
-            };
-            if (feedback?.CreatedAt != null)
-                grpcFeedbackRecord.CreatedAt = feedback.CreatedAt.Value.ToUniversalTime().ToTimestamp();
-
-            if (feedback?.TargetDateOfCompletionCA != null)
-            {
-                grpcFeedbackRecord.TargetDateOfCompletionCA = feedback.TargetDateOfCompletionCA.Value.ToUniversalTime().ToTimestamp();                
-            }
-            if (feedback?.TargetDateOfCompletionPM != null)
-            {
-                grpcFeedbackRecord.TargetDateOfCompletionPM = feedback.TargetDateOfCompletionPM.Value.ToUniversalTime().ToTimestamp();
-            }
-            if (feedback?.DateProcessed != null)
-            {
-                grpcFeedbackRecord.DateProcessed = feedback.DateProcessed.Value.ToUniversalTime().ToTimestamp();
-            }
-            if (feedback?.DateChecked != null)
-            {
-                grpcFeedbackRecord.DateChecked = feedback.DateChecked.Value.ToUniversalTime().ToTimestamp();
-            }
-
-            return grpcFeedbackRecord;
-        }
-        #endregion
-
-        #region ToFrontendFormat
-        public Model.Feedback ToFrontendFormat(NTDataHiveGrpcService.FeedbackRecordRequest feedbackRequest)
-        {
-            Model.Feedback frontendFeedbackRecord = new Model.Feedback()
-            {
-                WebId = feedbackRequest.WebId,
-                Stage = feedbackRequest.Stage,
-                QualityAssurance = feedbackRequest.QualityAssurance,
-                PublisherName = feedbackRequest.PublisherName,
-                JournalId = feedbackRequest.JournalId,
-                ArticleId = feedbackRequest.ArticleId,
-                CopyEditedBy = feedbackRequest.CopyEditedBy,
-                PageCount = feedbackRequest.PageCount,
-                ErrorCount = feedbackRequest.ErrorCount,
-                DescriptionOfError = feedbackRequest.DescriptionOfError,
-                Matter = feedbackRequest.Matter,
-                ErrorLocation = feedbackRequest.ErrorLocation,
-                ErrorCode = feedbackRequest.ErrorCode,
-                ErrorType = feedbackRequest.ErrorType,
-                ErrorSubtype = feedbackRequest.ErrorSubtype,
-                ErrorCategory = feedbackRequest.ErrorCategory,
-                IntroducedOrMissed = feedbackRequest.IntroducedOrMissed,
-                Department = feedbackRequest.Department,
-                EmployeeName = feedbackRequest.EmployeeName,
-                RootCause = feedbackRequest.RootCause,
-                CorrectiveAction = feedbackRequest.CorrectiveAction,
-                NatureOfCA = feedbackRequest.NatureOfCA,
-                OwnerOfCA = feedbackRequest.OwnerOfCA,
-                PreventiveMeasure = feedbackRequest.PreventiveMeasure,
-                NatureOfPM = feedbackRequest.NatureOfPM,
-                OwnerOfPM = feedbackRequest.OwnerOfPM,
-                StatusOfCA = feedbackRequest.StatusOfCA,
-                StatusOfPM = feedbackRequest.StatusOfPM,
-                Validate = feedbackRequest?.Validate,
-                State = feedbackRequest.State,
-                CopyEditingLevel = feedbackRequest.CopyEditingLevel,
-                TargetDateOfCompletionCA = feedbackRequest.TargetDateOfCompletionCA.ToDateTime(),
-                TargetDateOfCompletionPM = feedbackRequest.TargetDateOfCompletionPM.ToDateTime(),
-                CreatedAt = feedbackRequest.CreatedAt.ToDateTime()
-            };
-            try
-            {
-                frontendFeedbackRecord.id = Guid.Parse(feedbackRequest.WebId);
-            }
-            catch (Exception ex)
-            {
-                _nlog.Error(ex, "Received feedback record has an invalid ID");
-                throw;
-            }
-
-            return frontendFeedbackRecord;
         }
         #endregion
     }

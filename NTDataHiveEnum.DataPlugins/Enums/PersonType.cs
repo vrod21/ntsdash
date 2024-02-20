@@ -10,6 +10,7 @@ namespace NTDataHiveEnum.DataPlugins.Enums
     {
         Admin,
         Manager,
-        Employee,
+        Operator,
+        QMS,
     }
 }

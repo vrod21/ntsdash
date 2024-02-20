@@ -16,6 +16,8 @@ service PersonBackend {
     rpc GetPersonRecord (PersonRecordFilter) returns (PersonRequest);
 
     rpc GetPersonByReportingManager (PersonRecordFilter) returns (PersonArray);
+
+    rpc GetPersonByType (PersonEmpty) returns (PersonArray);
 }
 message PersonEmpty {
     
@@ -46,4 +48,5 @@ message PersonArray {
 message PersonRecordFilter {
     string webId = 1;
     string reportingManager = 2;
+    string type = 3;
 }

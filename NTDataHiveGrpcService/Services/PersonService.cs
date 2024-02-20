@@ -62,8 +62,31 @@ namespace NTDataHiveGrpcService.Services
         }
         #endregion
 
+
+        #region GetPersobByType
+        public override Task<PersonArray> GetPersonByType(PersonEmpty request, ServerCallContext context)
+        {
+            try
+            {
+                var record = new PersonArray();
+                record.Status = new Google.Rpc.Status { Code = 0, Message = "Person is queryable" };
+
+                var list = _personRecordRepository.GetRecordByType();
+
+                record.Items.Add(list);
+
+                return Task.FromResult(record);
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal(ex);
+                return Task.FromResult(new PersonArray { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message} } );                
+            }
+        }
+        #endregion
+
         #region GetPerson
-        
+
         #endregion
 
         #region GetPersonRecord

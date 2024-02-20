@@ -7,6 +7,7 @@ namespace NTDataHiveGrpcService.BLL.RecordInterfaces
         List<PersonRequest> GetAllRecord();
         bool GetRecord(string WebId, out PersonFilter personFilter);
         List<PersonRequest> GetRecordByReportingManager(PersonFilter personFilter);
+        List<PersonRequest> GetRecordByType();
         void SavePersonRecord(PersonFilter personRecord);
     }
 }

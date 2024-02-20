@@ -18,6 +18,5 @@
         public string State { get; set; }
 
         public virtual Evaluation EvaluationNavigation { get; set; }
-
     }
 }
