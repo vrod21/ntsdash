@@ -159,7 +159,7 @@
                                 <RadzenLabel Text="Error Location" />
                             </div>
                             <div class="col-md-9">
-                                    <RadzenTextBox Style="width: 50%; color:black;" @bind-value="feedbackDetail.ErrorLocation" Placeholder="Error Location" Disabled />
+                                    <RadzenTextBox Style="width: 50%; color:black;" @bind-value="feedbackDetail.ErrorLocation" Disabled />
                             </div>
                         </div>
                          <div class="row">
@@ -167,7 +167,7 @@
                                  <RadzenLabel Text="Error Code" />
                              </div>
                              <div class="col-md-9">
-                                 <RadzenTextBox Style="width: 50%; color:black;" @bind-Value="feedbackDetail.ErrorCode" Placeholder="Error Code" Disabled />
+                                 <RadzenTextBox Style="width: 50%; color:black;" @bind-Value="feedbackDetail.ErrorCode" Disabled />
                              </div>
                          </div>
                          <div class="row">
@@ -175,7 +175,7 @@
                                  <RadzenLabel Text="Error Type" />
                              </div>
                              <div class="col-md-9">
-                                 <RadzenTextBox Style="width: 50%; color:black;" @bind-Value="feedbackDetail.ErrorType" Placeholder="Error Type" Disabled />
+                                 <RadzenTextBox Style="width: 50%; color:black;" @bind-Value="feedbackDetail.ErrorType" Disabled />
                              </div>
                          </div>
                          <div class="row">
@@ -183,7 +183,7 @@
                                  <RadzenLabel Text="Error SubType" />
                              </div>
                              <div class="col-md-9">
-                                 <RadzenTextBox Style="width: 50%; color:black;" @bind-Value="feedbackDetail.ErrorSubtype" Placeholder="Error Subtype" Disabled />
+                                 <RadzenTextBox Style="width: 50%; color:black;" @bind-Value="feedbackDetail.ErrorSubtype" Disabled />
                              </div>
                          </div>
                          <div class="row">
@@ -191,7 +191,7 @@
                                  <RadzenLabel Text="Error Category" />
                              </div>
                              <div class="col-md-9">
-                                 <RadzenTextBox Style="width: 50%; color:black;" @bind-Value="feedbackDetail.ErrorCategory" Placeholder="Error Category" Disabled />
+                                 <RadzenTextBox Style="width: 50%; color:black;" @bind-Value="feedbackDetail.ErrorCategory" Disabled />
                              </div>
                          </div>
                          <div class="row">
@@ -199,7 +199,7 @@
                                  <RadzenLabel Text="Introduced/Missed" />
                              </div>
                              <div class="col-md-9">
-                                 <RadzenTextBox Style="width: 50%; color:black;" @bind-Value="feedbackDetail.IntroducedOrMissed" Placeholder="Introduced/Missed" Disabled />
+                                 <RadzenTextBox Style="width: 50%; color:black;" @bind-Value="feedbackDetail.IntroducedOrMissed" Disabled />
                              </div>
                          </div>
                          <div class="row">
@@ -207,8 +207,7 @@
                                  <RadzenLabel Text="Status of CA" />
                              </div>
                              <div class="col-md-8">
-                                 <RadzenDropDown @bind-Value="feedbackDetail.StatusOfCA" AllowClear="true" TValue="string" Placeholder="Status of CA"
-                                                 Data="@status" Style="width: 100%; color: black;" TextProperty="Text" ValueProperty="Value" Disabled />
+                                <RadzenTextBox Style="width: 50%; color: black;" @bind-Value="feedbackDetail.StatusOfCA" Disabled />
                              </div>
                          </div>
                          <div class="row">
@@ -216,8 +215,7 @@
                                  <RadzenLabel Text="Status of PM" />
                              </div>
                              <div class="col-md-8">
-                                 <RadzenDropDown @bind-Value="feedbackDetail.StatusOfPM" AllowClear="true" TValue="string" Placeholder="Status of PM"
-                                                 Data="@status" Style="width: 100%; color: black;" TextProperty="Text" ValueProperty="Value" Disabled />
+                                 <RadzenTextBox Style="width: 50%; color: black;" @bind-Value="feedbackDetail.StatusOfPM" Disabled />
                              </div>
                          </div>
                     </div>
@@ -230,7 +228,7 @@
                                 <RadzenLabel Text="Root Cause" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.RootCause" Placeholder="Root Cause" Disabled />
+                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.RootCause" Disabled />
                             </div>
                         </div>
                         <div class="row">
@@ -238,7 +236,7 @@
                                 <RadzenLabel Text="Corrective Action" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.CorrectiveAction" Placeholder="Corrective Action" Disabled />
+                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.CorrectiveAction" Disabled />
                             </div>
                         </div>
                         <div class="row">
@@ -246,8 +244,7 @@
                                 <RadzenLabel Text="Nature of CA" />
                             </div>
                             <div class="col-md-8">
-                                @* <RadzenDropDown @bind-Value="feedbackDetail.NatureOfCA" AllowClear="true" TValue="string" Placeholder="Nature of CA" Data="@natureOfCA" style="width: 100%; color:black;" TextProperty="Text" ValueProperty="Value" Disabled /> *@
-                                 <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.NatureOfCA" Placeholder="Owner of CA" Disabled />
+                                 <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.NatureOfCA" Disabled />
                             </div>
                         </div>
                         <div class="row">
@@ -255,7 +252,7 @@
                                 <RadzenLabel Text="Owner of CA" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.OwnerOfCA" Placeholder="Owner of CA" Disabled />
+                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.OwnerOfCA" Disabled />
                             </div>
                         </div>
                         <div class="row">
@@ -263,8 +260,7 @@
                                 <RadzenLabel Text="Target Date (CA)" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenDatePicker Style="width: 53%; color: black;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionCA" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                    DateFormat="MM/dd/yyyy" Placeholder="MM/DD/YYYY" Disabled />
+                                <RadzenDatePicker Style="width: 53%; color: black;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionCA" DateFormat="MM/dd/yyyy" Disabled />
                             </div>
                         </div>
 
@@ -275,7 +271,7 @@
                                  <RadzenLabel Text="Preventive Measure" />
                              </div>
                              <div class="col-md-8">
-                                 <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.PreventiveMeasure" Placeholder="Preventive Measure" Disabled />
+                                 <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.PreventiveMeasure" Disabled />
                              </div>
                          </div>
                         <div class="row">
@@ -283,8 +279,7 @@
                                 <RadzenLabel Text="Nature of PM" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenDropDown @bind-Value="feedbackDetail.NatureOfPM" AllowClear="true" TValue="string" Placeholder="Nature of PM"
-                                                Data="@natureOfPM" style="width: 100%; color:black;" TextProperty="Text" ValueProperty="Value" Disabled />
+                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.NatureOfPM" Disabled />
                             </div>
                         </div>
                         <div class="row">
@@ -292,7 +287,7 @@
                                 <RadzenLabel Text="Owner of PM" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.OwnerOfPM" Placeholder="Owner of PM" Disabled />
+                                <RadzenTextBox Style="width: 100%; color:black;" @bind-Value="feedbackDetail.OwnerOfPM" Disabled />
                             </div>
                         </div>
                         <div class="row">
@@ -300,8 +295,7 @@
                                 <RadzenLabel Text="Target Date (PM)" />
                             </div>
                             <div class="col-md-8">
-                                <RadzenDatePicker Style="width: 53%; color: black;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionPM" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                    DateFormat="MM/dd/yyyy" Placeholder="MM/DD/YYYY" Disabled />
+                                <RadzenDatePicker Style="width: 53%; color: black;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionPM" DateFormat="MM/dd/yyyy" Disabled />
                             </div>
                         </div>
                          <div class="row">
@@ -309,7 +303,7 @@
                                  <RadzenLabel Text="Validity" />
                              </div>
                              <div class="col-md-8">
-                                 <RadzenTextArea Style="width: 100%; color:black;" @bind-Value="feedbackDetail.Validate" Placeholder="Please Validate" Disabled />
+                                 <RadzenTextArea Style="width: 100%; color:black;" @bind-Value="feedbackDetail.Validate" Disabled />
                              </div>
                          </div>
                     </div>

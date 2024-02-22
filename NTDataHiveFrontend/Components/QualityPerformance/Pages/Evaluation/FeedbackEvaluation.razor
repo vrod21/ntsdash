@@ -20,22 +20,21 @@
 
 <PageTitle>Evaluation Feedback</PageTitle>
 
-@if (personRecord.Type == "Employee" && personRecord.Position == "QMS Executive - Revision")
-{
-    <h3>QMS Revision </h3>
-}
-
-@if (personRecord.Type == "Employee" && personRecord.Position == "QMS Executive - Pre-Editing")
-{
-    <h3>QMS Pre-Editing </h3>
-}
-
 @if (personRecord.Type == "")
 {
     <p><em>Please update your profile...! Click your email in top right corner...</em></p>
 }
 @if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing")
 {
+    @if (personRecord.Type == "QMS" && personRecord.Position == "QMS Executive - Revision")
+    {
+        <h3>QMS Revision </h3>
+    }
+
+    @if (personRecord.Type == "QMS" && personRecord.Position == "QMS Executive - Pre-Editing")
+    {
+        <h3>QMS Pre-Editing </h3>
+    }
     <div class="rz-shadow-7 feedback-container">
         <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.Feedback />
     </div>

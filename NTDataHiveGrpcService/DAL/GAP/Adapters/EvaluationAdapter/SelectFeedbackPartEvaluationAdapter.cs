@@ -77,6 +77,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter
                     recordRequest.StatusOfCA = appExt.StatusOfCA?.Trim() ?? "";
                     recordRequest.StatusOfPM = appExt.StatusOfPM?.Trim() ?? "";
                     recordRequest.Validate = appExt.Validate?.Trim() ?? "";
+                    recordRequest.State = appExt.State?.Trim() ?? "";
 
                     return true;
                 }

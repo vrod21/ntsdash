@@ -62,7 +62,7 @@ namespace NTDataHiveFrontend.Mapper
             if (feedback?.TargetDateOfCompletionCA != null)
                 grpcFeedbackRecord.TargetDateOfCompletionCA = feedback.TargetDateOfCompletionCA.Value.ToUniversalTime().ToTimestamp();
 
-            if (feedback?.TargetDateOfCompletionPM != null)
+            if (feedback.TargetDateOfCompletionPM != null)
                 grpcFeedbackRecord.TargetDateOfCompletionPM = feedback.TargetDateOfCompletionPM.Value.ToUniversalTime().ToTimestamp();
 
             if (feedback?.DateProcessed != null)

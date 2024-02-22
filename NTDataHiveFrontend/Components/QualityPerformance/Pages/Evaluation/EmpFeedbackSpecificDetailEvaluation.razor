@@ -75,6 +75,14 @@
                                      <RadzenTextBox Style="width: 50%; color: black;" @bind-value="feedbackDetail.ArticleId" Placeholder="Article ID" Disabled />
                                  </div>
                              </div>
+                            <div class="row">
+                                <div class="col-md-3 align-items-center d-flex">
+                                    <RadzenLabel Text="Article Status" />
+                                </div>
+                                <div class="col-md-8">
+                                    <RadzenDropDown @bind-Value="feedbackDetail.State" AllowClear="true" TValue="string" Placeholder="Article Status" Data="@state" style="width: 57%;" TextProperty="Text" ValueProperty="Value" />
+                                </div>
+                            </div>
 
                          </RadzenFieldset>
                      </div>
@@ -199,8 +207,7 @@
                                  <RadzenLabel Text="Status of CA" />
                              </div>
                              <div class="col-md-8">
-                                 <RadzenDropDown @bind-Value="feedbackDetail.StatusOfCA" AllowClear="true" TValue="string" Placeholder="Status of CA"
-                                                 Data="@status" style="width: 100%; color: black;" TextProperty="Text" ValueProperty="Value" Disabled />
+                                 <RadzenTextBox Style="width:57%; color:black;" @bind-Value="feedbackDetail.StatusOfCA" Disabled />
                              </div>
                          </div>
                          <div class="row">
@@ -208,14 +215,15 @@
                                  <RadzenLabel Text="Status of PM" />
                              </div>
                              <div class="col-md-8">
-                                 <RadzenDropDown @bind-Value="feedbackDetail.StatusOfPM" AllowClear="true" TValue="string" Placeholder="Status of PM"
-                                                 Data="@status" style="width: 100%; color: black;" TextProperty="Text" ValueProperty="Value" Disabled />
+                                <RadzenTextBox Style="width:57%; color:black;" @bind-Value="feedbackDetail.StatusOfPM" Disabled />                            
                              </div>
                          </div>
                      </div>
-                     <br />
-                     <hr />
-                     <h3>Feedback Validity</h3>
+
+                     <hr style="margin:20px 0 30px 0;" />
+
+                     <h3 style="margin-bottom:50px;">Feedback Validity</h3>
+
                      <div class="col-md-6">
                          <div class="row">
                              <div class="col-md-3 align-items-center d-flex">
@@ -254,8 +262,8 @@
                                  <RadzenLabel Text="Target Date (CA)" />
                              </div>
                              <div class="col-md-8">
-                                 <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionCA" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                   DateFormat="MM/dd/yyyy" Placeholder="MM/DD/YYYY" />
+                                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionCA" ShowTime="true" HourFormat="12" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
+                                                  DateFormat="MM/dd/yyyy h:mm:ss tt" Placeholder="MM/DD/YYYY" />
                              </div>
                          </div>
                      </div>
@@ -290,8 +298,7 @@
                                  <RadzenLabel Text="Target Date (PM)" />
                              </div>
                              <div class="col-md-8">
-                                 <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionPM" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                   DateFormat="MM/dd/yyyy" Placeholder="MM/DD/YYYY" />
+                                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionPM" ShowTime="true" HourFormat="12" YearRange="@("2023:" + @DateTime.Now.Year.ToString())" DateFormat="MM/dd/yyyy h:mm tt" />
                              </div>
                          </div>
                          <div class="row">
@@ -316,6 +323,7 @@
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> natureOfCA = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.NatureOfCA>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> natureOfPM = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.NatureOfPM>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> status = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.Status>();
+    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> state = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.State>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -330,4 +338,5 @@
 
         MyNavigation.NavigateTo("/feedback-performance");
     }
+
 }

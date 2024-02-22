@@ -1,6 +1,6 @@
 ﻿using CoreBusiness.Dropdown;
 
-namespace UseCases.Dropdown.DropdownUseCase
+namespace UseCases.Dropdown.UseCaseInterfaces
 {
     public interface IViewComponentUseCase
     {

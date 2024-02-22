@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NTDataHiveFrontend.Components;
 using NTDataHiveFrontend.Components.Account;
 using NTDataHiveFrontend.Data;
 using NTDataHiveFrontend.ServiceAccess;
 using Plugins.DataStore.InMemory.Dropdown;
-using UseCases.Dropdown;
 using UseCases.Dropdown.DropdownUseCase;
 using UseCases.Dropdown.UseCaseInterfaces;
 
@@ -53,6 +51,7 @@ builder.Services.AddScoped<IDepartmentRepository, DepartmentInMemoryRepository>(
 builder.Services.AddScoped<IAccountRepository, AccountInMemoryRepository>();
 builder.Services.AddScoped<IPositionRepository, PositionInMemoryRepository>();
 builder.Services.AddScoped<IComponentRepository, ComponentInMemoryRepository>();
+builder.Services.AddScoped<IReportingManagerRepository, ReportingManagerInMemoryRepository>();
 
 builder.Services.AddScoped<IViewJournalIdByPublisherNameUseCase, ViewJournalIdByPublisherNameUseCase>();
 builder.Services.AddScoped<IViewPublisherUseCase, ViewPublisherUseCase>();
@@ -63,6 +62,8 @@ builder.Services.AddScoped<IViewDepartmentUseCase, ViewDepartmentUseCase>();
 builder.Services.AddScoped<IViewAccountUseCase, ViewAccountUseCase>();
 builder.Services.AddScoped<IViewPositionUseCase, ViewPositionUseCase>();
 builder.Services.AddScoped<IViewComponentUseCase, ViewComponentUseCase>();
+builder.Services.AddScoped<IViewReportingManagerUseCase, ViewReportingManagerUseCase>();
+
 builder.Services.AddScoped<Radzen.DialogService>();
 
 builder.Services.AddSingleton<HttpClient>();
