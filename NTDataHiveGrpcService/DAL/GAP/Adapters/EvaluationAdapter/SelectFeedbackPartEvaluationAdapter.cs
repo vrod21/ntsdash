@@ -69,11 +69,11 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter
                     recordRequest.CorrectiveAction = appExt.CorrectiveAction?.Trim() ?? "";
                     recordRequest.NatureOfCA = appExt.NatureOfCA?.Trim() ?? "";
                     recordRequest.OwnerOfCA = appExt.OwnerOfCA?.Trim() ?? "";
-                    recordRequest.TargetDateOfCompletionCA = appExt.TargetDateOfCompletionCA.ToUniversalTime().ToTimestamp();
+                    recordRequest.TargetDateOfCompletionCA = appExt.TargetDateOfCompletionCA?.ToUniversalTime().ToTimestamp();
                     recordRequest.PreventiveMeasure = appExt.PreventiveMeasure?.Trim() ?? "";
                     recordRequest.NatureOfPM = appExt.NatureOfPM?.Trim() ?? "";
                     recordRequest.OwnerOfPM = appExt.OwnerOfPM?.Trim() ?? "";
-                    recordRequest.TargetDateOfCompletionPM = appExt.TargetDateOfCompletionPM.ToUniversalTime().ToTimestamp();
+                    recordRequest.TargetDateOfCompletionPM = appExt.TargetDateOfCompletionPM?.ToUniversalTime().ToTimestamp();
                     recordRequest.StatusOfCA = appExt.StatusOfCA?.Trim() ?? "";
                     recordRequest.StatusOfPM = appExt.StatusOfPM?.Trim() ?? "";
                     recordRequest.Validate = appExt.Validate?.Trim() ?? "";

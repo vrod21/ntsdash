@@ -1,7 +1,6 @@
 ﻿using Grpc.Core;
 using NLog;
 using NTDataHiveGrpcService.BLL.RecordInterfaces;
-using NTDataHiveGrpcService.BLL.RecordRepository;
 using System.Reflection;
 
 namespace NTDataHiveGrpcService.Services
@@ -62,7 +61,6 @@ namespace NTDataHiveGrpcService.Services
         }
         #endregion
 
-
         #region GetPersobByType
         public override Task<PersonArray> GetPersonByType(PersonEmpty request, ServerCallContext context)
         {
@@ -85,8 +83,32 @@ namespace NTDataHiveGrpcService.Services
         }
         #endregion
 
-        #region GetPerson
+        #region GetPersonByReportingManager
+        public override Task<PersonArray> GetPersonByReportingManager(PersonRecordFilter request, ServerCallContext context)
+        {
+            try
+            {
+                var record = new PersonArray();
+                record.Status = new Google.Rpc.Status { Code = 0, Message = "Person is queryable" };
+                var personRecord = new BLL.RecordContents.PersonFilter(request.FullName);
 
+                var personList = _personRecordRepository.GetRecordByReportingManager(personRecord);
+
+                if (personList != null)
+                {
+                    record.Items.Add(personList);
+
+                    return Task.FromResult(record);
+                }
+
+                return Task.FromResult(new PersonArray { Status = new Google.Rpc.Status { Code = 5, Message = "Person record not found" } });
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal(ex);
+                return Task.FromResult(new PersonArray { Status = new Google.Rpc.Status { Code = 2, Message = ex.Message }, });
+            }
+        }
         #endregion
 
         #region GetPersonRecord

@@ -10,7 +10,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         private readonly IConfiguration _config;
         private readonly DbContextOptions<NTDataHiveContext> _contextOptions;
-        private CreateNewEvaluationMapper _mapper;
 
         public InsertEvaluationAdapter(IConfiguration config)
         {

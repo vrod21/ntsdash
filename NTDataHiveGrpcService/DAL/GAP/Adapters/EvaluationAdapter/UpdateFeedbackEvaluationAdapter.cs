@@ -10,6 +10,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         private readonly IConfiguration _config;
         private readonly DbContextOptions<NTDataHiveContext> _contextOptions;
+        private TimeZoneInfo _currentTimeZone;
 
         public UpdateFeedbackEvaluationAdapter(IConfiguration config)
         {
@@ -17,6 +18,13 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter
             var optionsBuilder = new DbContextOptionsBuilder<NTDataHiveContext>();
             optionsBuilder.UseSqlServer(config.GetConnectionString("connectionString"));
             _contextOptions = optionsBuilder.Options;
+            LoadConfiguration();
+        }
+
+        private void LoadConfiguration()
+        {
+            var tz = _config.GetValue<string>("AppointmentSettings:CurrentTimeZone");
+            _currentTimeZone = TimeZoneInfo.FindSystemTimeZoneById(tz);
         }
 
         internal void UpdateFeedback(FeedbackRecordRequest recordRequest)
@@ -67,7 +75,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter
                 appExt.PreventiveMeasure = recordRequest.PreventiveMeasure.Trim();
                 appExt.NatureOfPM = recordRequest.NatureOfPM.Trim();
                 appExt.OwnerOfPM = recordRequest.OwnerOfPM.Trim();
-                appExt.TargetDateOfCompletionPM = recordRequest.TargetDateOfCompletionPM.ToDateTime();
+                appExt.TargetDateOfCompletionPM = recordRequest.TargetDateOfCompletionCA.ToDateTime();
                 appExt.StatusOfCA = recordRequest.StatusOfCA.Trim();
                 appExt.StatusOfPM = recordRequest.StatusOfPM.Trim();
                 appExt.Validate = recordRequest.Validate.Trim();

@@ -3,6 +3,8 @@ using Grpc.Net.Client;
 using NLog;
 using NTDataHiveFrontend.Mapper;
 using NTDataHiveFrontend.Utilities.Filter;
+using System;
+using System.Runtime.InteropServices;
 
 namespace NTDataHiveFrontend.ServiceAccess
 {
@@ -15,13 +17,47 @@ namespace NTDataHiveFrontend.ServiceAccess
         private readonly FeedbackGrpcFormatMapper _frontendFormatMapper;
         private readonly FeedbackFrontendFormatMapper _grpcFormatMapper;
         private readonly FeedbackGetFilter _getFilter;
-        public EvaluationBackendService(ILogger<EvaluationBackendService> logger, IConfiguration config)
+
+        DateTime callDeadLine
+        {
+            get
+            {
+                return DateTime.UtcNow.AddSeconds(100);
+            }
+        }
+        public EvaluationBackendService(IConfiguration config)
         {
             _url = config.GetValue<string>("ServiceData:BackendService:URL");
             _frontendFormatMapper = new FeedbackGrpcFormatMapper();
             _grpcFormatMapper = new FeedbackFrontendFormatMapper();
             _getFilter = new FeedbackGetFilter();
+
+            GetTimeZone();
         }
+
+        private TimeZoneInfo GetTimeZone()
+        {
+            DateTime thisTime = DateTime.Now;
+            TimeZoneInfo ret;
+            
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                ret = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
+                //DateTime dateTime = TimeZoneInfo.ConvertTime(thisTime, TimeZoneInfo.Local, ret);
+                //ret.IsDaylightSavingTime(dateTime);                
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                ret = TimeZoneInfo.FindSystemTimeZoneById("Asia/Manila");
+                //DateTime tstTime = TimeZoneInfo.ConvertTime(thisTime, TimeZoneInfo.Local, ret);
+                //ret.IsDaylightSavingTime(tstTime);
+            }
+            else
+                throw new NotImplementedException("GetTimeZone() for this OS is not implemented.");
+
+            return ret;
+        }
+
         private void Connect()
         {
             try
@@ -118,6 +154,8 @@ namespace NTDataHiveFrontend.ServiceAccess
                 {
                     feedbacks.Add(_grpcFormatMapper.ToFrontendFormat(feedbackRecord));
                 }
+
+                
                 return feedbacks;
             }
             catch (Exception ex)
@@ -126,6 +164,10 @@ namespace NTDataHiveFrontend.ServiceAccess
                 throw;
             }
         }
+        #endregion
+
+        #region GetRecorByReportingManager
+
         #endregion
 
         #region GetFeedbackRecordByPublisherName

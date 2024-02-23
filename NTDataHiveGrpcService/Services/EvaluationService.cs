@@ -70,7 +70,7 @@ namespace NTDataHiveGrpcService.Services
                 var record = new FeedbackRecordArray();
                 record.Status = new Status { Code = 0, Message = "Feedback is queryable" };
                 var feedbackRecord = new BLL.RecordContents.EvaluationFilter(request.EmployeeName);
-
+                
                 var feedList = _feedbackRecordRepository.GetRecordByEmployeeName(feedbackRecord);
 
                 if (feedList != null) 

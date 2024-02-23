@@ -1,12 +1,14 @@
 ﻿using Google.Protobuf.WellKnownTypes;
+using NTDataHiveFrontend.ServiceAccess;
+using GrpcFeedback = NTDataHiveGrpcService.FeedbackRecordRequest; 
 
 namespace NTDataHiveFrontend.Mapper
 {
     public class FeedbackGrpcFormatMapper
     {
-        public NTDataHiveGrpcService.FeedbackRecordRequest ToGrpcFormat(Model.Feedback feedback)
+        public GrpcFeedback ToGrpcFormat(Model.Feedback feedback)
         {
-            var grpcFeedbackRecord = new NTDataHiveGrpcService.FeedbackRecordRequest()
+            var grpcFeedbackRecord = new GrpcFeedback()
             {
                 WebId = feedback.id.ToString(),
                 Stage = feedback.Stage,
@@ -62,8 +64,8 @@ namespace NTDataHiveFrontend.Mapper
             if (feedback?.TargetDateOfCompletionCA != null)
                 grpcFeedbackRecord.TargetDateOfCompletionCA = feedback.TargetDateOfCompletionCA.Value.ToUniversalTime().ToTimestamp();
 
-            if (feedback.TargetDateOfCompletionPM != null)
-                grpcFeedbackRecord.TargetDateOfCompletionPM = feedback.TargetDateOfCompletionPM.Value.ToUniversalTime().ToTimestamp();
+            if (feedback?.TargetDateOfCompletionPM != null)
+                grpcFeedbackRecord.TargetDateOfCompletionPM = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(feedback.TargetDateOfCompletionPM.Value.ToUniversalTime());
 
             if (feedback?.DateProcessed != null)
                 grpcFeedbackRecord.DateProcessed = feedback.DateProcessed.Value.ToUniversalTime().ToTimestamp();
@@ -72,7 +74,6 @@ namespace NTDataHiveFrontend.Mapper
                 grpcFeedbackRecord.DateChecked = feedback.DateChecked.Value.ToUniversalTime().ToTimestamp();
 
             return grpcFeedbackRecord;
-
         }
     }
 }

@@ -53,8 +53,8 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         #region GetPersonByReportingManager
         public List<PersonRequest> GetPersonByReportingManager(BLL.RecordContents.PersonFilter personRecord)
         {
-            var getRecord = new GetEmployeeByReportingManagerEvaluationAdapter(_config);
-            var selectReportingManager = getRecord.GetEmployeeByReportingManager(personRecord.personRequest.WebId);
+            var getRecord = new PersonRecordAdapter(_config);
+            var selectReportingManager = getRecord.GetPersonByReportingManagerRecord(personRecord.personRequest.WebId);
 
             if (selectReportingManager.Count > 0)
             {

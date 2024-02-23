@@ -212,5 +212,32 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters
             }
         }
         #endregion
+
+        #region GetPersonByReportingManager
+        internal List<PersonRequest> GetPersonByReportingManagerRecord(string feedbackRecord)
+        {
+            List<PersonRequest> personRequests = new List<PersonRequest>();
+            try
+            {
+                using var dbContext = new NTDataHiveContext(_contextOptions);
+                var personRecord = (from person in dbContext.Person
+                                    where person.ReportingManager == feedbackRecord
+                                    orderby person.FirstName
+                                    select _mapper.CreateNewPesonMapper(person)).ToList();
+
+                if (personRecord.Count > 0)
+                {
+                    return personRecord;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _nlog.Fatal($"{ex.Message}");
+            }
+
+            return personRequests;
+        }
+        #endregion
     }
 }

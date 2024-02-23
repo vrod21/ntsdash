@@ -47,6 +47,6 @@ message PersonArray {
 
 message PersonRecordFilter {
     string webId = 1;
-    string reportingManager = 2;
+    string fullName = 2;
     string type = 3;
 }

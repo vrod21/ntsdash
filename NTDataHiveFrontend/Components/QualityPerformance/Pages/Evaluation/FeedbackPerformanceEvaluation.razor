@@ -34,10 +34,11 @@
     </div>
 }
 
-
 @if (personRecord.Position == "Operations Manager")
 {
-    <h1>Operations Manager Page</h1>
+    <div class="rz=shadow-7 feedback-container">
+        <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.FeedbackPerformance />
+    </div>
 }
 
 @if (personRecord.Type == "Operator")

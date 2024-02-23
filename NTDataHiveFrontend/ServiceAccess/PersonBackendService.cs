@@ -4,6 +4,7 @@ using NLog;
 using NLog.Fluent;
 using NTDataHiveFrontend.Mapper;
 using NTDataHiveFrontend.Utilities.Filter;
+using System.Reflection.Metadata.Ecma335;
 using System.Reflection.PortableExecutable;
 
 namespace NTDataHiveFrontend.ServiceAccess
@@ -107,7 +108,33 @@ namespace NTDataHiveFrontend.ServiceAccess
 
         #endregion
 
-        #region GetRevisionRecord
+        #region GetRecordByReportingManager
+        public async Task<List<Model.Person>> GetRecordByReportingManager(Model.Person person)
+        {
+            if (_client == null)
+                Connect();
+
+            try
+            {
+                var personList = await _client.GetPersonByReportingManagerAsync(_getFilter.GetFilterFor(person.FullName));
+
+                List<Model.Person> people = new List<Model.Person>();
+
+                foreach (var personRecord in personList.Items)
+                {
+                    people.Add(_frontendFormatMapper.ToFrontendFormat(personRecord));
+                }
+                return people;
+            }
+            catch (Exception ex)
+            {
+                _nlog.Error($"Person name is null" + ex.Message);
+                throw;
+            }
+        }
+        #endregion
+
+        #region GetPersonRecord
         public async Task<Model.Person> GetPersonRecord(string id)
         {
             if (_client == null)
@@ -122,16 +149,16 @@ namespace NTDataHiveFrontend.ServiceAccess
                 }
                 catch (Exception ex)
                 {
-                    _nlog.Error("Get revision record threw up: " + ex.Message);
+                    _nlog.Error("Get person record threw up: " + ex.Message);
                     return null;
                 }
 
                 if (result.Status.Code == 0)
                 {
-                    Model.Person revision = _frontendFormatMapper.ToFrontendFormat(result);
+                    Model.Person person = _frontendFormatMapper.ToFrontendFormat(result);
 
                     if (result.WebId != "")
-                        return revision;
+                        return person;
 
                 }
                 _nlog.Error(result.Status.Message);

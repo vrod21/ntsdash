@@ -262,51 +262,40 @@
                                  <RadzenLabel Text="Target Date (CA)" />
                              </div>
                              <div class="col-md-8">
-                                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionCA" ShowTime="true" HourFormat="12" YearRange="@("2023:" + @DateTime.Now.Year.ToString())"
-                                                  DateFormat="MM/dd/yyyy h:mm:ss tt" Placeholder="MM/DD/YYYY" />
+                                <RadzenDatePicker Style="width: 51%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionCA" ShowTime="true" HourFormat="12" YearRange="@("2023:" + @DateTime.Now.Year.ToString())" DateFormat="MM/dd/yyyy h:mm tt" Placeholder="@($"{@DateTime.Now.ToLocalTime()}")" DateRender=@TargetDateCADateRender Min="DateTime.Today.AddDays(1)" Max="DateTime.Today.AddDays(7)" />
                              </div>
                          </div>
                      </div>
                      <div class="col-md-6">
                          <div class="row">
-                             <div class="col-md-3 align-items-center d-flex">
-                                 <RadzenLabel Text="Preventive Measure" />
-                             </div>
                              <div class="col-md-8">
-                                 <RadzenTextBox Style="width: 100%;" @bind-Value="feedbackDetail.PreventiveMeasure" Placeholder="Preventive Measure" />
+                                <RadzenLabel Text="Preventive Measure" class="col-md-4 align-items-center" />
+                                 <RadzenTextBox Style="width: 51%;" @bind-Value="feedbackDetail.PreventiveMeasure" Placeholder="Preventive Measure" />
                              </div>
                          </div>
                          <div class="row">
-                             <div class="col-md-3 align-items-center d-flex">
-                                 <RadzenLabel Text="Nature of PM" />
-                             </div>
                              <div class="col-md-8">
+                                <RadzenLabel Text="Nature of PM" class="col-md-4 align-items-center" />
                                  <RadzenDropDown @bind-Value="feedbackDetail.NatureOfPM" AllowClear="true" TValue="string" Placeholder="Nature of PM"
-                                                 Data="@natureOfPM" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                                                 Data="@natureOfPM" style="width: 51%;" TextProperty="Text" ValueProperty="Value" />
                              </div>
                          </div>
                          <div class="row">
-                             <div class="col-md-3 align-items-center d-flex">
-                                 <RadzenLabel Text="Owner of PM" />
-                             </div>
                              <div class="col-md-8">
-                                 <RadzenTextBox Style="width: 100%;" @bind-Value="feedbackDetail.OwnerOfPM" Placeholder="Owner of PM" />
+                                <RadzenLabel Text="Owner of PM" class="col-md-4 align-items-center" />
+                                 <RadzenTextBox Style="width: 51%;" @bind-Value="feedbackDetail.OwnerOfPM" Placeholder="Owner of PM" />
                              </div>
                          </div>
                          <div class="row">
-                             <div class="col-md-3 align-items-center d-flex">
-                                 <RadzenLabel Text="Target Date (PM)" />
-                             </div>
                              <div class="col-md-8">
-                                <RadzenDatePicker Style="width: 53%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionPM" ShowTime="true" HourFormat="12" YearRange="@("2023:" + @DateTime.Now.Year.ToString())" DateFormat="MM/dd/yyyy h:mm tt" />
+                                <RadzenLabel Text="Status of PM" class="col-md-4 align-items-center" />
+                                <RadzenDatePicker Style="width: 51%;" class="datepicker" @bind-Value="feedbackDetail.TargetDateOfCompletionPM" ShowTime="true" HourFormat="12" YearRange="@("2023:" + @DateTime.Now.Year.ToString())" DateFormat="MM/dd/yyyy h:mm tt" Placeholder="@($"{@DateTime.Now.ToLocalTime()}")" DateRender=@TargetDatePMDateRender Min="DateTime.Today.AddDays(1)" Max="DateTime.Today.AddDays(7)" />
                              </div>
                          </div>
                          <div class="row">
-                             <div class="col-md-3 align-items-center d-flex">
-                                 <RadzenLabel Text="Validity" />
-                             </div>
-                             <div class="col-md-8">
-                                 <RadzenTextArea Style="width: 100%;" @bind-Value="feedbackDetail.Validate" Placeholder="Please Validate and end it with your position and name. Thank you!!!..." />
+                             <div class="col-md-10">
+                                <RadzenLabel Text="Validity" class="col-md-1 align-items-center" />
+                                <RadzenTextArea Style="width: 90%;" @bind-Value="feedbackDetail.Validate" Placeholder="Please Validate and end it with your position and name. Thank you!!!..." />
                              </div>
                          </div>
                      </div>
@@ -337,6 +326,18 @@
         await MyEvaluationBackendService.SaveFeedback(feedbackDetail);
 
         MyNavigation.NavigateTo("/feedback-performance");
+    }    
+
+    private void TargetDatePMDateRender(DateRenderEventArgs args)
+    {
+        args.Disabled = args.Disabled || args.Date.DayOfWeek == DayOfWeek.Sunday || args.Date.DayOfWeek == DayOfWeek.Saturday;
+        
+    }
+
+    private void TargetDateCADateRender(DateRenderEventArgs args)
+    {
+        args.Disabled = args.Disabled || args.Date.DayOfWeek == DayOfWeek.Sunday || args.Date.DayOfWeek == DayOfWeek.Saturday;
+        
     }
 
 }

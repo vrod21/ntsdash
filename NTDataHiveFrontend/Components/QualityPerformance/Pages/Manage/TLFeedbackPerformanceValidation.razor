@@ -51,6 +51,9 @@
     public string? userId;
     private List<NTDataHiveFrontend.Model.Feedback> feedbackRecord = new List<Model.Feedback>();
     private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
+    private List<NTDataHiveFrontend.Model.Person> personList = new List<Model.Person>();
+    private NTDataHiveFrontend.Model.Person convertToModel = new Model.Person();
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -64,7 +67,14 @@
 
         personRecord = await MyPersonBackendService.GetPersonRecord(userId);
 
-        feedbackRecord = await MyEvaluationBackendService.GetAllFeedback();
+        personList = await MyPersonBackendService.GetRecordByReportingManager(personRecord);
+
+        foreach (var item in personList)
+        {
+            convertToModel.FullName = item.FullName;            
+        }
+
+        feedbackRecord = await MyEvaluationBackendService.GetRecordByEmployeeName(convertToModel);        
     }
 
     private void OnSpecificDetail(NTDataHiveFrontend.Model.Feedback feedback)
