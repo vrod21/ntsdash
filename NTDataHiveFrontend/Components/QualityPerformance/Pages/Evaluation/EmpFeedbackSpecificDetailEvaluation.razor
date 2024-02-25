@@ -1,11 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @using NTDataHiveEnum.DataPlugins.Utilities
+@using System.Security.Claims
 
 @attribute [Authorize]
 @rendermode InteractiveServer
 @inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyEvaluationBackendService
+@inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @page "/employee-specific-detail-page/{id:guid}/random"
 
 <style>
@@ -79,8 +82,8 @@
                                 <div class="col-md-3 align-items-center d-flex">
                                     <RadzenLabel Text="Article Status" />
                                 </div>
-                                <div class="col-md-8">
-                                    <RadzenDropDown @bind-Value="feedbackDetail.State" AllowClear="true" TValue="string" Placeholder="Article Status" Data="@state" style="width: 57%;" TextProperty="Text" ValueProperty="Value" />
+                                <div class="col-md-8">                                    
+                                    <RadzenTextBox Style="width: 50%; color: black;" @bind-value="feedbackDetail.State" Placeholder="Article ID" Disabled />
                                 </div>
                             </div>
 
@@ -308,6 +311,9 @@
 @code {
     [Parameter]
     public Guid id { get; set; }
+    private string value = "";
+    public string userId;
+    private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
     private NTDataHiveFrontend.Model.Feedback feedbackDetail = new Model.Feedback();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> natureOfCA = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.NatureOfCA>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> natureOfPM = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.NatureOfPM>();
@@ -318,26 +324,36 @@
     {
         await base.OnInitializedAsync();
 
+        var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var nameIdentifier = auth.User;
+
+        userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        personRecord = await MyPersonBackendService.GetPersonRecord(userId);
+
         feedbackDetail = await MyEvaluationBackendService.GetFeedbackRecord(id);
     }
 
     private async Task Save()
     {
-        await MyEvaluationBackendService.SaveFeedback(feedbackDetail);
+        if (personRecord.WebId == personRecord.WebId)
+        {
+            value = personRecord.Position;
+            feedbackDetail.State = value;
+            await MyEvaluationBackendService.SaveFeedback(feedbackDetail);
+        }    
 
         MyNavigation.NavigateTo("/feedback-performance");
     }    
 
     private void TargetDatePMDateRender(DateRenderEventArgs args)
     {
-        args.Disabled = args.Disabled || args.Date.DayOfWeek == DayOfWeek.Sunday || args.Date.DayOfWeek == DayOfWeek.Saturday;
-        
+        args.Disabled = args.Disabled || args.Date.DayOfWeek == DayOfWeek.Sunday || args.Date.DayOfWeek == DayOfWeek.Saturday;        
     }
 
     private void TargetDateCADateRender(DateRenderEventArgs args)
     {
-        args.Disabled = args.Disabled || args.Date.DayOfWeek == DayOfWeek.Sunday || args.Date.DayOfWeek == DayOfWeek.Saturday;
-        
+        args.Disabled = args.Disabled || args.Date.DayOfWeek == DayOfWeek.Sunday || args.Date.DayOfWeek == DayOfWeek.Saturday;        
     }
 
 }

@@ -2,6 +2,7 @@
 using Grpc.Net.Client;
 using NLog;
 using NTDataHiveFrontend.Mapper;
+using NTDataHiveFrontend.Utilities;
 using NTDataHiveFrontend.Utilities.Filter;
 using System;
 using System.Runtime.InteropServices;
@@ -17,7 +18,7 @@ namespace NTDataHiveFrontend.ServiceAccess
         private readonly FeedbackGrpcFormatMapper _frontendFormatMapper;
         private readonly FeedbackFrontendFormatMapper _grpcFormatMapper;
         private readonly FeedbackGetFilter _getFilter;
-
+        private readonly IConfiguration _config;
         DateTime callDeadLine
         {
             get
@@ -27,36 +28,37 @@ namespace NTDataHiveFrontend.ServiceAccess
         }
         public EvaluationBackendService(IConfiguration config)
         {
+            GetTimeZoneUtility timeZoneUtility = new GetTimeZoneUtility(config);
             _url = config.GetValue<string>("ServiceData:BackendService:URL");
             _frontendFormatMapper = new FeedbackGrpcFormatMapper();
             _grpcFormatMapper = new FeedbackFrontendFormatMapper();
-            _getFilter = new FeedbackGetFilter();
-
-            GetTimeZone();
+            _getFilter = new FeedbackGetFilter();            
+            timeZoneUtility.GetTimeZone();
+            _config = config;
         }
 
-        private TimeZoneInfo GetTimeZone()
-        {
-            DateTime thisTime = DateTime.Now;
-            TimeZoneInfo ret;
+        //private TimeZoneInfo GetTimeZone()
+        //{
+
+        //    TimeZoneInfo ret;
             
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                ret = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
-                //DateTime dateTime = TimeZoneInfo.ConvertTime(thisTime, TimeZoneInfo.Local, ret);
-                //ret.IsDaylightSavingTime(dateTime);                
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                ret = TimeZoneInfo.FindSystemTimeZoneById("Asia/Manila");
-                //DateTime tstTime = TimeZoneInfo.ConvertTime(thisTime, TimeZoneInfo.Local, ret);
-                //ret.IsDaylightSavingTime(tstTime);
-            }
-            else
-                throw new NotImplementedException("GetTimeZone() for this OS is not implemented.");
+        //    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        //    {
+        //        ret = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
+        //        //DateTime dateTime = TimeZoneInfo.ConvertTime(thisTime, TimeZoneInfo.Local, ret);
+        //        //ret.IsDaylightSavingTime(dateTime);                
+        //    }
+        //    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        //    {
+        //        ret = TimeZoneInfo.FindSystemTimeZoneById("Asia/Manila");
+        //        //DateTime tstTime = TimeZoneInfo.ConvertTime(thisTime, TimeZoneInfo.Local, ret);
+        //        //ret.IsDaylightSavingTime(tstTime);
+        //    }
+        //    else
+        //        throw new NotImplementedException("GetTimeZone() for this OS is not implemented.");
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
         private void Connect()
         {

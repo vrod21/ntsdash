@@ -29,6 +29,7 @@
 
 @if (personRecord.Position == "QMS Executive - Revision" || personRecord.Position == "QMS Executive - Pre-Editing")
 {
+    <h1>Hi!, @personRecord.FullName (@personRecord.Position)</h1>
     <div class="rz-shadow-7 feedback-container">
         <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.FeedbackPerformance />
     </div>
@@ -36,6 +37,7 @@
 
 @if (personRecord.Position == "Operations Manager")
 {
+    <h1>Hi!, @personRecord.FullName</h1>
     <div class="rz=shadow-7 feedback-container">
         <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.FeedbackPerformance />
     </div>
@@ -43,7 +45,7 @@
 
 @if (personRecord.Type == "Operator")
 {
-    <h1>This is for the Individual Employee</h1>
+    <h1>Hi!, @personRecord.FullName</h1>
     <div class="rz-shadow-7 feedback-container">
         <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.EmpFeedbackPerformanceValidation />
     </div>
@@ -51,7 +53,7 @@
 
 @if (personRecord.Position == "Project Manager")
 {
-    <h1>This is for the Project Manager.</h1>
+    <h1>Hi!, @personRecord.FullName</h1>
     <div class="rz-shadow-7 feedback-container">
         <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.TLFeedbackPerformanceValidation />
     </div>

@@ -18,17 +18,15 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter
             optionsBuilder.UseSqlServer(config.GetConnectionString("connectionString"));
             _contextOptions = optionsBuilder.Options;
         }
-
         internal void Insert(FeedbackRecordRequest recordRequest, out int feedbackId)
         {
             feedbackId = 0;
-
             try
             {
                 if (recordRequest != null)
                 {
                     using var dbContext = new NTDataHiveContext(_contextOptions);
-
+                  
                     var feedback = new Model.Evaluation()
                     {
                         WebId = recordRequest.WebId,
