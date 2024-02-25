@@ -26,6 +26,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter
                 if (recordRequest != null)
                 {
                     using var dbContext = new NTDataHiveContext(_contextOptions);
+                  
                     var feedback = new Model.Evaluation()
                     {
                         WebId = recordRequest.WebId,
