@@ -253,7 +253,18 @@
                         </div>                        
                         
                         <div class="col-md-8">                  
-                            <RadzenLabel Style="margin-right: 8px; vertical-align: middle;" Text="@value" />    
+                            <InputFile OnChange="@LoadFiles" class="form-control" multiple accept=".png, .jpg, .jpeg" />
+
+                            @if (errors.Count > 0)
+                            {
+                                <h2>Errors</h2>
+                                <ul class="text-danger">
+                                    @foreach (var error in errors)
+                                    {
+                                        <li>@error</li>
+                                    }
+                                </ul>
+                            }
                         </div>
                     </div>
                 </RadzenFieldset>
@@ -284,6 +295,10 @@
     private List<CoreBusiness.Dropdown.Department> departmentRecord;
     private List<NTDataHiveFrontend.Model.Person> personRecord = new List<Model.Person>();
 
+    private long maxFileSize = 1024 * 1024 * 1;
+    private int maxAllowedFiles = 7;
+    private List<string> errors = new();
+
     [Parameter]
     public EventCallback<NTDataHiveFrontend.Model.Feedback> CallToAddFeedback { get; set; }
 
@@ -306,6 +321,36 @@
         await MyEvaluationBackendService.SaveFeedback(addFeedback);
 
         MyNavigation.NavigateTo("/feedback-performance");
+    }
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        errors.Clear();
+
+        if (e.FileCount > maxAllowedFiles)
+        {
+            errors.Add($"Error: Attempting to upload {e.FileCount} files, but only {maxAllowedFiles} files are allowed.");
+        }
+
+        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+        {
+            try
+            {
+                string newFileName = Path.ChangeExtension(Path.GetRandomFileName(), Path.GetExtension(file.Name));
+
+                string path = Path.Combine(Configuration.GetValue<string>("FileStorage"), "Image", newFileName);
+
+                Directory.CreateDirectory(Path.Combine(Configuration.GetValue<string>("FileStorage"), "Image"));
+
+                await using FileStream fs = new(path, FileMode.Create);
+
+                await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+            }
+            catch (Exception ex)
+            {
+                errors.Add($"File: {file.Name} Error: {ex.Message}");
+            }
+        }
     }
 
     private void PickDateOfTime()
