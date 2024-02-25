@@ -11,6 +11,7 @@
 @inject IViewDepartmentUseCase ViewDepartmentUseCase
 @inject IViewPositionUseCase ViewPositionUseCase
 @inject IViewAccountUseCase ViewAccountUseCase
+@inject IViewReportingManagerUseCase ViewReportingManagerUseCase
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
@@ -66,9 +67,15 @@
                 <label for="type">Account Name</label>
                 <ValidationMessage For="() => Input.AccountName" class="text-danger" />
             </div>
+
             <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.ReportingManager" class="form-control" placeholder="Please enter your reporting manager." />
-                <label for="reporting-manager" class="form-label">Reporting Manager</label>
+                <InputSelect class="form-control" @bind-Value="Input.ReportingManager">
+                    @foreach (var manager in reportingManager)
+                    {
+                        <option value="@manager.Name">@manager.Name</option>
+                    }
+                </InputSelect>
+                <label for="type">Reporting Manager</label>
                 <ValidationMessage For="() => Input.ReportingManager" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
@@ -100,6 +107,7 @@
     private List<CoreBusiness.Dropdown.Department> department = new List<CoreBusiness.Dropdown.Department>();
     private List<CoreBusiness.Dropdown.Account> account = new List<CoreBusiness.Dropdown.Account>();
     private List<CoreBusiness.Dropdown.Position> positions = new List<CoreBusiness.Dropdown.Position>();
+    private List<CoreBusiness.Dropdown.ReportingManager> reportingManager = new List<CoreBusiness.Dropdown.ReportingManager>();
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
@@ -118,6 +126,7 @@
         department = ViewDepartmentUseCase.Execute().ToList();
         account = ViewAccountUseCase.Execute().ToList();
         positions = ViewPositionUseCase.Execute().ToList();
+        reportingManager = ViewReportingManagerUseCase.Execute().ToList();
     }
 
     private async Task OnValidSubmitAsync()

@@ -52,7 +52,7 @@ namespace NTDataHiveGrpcService.BLL.RecordRepository
         }
         #endregion
 
-        #region GetFeedbackByEmployeeName
+        #region GetRecordByEmployeeName
         public List<FeedbackRecordRequest> GetRecordByEmployeeName(RecordContents.EvaluationFilter evaluationFilter)
         {
             List<FeedbackRecordRequest> feedbackList = _evaluationRecordPersistence.GetFeedBackByEmployeeName(evaluationFilter);

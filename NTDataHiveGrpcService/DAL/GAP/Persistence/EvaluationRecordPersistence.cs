@@ -1,5 +1,6 @@
 ﻿using NLog;
 using NTDataHiveGrpcService.DAL.GAP.Adapters;
+using NTDataHiveGrpcService.DAL.GAP.Adapters.EvaluationAdapter;
 using NTDataHiveGrpcService.DAL.GAP.PersistenceInterfaces;
 
 namespace NTDataHiveGrpcService.DAL.GAP.Persistence
@@ -8,7 +9,6 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
     {
         private static readonly Logger _nlog = LogManager.GetCurrentClassLogger();
         private readonly IConfiguration _config;
-
         public EvaluationRecordPersistence(IConfiguration config)
         {
             _config = config;
@@ -18,18 +18,20 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         public bool Save(BLL.RecordContents.EvaluationFilter evaluationRecord)
         {
             bool newFeedback = false;
-            var createRecord = new EvaluationRecordAdapter(_config);
-            int feedbackId = createRecord.GetFeedbackByWebId(evaluationRecord.feedbackRecordRequest.WebId);
+            var record = new GetFeedbackByWebIdEvaluationAdapter(_config);
+            int feedbackId = record.GetFeedbackByWebId(evaluationRecord.feedbackRecordRequest.WebId);
 
             if (feedbackId == 0)
             {
+                var createRecord = new InsertEvaluationAdapter(_config);
                 createRecord.Insert(evaluationRecord.feedbackRecordRequest, out int recordId);
                 feedbackId = recordId;
                 newFeedback = true;
             }
             if (newFeedback == false && feedbackId >= 1)
             {
-                createRecord.UpdateFeedback(evaluationRecord.feedbackRecordRequest);
+                var updateRecord = new UpdateFeedbackEvaluationAdapter(_config);
+                updateRecord.UpdateFeedback(evaluationRecord.feedbackRecordRequest);
                 return true;
             }
             return true;
@@ -39,7 +41,7 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         #region GetAll
         public List<NTDataHiveGrpcService.FeedbackRecordRequest> GetFeedbackRecords()
         {
-            var selectEvaluation = new EvaluationRecordAdapter(_config).GetAllFeedbackRecord();
+            var selectEvaluation = new GetAllFeedbackRecordEvaluationAdapter(_config).GetAllFeedbackRecord();
 
             if (selectEvaluation.Count > 0)
             {
@@ -55,11 +57,12 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         #region GetFeedBackByEmployeeName
         public List<FeedbackRecordRequest> GetFeedBackByEmployeeName(BLL.RecordContents.EvaluationFilter evaluationRecord)
         {
-            var getRecord = new EvaluationRecordAdapter(_config);
+            var getRecord = new GetFeedbackByEmployeeNameEvaluationAdapter(_config);
             var selectFeedback = getRecord.GetFeedbackByEmployeeNameRecord(evaluationRecord.feedbackRecordRequest.WebId);
 
             if (selectFeedback.Count > 0)
             {
+
                 return selectFeedback;
             }
 
@@ -90,17 +93,13 @@ namespace NTDataHiveGrpcService.DAL.GAP.Persistence
         {
             feedbackRecord = new BLL.RecordContents.EvaluationFilter(webId);
 
-            var feedbackAdapter = new EvaluationRecordAdapter(_config);
+            var feedbackAdapter = new SelectFeedbackPartEvaluationAdapter(_config);
 
             if (!feedbackAdapter.SelectFeedbackPart(feedbackRecord.feedbackRecordRequest))
             {
                 return false;
             }
-            else
-            {
-                feedbackAdapter.SelectFeedbackByPublisherName(feedbackRecord.feedbackRecordRequest);
-                return true;
-            }            
+            return true;
         }
         #endregion
     }

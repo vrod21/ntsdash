@@ -15,8 +15,8 @@
         public string StatusOfCA { get; set; }
         public string StatusOfPM { get; set; }
         public string Validate { get; set; }
+        public string State { get; set; }
 
         public virtual Evaluation EvaluationNavigation { get; set; }
-
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UseCases.Dropdown.UseCaseInterfaces;
 
-namespace UseCases.Dropdown
+namespace UseCases.Dropdown.DropdownUseCase
 {
     public class ViewPublisherUseCase : IViewPublisherUseCase
     {

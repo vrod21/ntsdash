@@ -15,7 +15,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject UserManager<ApplicationUser> UserManager
 
-<h3 style="margin-bottom: 40px;">Feedback Performance Validation</h3>
+<h3 style="margin-bottom: 40px;"> Feedback Performance Validation</h3>
 
 <div class="container-fluid">
     <RadzenDataGrid AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@feedbackRecord" TItem="NTDataHiveFrontend.Model.Feedback" AllowColumnResiz="false" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
@@ -51,12 +51,30 @@
     public string? userId;
     private List<NTDataHiveFrontend.Model.Feedback> feedbackRecord = new List<Model.Feedback>();
     private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
+    private List<NTDataHiveFrontend.Model.Person> personList = new List<Model.Person>();
+    private NTDataHiveFrontend.Model.Person convertToModel = new Model.Person();
+
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        feedbackRecord = await MyEvaluationBackendService.GetAllFeedback();
+        var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        var nameIdentifier = auth.User;
+
+        userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        personRecord = await MyPersonBackendService.GetPersonRecord(userId);
+
+        personList = await MyPersonBackendService.GetRecordByReportingManager(personRecord);
+
+        foreach (var item in personList)
+        {
+            convertToModel.FullName = item.FullName;            
+        }
+
+        feedbackRecord = await MyEvaluationBackendService.GetRecordByEmployeeName(convertToModel);        
     }
 
     private void OnSpecificDetail(NTDataHiveFrontend.Model.Feedback feedback)

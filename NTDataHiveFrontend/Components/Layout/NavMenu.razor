@@ -21,7 +21,7 @@
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" style="font-size: 1.5rem;" href="/"><b>NTDataHive</b></a>
+        <a class="navbar-brand" style="font-size: 1.5rem;" href="/"><b>QADash</b></a>
     </div>
 </div>
 
@@ -37,8 +37,8 @@
                     </NavLink>
                 </div>
 
-                @if (personRecord.Type == "Employee" && personRecord.Position == "QMS Executive - Revision" || 
-                    personRecord.Type == "Employee" && personRecord.Position == "QMS Executive - Pre-Editing")
+                @if (personRecord.Type == "QMS" && personRecord.Position == "QMS Executive - Revision" || 
+                    personRecord.Type == "QMS" && personRecord.Position == "QMS Executive - Pre-Editing")
                 {
                     <div class="nav-item px-3">
                         <NavLink class="nav-link" href="feedback">
@@ -47,7 +47,7 @@
                     </div>
                 }
 
-                @if (personRecord.Type == "Manager" || personRecord.Type == "Employee")
+                @if (personRecord.Type == "Manager" || personRecord.Type == "Operator" || personRecord.Type == "QMS")
                 {
                     <div class="nav-item px-3">
                         <NavLink class="nav-link" href="dashboard">

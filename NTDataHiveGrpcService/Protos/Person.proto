@@ -14,13 +14,16 @@ service PersonBackend {
     rpc GetAllPerson (PersonEmpty) returns (PersonArray);
 
     rpc GetPersonRecord (PersonRecordFilter) returns (PersonRequest);
+
+    rpc GetPersonByReportingManager (PersonRecordFilter) returns (PersonArray);
+
+    rpc GetPersonByType (PersonEmpty) returns (PersonArray);
 }
 message PersonEmpty {
     
 }
 message PersonRequest {
     string webId = 1;
-    string username = 2;
     string emailAddress = 3;
     string firstName = 4;
     string lastName = 5;
@@ -44,4 +47,6 @@ message PersonArray {
 
 message PersonRecordFilter {
     string webId = 1;
+    string fullName = 2;
+    string type = 3;
 }

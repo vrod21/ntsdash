@@ -48,6 +48,9 @@ namespace NTDataHiveGrpcService.Migrations
                     b.Property<string>("RootCause")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("StatusOfCA")
                         .HasColumnType("nvarchar(max)");
 
@@ -138,9 +141,6 @@ namespace NTDataHiveGrpcService.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Stage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Test")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WebId")

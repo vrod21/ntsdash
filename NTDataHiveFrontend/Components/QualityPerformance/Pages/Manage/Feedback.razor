@@ -123,10 +123,6 @@
                                             TextProperty="Text" ValueProperty="Value" />
                         </div>
                     </div>
-                </RadzenFieldset>
-            </div>
-            <div class="col-md-6">
-                <RadzenFieldset Text="QMS Feedback">
                     <div class="row">
                         <div class="col-md-3 align-items-center d-flex">
                             <RadzenLabel Text="Error Location" />
@@ -138,6 +134,10 @@
                                             FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
                         </div>
                     </div>
+                </RadzenFieldset>
+            </div>
+            <div class="col-md-6">
+                <RadzenFieldset Text="QMS Feedback">
                     <div class="row">
                         <div class="col-md-3 align-items-center d-flex">
                             <RadzenLabel Text="Error Code" />
@@ -247,15 +247,19 @@
                                             Data="@status" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-3 align-items-center d-flex">
+                            <RadzenLabel Text="Article Status" />
+                        </div>
+                        <div class="col-md-8">                            
+                            <RadzenDropDown @bind-Value="addFeedback.State" AllowClear="true" TValue="string" Placeholder="Article Status" Data="@state" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                        </div>
+                    </div>
                 </RadzenFieldset>
             </div>
         </div>
     </EditForm>
 </div>
-
-@* <div class="container">
-    <div class="rz-shadow-7" style="text-align:center; color:white; margin-top: 10px;"><span>Date & Time: </span> @DateTime.Now.ToString("MMMM dd, yyyy / HH:mm:ss tt")</div>
-</div> *@
 
 @code {
     private NTDataHiveFrontend.Model.Feedback addFeedback = new Model.Feedback();
@@ -266,9 +270,9 @@
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> introducedOrMissed = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.IntroducedOrMissed>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> copyEditingLevel = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.CopyEditingLevel>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> errorCode = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.ErrorCode>();
-
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> stage = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.Stage>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> status = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.Status>();
+    private List<NTDataHiveEnum.DataPlugins.DropDownListItem> state = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.State>();
 
     private List<CoreBusiness.Dropdown.Publisher> publisherRecord;
     private List<CoreBusiness.Dropdown.Journal> journalRecord;
@@ -290,7 +294,7 @@
         qualityAssuranceRecord = ViewQualityAssuranceUseCase.Execute().ToList();
         departmentRecord = ViewDepartmentUseCase.Execute().ToList();
 
-        personRecord = await MyPersonBackendService.GetAllPerson();
+        personRecord = await MyPersonBackendService.GetPersonByType();
     }
 
     private async Task Save()
