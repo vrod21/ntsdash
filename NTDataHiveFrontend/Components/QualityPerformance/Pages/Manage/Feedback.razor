@@ -250,9 +250,10 @@
                     <div class="row">
                         <div class="col-md-3 align-items-center d-flex">
                             <RadzenLabel Text="Article Status" />
-                        </div>
-                        <div class="col-md-8">                            
-                            <RadzenDropDown @bind-Value="addFeedback.State" AllowClear="true" TValue="string" Placeholder="Article Status" Data="@state" style="width: 100%;" TextProperty="Text" ValueProperty="Value" />
+                        </div>                        
+                        
+                        <div class="col-md-8">                  
+                            <RadzenLabel Style="margin-right: 8px; vertical-align: middle;" Text="@value" />    
                         </div>
                     </div>
                 </RadzenFieldset>
@@ -263,6 +264,7 @@
 
 @code {
     private NTDataHiveFrontend.Model.Feedback addFeedback = new Model.Feedback();
+    private string value = "QMS";
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> copyEditedBy = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.CopyEditedBy>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> matter = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.Matter>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> errorSubtype = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.ErrorSubtype>();
@@ -299,6 +301,8 @@
 
     private async Task Save()
     {
+        addFeedback.State = value;
+
         await MyEvaluationBackendService.SaveFeedback(addFeedback);
 
         MyNavigation.NavigateTo("/feedback-performance");

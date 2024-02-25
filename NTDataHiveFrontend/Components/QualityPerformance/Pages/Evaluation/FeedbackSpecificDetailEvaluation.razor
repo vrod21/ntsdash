@@ -1,11 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @using NTDataHiveEnum.DataPlugins.Utilities
+@using System.Security.Claims
 
 @attribute [Authorize]
 @rendermode InteractiveServer
-@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyBackendService
+@inject NTDataHiveFrontend.ServiceAccess.EvaluationBackendService MyEvaluationBackendService
+@inject NTDataHiveFrontend.ServiceAccess.PersonBackendService MyPersonBackendService
 @inject IConfiguration Configuration
-@inject NavigationManager MyNavigationManager
+@inject NavigationManager MyNavigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @page "/feedback-specific-detail-page/{id:guid}/random"
 
 <style>
@@ -320,6 +323,9 @@
 @code {
     [Parameter]
     public Guid id { get; set; }
+    private string value = "";
+    public string userId;
+    private NTDataHiveFrontend.Model.Person personRecord = new Model.Person();
     private NTDataHiveFrontend.Model.Feedback feedbackDetail = new Model.Feedback();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> natureOfCA = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.NatureOfCA>();
     private List<NTDataHiveEnum.DataPlugins.DropDownListItem> natureOfPM = EnumHelper.ConvertEnumToDropDownSource<NTDataHiveEnum.DataPlugins.Enums.NatureOfPM>();
@@ -329,13 +335,35 @@
     {
         await base.OnInitializedAsync();
 
-        feedbackDetail = await MyBackendService.GetFeedbackRecord(id);
+        var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var nameIdentifier = auth.User;
+
+        userId = nameIdentifier.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        personRecord = await MyPersonBackendService.GetPersonRecord(userId);
+
+        feedbackDetail = await MyEvaluationBackendService.GetFeedbackRecord(id);
     }
 
     private async Task Save()
     {
-        await MyBackendService.SaveFeedback(feedbackDetail);
+        if (personRecord.WebId == personRecord.WebId)
+        {
+            value = personRecord.Position;
+            feedbackDetail.State = value;
+            await MyEvaluationBackendService.SaveFeedback(feedbackDetail);
+        }
 
-        MyNavigationManager.NavigateTo("/feedback-performance");
+        MyNavigation.NavigateTo("/feedback-performance");
+    }
+
+    private void TargetDatePMDateRender(DateRenderEventArgs args)
+    {
+        args.Disabled = args.Disabled || args.Date.DayOfWeek == DayOfWeek.Sunday || args.Date.DayOfWeek == DayOfWeek.Saturday;
+    }
+
+    private void TargetDateCADateRender(DateRenderEventArgs args)
+    {
+        args.Disabled = args.Disabled || args.Date.DayOfWeek == DayOfWeek.Sunday || args.Date.DayOfWeek == DayOfWeek.Saturday;
     }
 }
