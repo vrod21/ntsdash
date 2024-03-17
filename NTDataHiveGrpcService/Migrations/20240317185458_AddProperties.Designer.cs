@@ -12,8 +12,8 @@ using NTDataHiveGrpcService.DAL.Data;
 namespace NTDataHiveGrpcService.Migrations
 {
     [DbContext(typeof(NTDataHiveContext))]
-    [Migration("20240214100836_AddStatePropertyInApprovalClass")]
-    partial class AddStatePropertyInApprovalClass
+    [Migration("20240317185458_AddProperties")]
+    partial class AddProperties
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
