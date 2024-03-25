@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NTDataHiveGrpcService.DAL.Data;
 
 #nullable disable
 
-namespace NTDataHiveGrpcService.Migrations
+namespace NTDataHiveGrpcService.data_access.migrations
 {
     [DbContext(typeof(NTDataHiveContext))]
-    partial class NTDataHiveContextModelSnapshot : ModelSnapshot
+    [Migration("20240325032917_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
