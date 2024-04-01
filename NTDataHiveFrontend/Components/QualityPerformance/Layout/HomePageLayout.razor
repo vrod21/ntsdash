@@ -13,45 +13,49 @@
         width: 10rem;
         text-align: center;
     }
+
+    @@media screen and (max-width: 768px) {
+        .rz-text-align-center {
+            text-align: center !important;
+        }
+
+        .rz-p-5 {
+            padding: 1rem !important;
+        }
+
+        .rz-shadow-7 {
+            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .rz-border-radius-3 {
+            border-radius: 0.3rem !important;
+        }
+
+        .rz-p-4 {
+            padding: 0.5rem !important;
+        }
+
+        img {
+            max-width: 100% !important;
+            height: auto !important;
+        }
+
+        .rz-button {
+            display: block !important;
+            margin: 0 auto !important;
+        }
+    }
 </style>
 
 <div class="jumbotron" style="text-align:center;">
     <img src="/images/greatplacetowork.png" style="width: 650px;" />
     <h3 style="margin-top:30px;">QUALITY EVALUATION AND ACKNOWLEDGEMENT</h3>
     <hr class="my-3">
-@* 
-    <RadzenRow class="rz-text-align-center" Gap="1rem">
-        <RadzenColumn Size="6" Offset="3" class="rz-p-5">
-            <div class="rz-text-align-center rz-p-9 rz-shadow-7 rz-border-radius-3">
-                <p class="lead">
-                    "This dashboard is updated in real-time, so you can be confident that you’re
-                    always looking at the most up-to-date information. We hope you find this dashboard useful and informative!”
-                </p>
-                <RadzenButton Style="background-color: #e81f4b;" Click="@(()=>MyNavigation.NavigateTo("/dashboard"))" Text="Go To Dashboard" />
-            </div>
-        </RadzenColumn>
-    </RadzenRow> *@
-
-@*     <RadzenRow class="rz-text-align-center" Gap="1rem">
-        <RadzenColumn Size="7" class="rz-p-md-5">
-        </RadzenColumn>
-        <RadzenColumn Size="5" class="rz-p-2 rz-p-md-5">
-            <h5>
-                This is the update version of Quality Evaluation and Acknowledgement Form,
-                some of the function are already in the Web App
-            </h5>
-            <img src="/images/acknowledgement.png" style="width: 700px;" />
-        </RadzenColumn>
-    </RadzenRow> *@
 </div>
 
 <RadzenRow class="rz-text-align-center" Gap="1rem">
     <RadzenColumn class="rz-p-5">
         <div class="rz-text-align-center rz-shadow-7 rz-border-radius-3 rz-p-4">
-@*             <p class="lead">
-                "Your attendance record, including the number of days you have been present, absent, or tardy.
-                It also includes a summary of your attendance history, highlighting any patterns or trends that may be of interest!”
-            </p> *@
             <img src="/images/acknowledgement.png" style="width: 600px;" />
             <br />
             <RadzenButton Style="background-color: #e81f4b;" Text="Quality Details" />
@@ -59,10 +63,6 @@
     </RadzenColumn>
     <RadzenColumn class="rz-p-5">
         <div class="rz-text-align-center rz-shadow-7 rz-border-radius-3 rz-p-4">
-@*             <p class="lead">
-                "Productivity details page! That provides a comprehensive overview of your productivity and helps you track your progress.
-                You can view your completed tasks, remaining tasks, and estimated completion time!”
-            </p> *@
             <img src="/images/acknowledgement.png" style="width: 600px;" />
             <br />
             <RadzenButton Style="background-color: #e81f4b;" Text="Productivity Details" />
@@ -70,13 +70,6 @@
     </RadzenColumn>
     <RadzenColumn class="rz-p-4">
         <div class="rz-text-align-center rz-shadow-7 rz-border-radius-3 rz-p-4">
-@*             <p class="lead">
-                "A comprehensive overview of the quality of your product or process. You can view the results of the inspection,
-                which includes data organized with infographics to help you understand and interpret the results!”
-            </p> *@
-@*             <img src="/images/acknowledgement.png" style="width: 600px;" />
-            <br />
-            <RadzenButton Style="background-color: #e81f4b;" Text="Quality Details" /> *@
             <NTDataHiveFrontend.Components.QualityPerformance.Pages.Manage.FeedbackPerformance />
         </div>
     </RadzenColumn>
