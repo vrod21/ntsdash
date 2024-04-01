@@ -8,9 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Protos\Evaluation.proto" />
     <None Remove="Protos\Person.proto" />
     <None Remove="Protos\status.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
