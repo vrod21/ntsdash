@@ -115,7 +115,7 @@ h1:focus {
 }
 
 .nav-link {
-    font-size: 1.2rem;
+    font-size: 1.2rem;F
     font-weight: bold;
 }
 
@@ -183,7 +183,7 @@ w-100 {
 }
 
 .prod-container {
-    max-width: 1500px !important;
+    max-width: 100% !important;
 }
 
 .rz-fieldset-legend {
