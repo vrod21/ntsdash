@@ -55,8 +55,9 @@
 
         personRecord = await MyPersonBackendService.GetPersonRecord(userId);
 
+
         if (personRecord.Type == "Admin" || personRecord.Type == "Manager" || 
-            personRecord.Type == "Employee" && personRecord.Position == "Others")
+            personRecord.Type == "Operator" && personRecord.Position == "Others")
         {
             MyNavigation.NavigateTo("/");
         }
