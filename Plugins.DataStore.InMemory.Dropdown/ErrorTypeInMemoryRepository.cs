@@ -79,93 +79,18 @@ namespace Plugins.DataStore.InMemory.Dropdown
         {
             return _errorType.Where(x => x.Name == errorCode).ToList();
         }
+
+        //public List<ErrorType> GetErrorTypeByErrorCodeName(string errorCode)
+        //{
+        //    var errorTypes = _errorType.Where(x => x.Name == errorCode).ToList();
+
+        //    // If no matching error types found, return a list containing only the "Error code required" error
+        //    if (errorTypes.Count == 0)
+        //    {
+        //        errorTypes.Add(new ErrorType { Name = errorCode, Type = "Error code required" });
+        //    }
+
+        //    return errorTypes;
+        //}
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

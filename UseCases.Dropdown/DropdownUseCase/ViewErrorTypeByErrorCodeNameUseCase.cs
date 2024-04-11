@@ -22,5 +22,6 @@ namespace UseCases.Dropdown.DropdownUseCase
         {
             return _errorTypeRepository.GetErrorTypeByErrorCodeName(errorCode);
         }
+
     }
 }

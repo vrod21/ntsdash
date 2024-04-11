@@ -2,6 +2,9 @@
 @using NTDataHiveEnum.DataPlugins.Utilities
 @using NTDataHiveFrontend.Components.Account
 @using UseCases.Dropdown.UseCaseInterfaces
+@using Microsoft.JSInterop
+@using System.Text.Json;
+
 
 @attribute [Authorize]
 @rendermode InteractiveServer
@@ -16,6 +19,7 @@
 @inject IViewDepartmentUseCase ViewDepartmentUseCase
 @inject IConfiguration Configuration
 @inject NavigationManager MyNavigation
+@inject IJSRuntime JSRuntime
 
 <style>
     form .row {
@@ -314,6 +318,17 @@
         personRecord = await MyPersonBackendService.GetPersonByType();
     }
 
+    // private async Task Save()
+    // {
+    //     addFeedback.State = value;
+
+    //     await MyEvaluationBackendService.SaveFeedback(addFeedback);
+
+    //     MyNavigation.NavigateTo("/feedback-performance");
+
+    //     await JSRuntime.InvokeVoidAsync("alert", "CHECK");
+    // }
+
     private async Task Save()
     {
         addFeedback.State = value;
@@ -321,6 +336,39 @@
         await MyEvaluationBackendService.SaveFeedback(addFeedback);
 
         MyNavigation.NavigateTo("/feedback-performance");
+
+        // Create an anonymous object with the selected values
+        var selectedValuesObject = new
+        {
+            Stage = addFeedback.Stage,
+            QualityAssurance = addFeedback.QualityAssurance,
+            PublisherName = addFeedback.PublisherName,
+            JournalId = addFeedback.JournalId,
+            ArticleId = addFeedback.ArticleId,
+            CopyEditedBy = addFeedback.CopyEditedBy,
+            PageCount = addFeedback.PageCount,
+            ErrorCount = addFeedback.ErrorCount,
+            DescriptionOfError = addFeedback.DescriptionOfError,
+            Matter = addFeedback.Matter,
+            ErrorLocation = addFeedback.ErrorLocation,
+            ErrorCode = addFeedback.ErrorCode,
+            ErrorType = addFeedback.ErrorType,
+            ErrorSubtype = addFeedback.ErrorSubtype,
+            ErrorCategory = addFeedback.ErrorCategory,
+            IntroducedOrMissed = addFeedback.IntroducedOrMissed,
+            Department = addFeedback.Department,
+            EmployeeName = addFeedback.EmployeeName,
+            CopyEditingLevel = addFeedback.CopyEditingLevel,
+            TimeCreated = addFeedback.CreatedAt,
+            StatusOfCA = addFeedback.StatusOfCA,
+            StatusOfPM = addFeedback.StatusOfPM
+        };
+
+        // Serialize the object into JSON format
+        var selectedValuesJson = JsonSerializer.Serialize(selectedValuesObject);
+
+        // Include the JSON string in the alert message
+        await JSRuntime.InvokeVoidAsync("alert", $"Values chosen or inputted (JSON format): {selectedValuesJson}");
     }
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
